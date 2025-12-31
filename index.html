@@ -1,1667 +1,1187 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WSTC - 世界滑行技術錦標賽</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Orbitron:wght@700;800&display=swap" rel="stylesheet">
+    <title>AIF.WTF - The Spatial Computing DePIN</title>
+    
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', '"Noto Sans TC"', 'sans-serif'],
+                        mono: ['"Space Mono"', 'monospace'],
+                    },
+                    colors: {
+                        black: '#050505', 
+                        zinc: {
+                            800: '#27272a',
+                            900: '#18181b',
+                            950: '#09090b',
+                        },
+                        white: '#ffffff',
+                        accent: '#2563eb', // Blue-600
+                        accentHover: '#1d4ed8',
+                        neonPurp: '#d946ef', 
+                        neonGreen: '#10b981', 
+                        neonYellow: '#f59e0b', 
+                        neonRed: '#ef4444',
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #202020 1px, transparent 1px), linear-gradient(to bottom, #202020 1px, transparent 1px)",
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        :root {
-            --primary: #3498db;
-            --secondary: #8e44ad;
-            --accent: #00ff9d;
-        }
-        
         body {
-            font-family: 'Noto Sans TC', sans-serif;
-            background-color: #0a0a0a;
+            background-color: #050505;
             color: #ffffff;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(52, 152, 219, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(142, 68, 173, 0.1) 0%, transparent 20%);
+            -webkit-font-smoothing: antialiased;
         }
-        
-        .logo-font {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 800;
-            font-size: 2.5rem;
-            letter-spacing: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            position: relative;
-            display: inline-block;
-            text-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
-            animation: logoGlow 3s ease-in-out infinite alternate;
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        .glass-panel {
+            background: rgba(24, 24, 27, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        
-        @keyframes logoGlow {
-            0% { text-shadow: 0 0 10px rgba(0, 255, 157, 0.3); }
-            100% { text-shadow: 0 0 25px rgba(0, 255, 157, 0.6), 0 0 35px rgba(52, 152, 219, 0.4); }
+
+        .node-card {
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        
-        .logo-sub {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 0.7rem;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-top: -10px;
-            text-align: center;
-            opacity: 0.8;
-        }
-        
-        .gradient-text {
-            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-        }
-        
-        .accent-bg {
-            background: rgba(0, 255, 157, 0.1);
-            border: 1px solid rgba(0, 255, 157, 0.2);
-        }
-        
-        .card {
-            background-color: rgba(26, 32, 44, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
-        
-        .card:hover {
+        .node-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0, 255, 157, 0.2);
-            border-color: rgba(0, 255, 157, 0.3);
+            border-color: #2563eb;
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15);
         }
-        
-        .navbar {
-            background-color: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 255, 157, 0.1);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            transition: all 0.3s ease;
-            border: none;
-            font-weight: 600;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.4);
-        }
-        
-        .btn-secondary {
-            background-color: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-        
-        .btn-secondary:hover {
-            background-color: rgba(0, 255, 157, 0.1);
-            transform: translateY(-3px);
-        }
-        
-        .hero {
-            position: relative;
-            overflow: hidden;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding-top: 80px;
-        }
-        
-        .hero:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 100%);
-            z-index: 1;
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-        
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.7;
-            animation: bgPan 30s infinite linear;
-        }
-        
-        @keyframes bgPan {
-            0% { background-position: 0% 0%; }
-            50% { background-position: 100% 100%; }
-            100% { background-position: 0% 0%; }
-        }
-        
-        .floating {
-            animation: floating 6s ease-in-out infinite;
-        }
-        
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        .animate-fade-in {
-            animation: fadeIn 1s ease-in-out forwards;
-            opacity: 0;
-        }
-        
-        .animate-slide-up {
-            animation: slideUp 0.8s ease-in-out forwards;
-            opacity: 0;
-        }
-        
-        .animate-slide-right {
-            animation: slideRight 0.8s ease-in-out forwards;
-            opacity: 0;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        @keyframes slideRight {
-            from { transform: translateX(-50px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        .data-stream {
-            position: absolute;
-            height: 100px;
-            width: 2px;
-            background: linear-gradient(to bottom, transparent, var(--accent), var(--secondary), transparent);
-            z-index: 0;
-            animation: dataStream 2s linear infinite;
-            opacity: 0.3;
-        }
-        
-        @keyframes dataStream {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100vh); }
-        }
-        
-        .login-dropdown {
-            display: none;
-            position: absolute;
-            background-color: rgba(26, 32, 44, 0.95);
-            min-width: 280px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 100;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
-            top: 50px;
-            right: 0;
-            padding: 15px;
-        }
-        
-        .login-container:hover .login-dropdown {
-            display: block;
-        }
-        
-        .login-option {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.05);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .login-option:hover {
-            background: rgba(52, 152, 219, 0.2);
-            transform: translateY(-2px);
-        }
-        
-        .login-option i {
-            font-size: 20px;
-            margin-right: 12px;
-            width: 30px;
-            text-align: center;
-        }
-        
-        .login-option span {
-            font-weight: 500;
-        }
-        
-        .login-divider {
-            height: 1px;
-            background: rgba(255,255,255,0.1);
-            margin: 15px 0;
-        }
-        
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 300px;
-            height: 100vh;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 20px;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-        }
-        
-        .mobile-menu.open {
-            transform: translateX(0);
-        }
-        
-        .mobile-menu-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--accent);
-        }
-        
-        .stats-card {
-            text-align: center;
-            padding: 25px;
-            border-radius: 16px;
-            background: rgba(26, 32, 44, 0.5);
-            border: 1px solid rgba(0, 255, 157, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .stats-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            background: rgba(26, 32, 44, 0.7);
-        }
-        
-        .stats-card i {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--accent);
-        }
-        
-        .stats-card .number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
-            -webkit-background-clip: text;
+
+        .gradient-text {
             background-clip: text;
+            -webkit-background-clip: text;
             color: transparent;
+            background-image: linear-gradient(90deg, #fff 0%, #9ca3af 100%);
         }
         
-        .input-field {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
+        .gradient-text-accent {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(90deg, #2563eb 0%, #d946ef 100%);
+        }
+
+        /* Grid Background */
+        .bg-grid {
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, transparent, 5%, white, 95%, transparent);
+        }
+
+        /* Checkbox Customization */
+        .custom-radio {
+            appearance: none;
+            width: 1.2em;
+            height: 1.2em;
+            border: 2px solid #444;
+            border-radius: 50%;
+            display: grid;
+            place-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .custom-radio::before {
+            content: "";
+            width: 0.65em;
+            height: 0.65em;
+            border-radius: 50%;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            background-color: #2563eb;
+        }
+        .custom-radio:checked::before { transform: scale(1); }
+        .custom-radio:checked { border-color: #2563eb; }
+
+        /* Mobile Menu */
+        #mobileMenu {
+            transition: transform 0.3s ease-in-out;
+        }
+        .hamburger-line {
+            transition: all 0.3s ease-in-out;
         }
         
-        .input-field::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .section-title {
+        /* Map Container (New Styles) */
+        #heatmap {
             position: relative;
-            display: inline-block;
-            margin-bottom: 2rem;
-        }
-        
-        .section-title:after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            border-radius: 2px;
-        }
-        
-        .section-title.center:after {
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .competition-card {
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .competition-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 255, 157, 0.25);
-        }
-        
-        .championship-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: rgba(26, 32, 44, 0.5);
-            border-radius: 12px;
+            background-color: #000;
             overflow: hidden;
         }
-        
-        .championship-table th {
-            background: rgba(52, 152, 219, 0.2);
-            padding: 16px;
-            text-align: left;
-            font-weight: 600;
-        }
-        
-        .championship-table td {
-            padding: 14px 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .championship-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .championship-table tr:hover {
-            background: rgba(0, 255, 157, 0.1);
-        }
-        
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.1);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 4px;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .desktop-nav {
-                display: none;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .logo-font {
-                font-size: 1.8rem;
-            }
-            
-            .hero-bg {
-                animation: none;
-            }
-            
-            .hero {
-                min-height: 80vh;
-            }
-            
-            .section-title:after {
-                width: 40px;
-                bottom: -8px;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            .championship-table {
-                font-size: 0.85rem;
-            }
-            
-            .championship-table th,
-            .championship-table td {
-                padding: 10px 12px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .hero {
-                min-height: 70vh;
-            }
-            
-            .logo-font {
-                font-size: 1.5rem;
-            }
-            
-            .logo-sub {
-                font-size: 0.6rem;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
-            .championship-table {
-                font-size: 0.75rem;
-            }
+        #globalCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
         }
     </style>
 </head>
-<body>
-    <!-- Data streams -->
-    <div class="data-stream" style="left: 20%; animation-delay: 0s;"></div>
-    <div class="data-stream" style="left: 40%; animation-delay: 0.5s;"></div>
-    <div class="data-stream" style="left: 60%; animation-delay: 1s;"></div>
-    <div class="data-stream" style="left: 80%; animation-delay: 1.5s;"></div>
 
-    <!-- Navigation -->
-    <nav class="navbar fixed w-full z-50 px-4 py-3">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="#home" class="flex flex-col items-center">
-                <div class="logo-font">WSTC</div>
-                <div class="logo-sub">世界滑行技術錦標賽</div>
+<body id="mainBody" class="overflow-x-hidden bg-black text-white selection:bg-accent selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10 transition-all duration-300">
+        <div class="px-6 md:px-8 py-4 flex justify-between items-center max-w-[1920px] mx-auto">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group relative z-50">
+                <div class="w-10 h-10 bg-white text-black rounded-lg flex items-center justify-center font-bold font-mono text-xl group-hover:scale-110 transition-transform">A</div>
+                <div class="flex flex-col leading-none">
+                    <span class="text-lg font-bold tracking-tight text-white">AIF.WTF</span>
+                    <span class="text-[0.6rem] font-mono uppercase tracking-wider text-gray-500 group-hover:text-white transition-colors">LBS Edge Infrastructure</span>
+                </div>
             </a>
             
-            <div class="hidden md:flex space-x-8 desktop-nav">
-                <a href="#about" class="hover:text-blue-400 transition">關於我們</a>
-                <a href="#championship" class="hover:text-blue-400 transition">錦標賽結構</a>
-                <a href="#cstl" class="hover:text-blue-400 transition">CSTL認證</a>
-                <a href="#technology" class="hover:text-blue-400 transition">技術創新</a>
-                <a href="#partners" class="hover:text-blue-400 transition">合作夥伴</a>
-                <a href="#news" class="hover:text-blue-400 transition">最新消息</a>
+            <!-- Desktop Menu -->
+            <div class="hidden xl:flex items-center gap-8 text-[14px] font-medium text-gray-400">
+                <a href="#vision" class="hover:text-white transition-colors" data-i18n="nav_vision">Vision</a>
+                <a href="#heatmap" class="hover:text-white transition-colors text-accent font-bold" data-i18n="nav_heatmap">Live Heatmap</a>
+                <a href="#architecture" class="hover:text-white transition-colors" data-i18n="nav_tech">Technology</a>
+                <a href="#trust" class="hover:text-white transition-colors" data-i18n="nav_trust">Trust</a>
+                <a href="#nodes" class="hover:text-white transition-colors" data-i18n="nav_nodes">Join Node</a>
+                <a href="#roadmap" class="hover:text-white transition-colors" data-i18n="nav_roadmap">Roadmap</a>
+                <a href="#faq" class="hover:text-white transition-colors" data-i18n="nav_faq">FAQ</a>
             </div>
-            
-            <div class="flex items-center space-x-4">
-                <!-- Login Container -->
-                <div class="login-container relative">
-                    <a href="#login" class="btn-primary px-6 py-2 rounded-full text-sm">登入</a>
-                    <div class="login-dropdown">
-                        <h3 class="font-bold text-lg mb-4">登入WSTC帳號</h3>
-                        
-                        <div class="login-option" data-login="google">
-                            <i class="fab fa-google text-red-500"></i>
-                            <span>使用Google登入</span>
-                        </div>
-                        
-                        <div class="login-option" data-login="facebook">
-                            <i class="fab fa-facebook text-blue-600"></i>
-                            <span>使用Facebook登入</span>
-                        </div>
-                        
-                        <div class="login-option" data-login="apple">
-                            <i class="fab fa-apple"></i>
-                            <span>使用Apple登入</span>
-                        </div>
-                        
-                        <div class="login-divider"></div>
-                        
-                        <div class="login-option wallet-option" data-login="metamask">
-                            <i class="fas fa-wallet text-yellow-400"></i>
-                            <span>連接MetaMask錢包</span>
-                        </div>
-                        
-                        <div class="login-option wallet-option" data-login="walletconnect">
-                            <i class="fas fa-plug text-blue-300"></i>
-                            <span>連接WalletConnect</span>
-                        </div>
-                        
-                        <div class="mt-4 text-center text-sm text-gray-400">
-                            登入表示您同意我們的 <a href="#" class="text-blue-400">服務條款</a> 和 <a href="#" class="text-blue-400">隱私政策</a>
-                        </div>
-                    </div>
-                </div>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-3 relative z-50">
+                <button onclick="toggleLanguage()" class="text-xs font-mono border border-white/20 px-3 py-1.5 rounded-full hover:bg-white hover:text-black transition-all uppercase hidden md:flex items-center gap-2">
+                    <i class="fas fa-globe"></i>
+                    <span class="lang-text">繁體中文</span>
+                </button>
                 
-                <button class="md:hidden text-white mobile-menu-btn">
-                    <i class="fas fa-bars text-xl"></i>
+                <button onclick="connectWallet()" id="walletBtn" class="bg-white text-black text-[13px] font-bold px-5 py-2.5 rounded-full hover:bg-gray-200 transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                    <i class="fas fa-wallet"></i>
+                    <span id="walletText" data-i18n="btn_connect">Connect</span>
+                </button>
+
+                <!-- Mobile Hamburger -->
+                <button onclick="toggleMobileMenu()" class="xl:hidden w-10 h-10 flex flex-col justify-center items-center gap-1.5 border border-white/20 rounded-full bg-zinc-900">
+                    <span class="hamburger-line w-4 h-0.5 bg-white block"></span>
+                    <span class="hamburger-line w-4 h-0.5 bg-white block"></span>
                 </button>
             </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobileMenu" class="fixed inset-0 bg-black z-40 transform translate-x-full pt-24 px-6 flex flex-col gap-8 xl:hidden">
+            <div class="flex flex-col gap-6 text-2xl font-bold text-gray-400">
+                <a href="#vision" onclick="toggleMobileMenu()" class="hover:text-white" data-i18n="nav_vision">Vision</a>
+                <a href="#heatmap" onclick="toggleMobileMenu()" class="text-accent hover:text-white" data-i18n="nav_heatmap">Live Heatmap</a>
+                <a href="#architecture" onclick="toggleMobileMenu()" class="hover:text-white" data-i18n="nav_tech">Technology</a>
+                <a href="#trust" onclick="toggleMobileMenu()" class="hover:text-white" data-i18n="nav_trust">Trust</a>
+                <a href="#nodes" onclick="toggleMobileMenu()" class="hover:text-white" data-i18n="nav_nodes">Join Node</a>
+                <a href="#roadmap" onclick="toggleMobileMenu()" class="hover:text-white" data-i18n="nav_roadmap">Roadmap</a>
+            </div>
+            <div class="h-px bg-white/10 w-full"></div>
+            <button onclick="toggleLanguage()" class="text-sm font-mono border border-white/20 px-4 py-3 rounded-full hover:bg-white hover:text-black transition-all uppercase flex justify-center items-center gap-2 w-full">
+                <i class="fas fa-globe"></i>
+                <span class="lang-text">繁體中文</span>
+            </button>
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu">
-        <div class="mobile-menu-close">
-            <i class="fas fa-times"></i>
-        </div>
-        
-        <div class="mt-12 flex flex-col space-y-6">
-            <a href="#about" class="text-xl hover:text-blue-400 transition mobile-menu-link">關於我們</a>
-            <a href="#championship" class="text-xl hover:text-blue-400 transition mobile-menu-link">錦標賽結構</a>
-            <a href="#cstl" class="text-xl hover:text-blue-400 transition mobile-menu-link">CSTL認證</a>
-            <a href="#technology" class="text-xl hover:text-blue-400 transition mobile-menu-link">技術創新</a>
-            <a href="#partners" class="text-xl hover:text-blue-400 transition mobile-menu-link">合作夥伴</a>
-            <a href="#news" class="text-xl hover:text-blue-400 transition mobile-menu-link">最新消息</a>
-            
-            <div class="pt-6 border-t border-gray-700">
-                <button class="btn-primary w-full py-3 rounded-lg font-medium text-center">
-                    登入帳號
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-bg"></div>
-        <div class="container mx-auto px-4 hero-content">
-            <div class="max-w-4xl animate-fade-in">
-                <h1 class="text-5xl md:text-7xl font-bold mb-6">
-                    滑雪界的 <span class="gradient-text">一級方程式</span>
+    <header id="vision" class="relative pt-32 pb-20 px-6 md:px-8 max-w-[1920px] mx-auto border-b border-white/10 overflow-hidden min-h-[90vh] flex items-center">
+        <!-- Animated Background Grid -->
+        <div class="absolute inset-0 bg-grid-pattern opacity-[0.05] pointer-events-none"></div>
+        <div class="absolute top-0 right-0 w-full md:w-1/2 h-full bg-gradient-to-l from-accent/10 to-transparent pointer-events-none"></div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10 w-full">
+            <div class="lg:col-span-7 space-y-8 animate-fade-in-up">
+                <div class="inline-flex items-center gap-2 border border-accent/30 rounded-full px-4 py-1.5 bg-accent/10 shadow-[0_0_10px_rgba(37,99,235,0.2)]">
+                    <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                    <span class="text-[10px] uppercase tracking-widest font-mono font-bold text-accent">SPATIAL COMPUTING INFRASTRUCTURE</span>
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl xl:text-8xl font-bold tracking-tighter leading-[1.05]">
+                    <span data-i18n="hero_title1">Drop Content,</span><br>
+                    <span class="gradient-text-accent" data-i18n="hero_title2">Not Hardware.</span>
                 </h1>
-                <p class="text-xl md:text-2xl text-gray-300 mb-8">
-                    革命性滑雪競賽，融合傳統競速與先進感測技術，體驗精準與性能交匯的冬季運動未來。
-                </p>
-                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
-                    <a href="#championship" class="btn-primary px-8 py-4 rounded-full font-medium text-center text-lg">
-                        觀看錦標賽
-                    </a>
-                    <a href="#cstl" class="btn-secondary px-8 py-4 rounded-full font-medium text-center text-lg">
-                        加入CSTL計畫
-                    </a>
-                </div>
                 
-                <!-- Hero Stats -->
-                <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div class="stats-card">
-                        <i class="fas fa-trophy"></i>
-                        <div class="number">$500萬</div>
-                        <div class="text-sm">總獎金池</div>
-                    </div>
-                    <div class="stats-card">
-                        <i class="fas fa-users"></i>
-                        <div class="number">5萬+</div>
-                        <div class="text-sm">參賽選手</div>
-                    </div>
-                    <div class="stats-card">
+                <p class="text-lg md:text-xl text-gray-400 max-w-2xl leading-relaxed font-light" data-i18n="hero_desc">
+                    The world's first decentralized physical infrastructure network (DePIN) optimized for AR/VR. We transform idle computing power into "digital anchors" for the spatial web, solving the "last mile" latency problem.
+                </p>
+
+                <div class="flex flex-wrap gap-4 pt-4">
+                    <a href="#nodes" class="bg-white text-black px-8 py-4 rounded-full font-bold text-sm tracking-wide hover:bg-gray-200 transition-transform hover:-translate-y-1 shadow-lg flex items-center gap-2">
+                        <span data-i18n="hero_cta_primary">Join as Node</span>
+                        <i class="fas fa-bolt text-accent"></i>
+                    </a>
+                    <a href="#heatmap" class="glass-panel text-white px-8 py-4 rounded-full font-bold text-sm tracking-wide hover:bg-white/10 transition-colors flex items-center gap-2">
                         <i class="fas fa-globe"></i>
-                        <div class="number">12</div>
-                        <div class="text-sm">國家參與</div>
-                    </div>
-                    <div class="stats-card">
-                        <i class="fas fa-chart-line"></i>
-                        <div class="number">1億</div>
-                        <div class="text-sm">全球觀眾</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="py-20" id="about">
-        <div class="container mx-auto px-4">
-            <div class="max-w-6xl mx-auto">
-                <h2 class="text-4xl font-bold text-center mb-16 section-title center">
-                    關於WSTC
-                </h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- World Championship Finals -->
-                    <div class="competition-card card p-8 text-center">
-                        <div class="text-6xl mb-6">
-                            <i class="fas fa-crown text-yellow-400"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-4">世界錦標賽總決賽</h3>
-                        <div class="text-3xl font-bold gradient-text mb-2">$500萬</div>
-                        <div class="text-sm text-gray-400 mb-6">總獎金池</div>
-                        <ul class="text-left space-y-2 mb-6">
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-400 mr-2"></i>
-                                全球前16名選手
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-400 mr-2"></i>
-                                冠軍獎金$100萬
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-400 mr-2"></i>
-                                瑞士達沃斯舉辦
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-400 mr-2"></i>
-                                每年三月舉行
-                            </li>
-                        </ul>
-                        <button class="btn-primary w-full py-3 rounded-lg">
-                            查看賽程
-                        </button>
-                    </div>
-                    
-                    <!-- Global Tour Series -->
-                    <div class="competition-card card p-8 text-center">
-                        <div class="text-6xl mb-6">
-                            <i class="fas fa-globe text-blue-400"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-4">全球巡迴賽</h3>
-                        <div class="text-3xl font-bold gradient-text mb-2">$1200萬</div>
-                        <div class="text-sm text-gray-400 mb-6">賽季總獎金</div>
-                        <ul class="text-left space-y-2 mb-6">
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-400 mr-2"></i>
-                                全球6站賽事
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-400 mr-2"></i>
-                                每站$200萬獎金
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-400 mr-2"></i>
-                                精英職業巡迴賽
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-400 mr-2"></i>
-                                1-2月舉行
-                            </li>
-                        </ul>
-                        <button class="btn-secondary w-full py-3 rounded-lg">
-                            巡迴賽程
-                        </button>
-                    </div>
-                    
-                    <!-- Master Series -->
-                    <div class="competition-card card p-8 text-center">
-                        <div class="text-6xl mb-6">
-                            <i class="fas fa-mountain text-purple-400"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-4">大師系列賽</h3>
-                        <div class="text-3xl font-bold gradient-text mb-2">$200萬</div>
-                        <div class="text-sm text-gray-400 mb-6">區域資格賽獎金</div>
-                        <ul class="text-left space-y-2 mb-6">
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-400 mr-2"></i>
-                                區域資格賽
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-400 mr-2"></i>
-                                每站$50萬獎金
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-400 mr-2"></i>
-                                每區域前64名
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-400 mr-2"></i>
-                                12月資格賽
-                            </li>
-                        </ul>
-                        <button class="btn-secondary w-full py-3 rounded-lg">
-                            立即報名
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Championship Structure Section -->
-    <section class="py-20 bg-gradient-to-b from-gray-900 to-black" id="championship">
-        <div class="container mx-auto px-4">
-            <div class="max-w-6xl mx-auto">
-                <h2 class="text-4xl font-bold text-center mb-16 section-title center">
-                    錦標賽結構
-                </h2>
-                
-                <div class="card p-8 mb-16">
-                    <h3 class="text-3xl font-bold mb-6 gradient-text">職業競賽層級</h3>
-                    
-                    <div class="overflow-x-auto">
-                        <table class="championship-table">
-                            <thead>
-                                <tr>
-                                    <th>賽事層級</th>
-                                    <th>形式</th>
-                                    <th>獎金池</th>
-                                    <th>參賽資格</th>
-                                    <th>舉辦地點</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>世界錦標賽總決賽</td>
-                                    <td>年度巔峰賽事，全球頂尖選手</td>
-                                    <td>$500萬總獎金，冠軍$100萬</td>
-                                    <td>全球排名前16選手</td>
-                                    <td>瑞士達沃斯（固定場館）</td>
-                                </tr>
-                                <tr>
-                                    <td>全球巡迴賽（6站）</td>
-                                    <td>精英職業巡迴賽</td>
-                                    <td>每站$200萬，冠軍$30萬</td>
-                                    <td>每站前32名資格選手</td>
-                                    <td>全球頂級滑雪勝地</td>
-                                </tr>
-                                <tr>
-                                    <td>大師系列賽</td>
-                                    <td>區域資格賽事</td>
-                                    <td>每站$50萬獎金</td>
-                                    <td>每區域前64名選手</td>
-                                    <td>區域頂級滑雪場</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <div class="card p-8">
-                    <h3 class="text-3xl font-bold mb-6 gradient-text">年度競賽日曆</h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-gray-800 p-6 rounded-lg">
-                            <h4 class="text-xl font-bold mb-4 text-blue-400">十二月</h4>
-                            <h5 class="font-bold mb-2">大師系列賽區域資格賽</h5>
-                            <ul class="space-y-2 text-gray-300">
-                                <li class="flex items-start">
-                                    <i class="fas fa-chevron-right text-xs mt-1 mr-2 text-green-400"></i>
-                                    <span>亞太大師賽（日本/韓國）</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-chevron-right text-xs mt-1 mr-2 text-green-400"></i>
-                                    <span>北美大師賽（美國/加拿大）</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-chevron-right text-xs mt-1 mr-2 text-green-400"></i>
-                                    <span>歐洲大師賽（阿爾卑斯地區）</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-chevron-right text-xs mt-1 mr-2 text-green-400"></i>
-                                    <span>中國大師賽（多個場館）</span>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        <div class="bg-gray-800 p-6 rounded-lg">
-                            <h4 class="text-xl font-bold mb-4 text-blue-400">一月至二月</h4>
-                            <h5 class="font-bold mb-2">全球巡迴賽</h5>
-                            <ul class="space-y-2 text-gray-300">
-                                <li class="flex items-start">
-                                    <i class="fas fa-chevron-right text-xs mt-1 mr-2 text-green-400"></i>
-                                    <span>開幕輪：中國張家口（奧運遺產）</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-chevron-right text-xs mt-1 mr-2 text-green-400"></i>
-                                    <span>技術輪：瑞士聖莫里茨</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-chevron-right text-xs mt-1 mr-2 text-green-400"></i>
-                                    <span>創新輪：日本二世谷</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-chevron-right text-xs mt-1 mr-2 text-green-400"></i>
-                                    <span>速度輪：奧地利因斯布魯克</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-chevron-right text-xs mt-1 mr-2 text-green-400"></i>
-                                    <span>風格輪：美國阿斯本</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-chevron-right text-xs mt-1 mr-2 text-green-400"></i>
-                                    <span>冠軍輪：加拿大惠斯勒</span>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        <div class="bg-gray-800 p-6 rounded-lg">
-                            <h4 class="text-xl font-bold mb-4 text-blue-400">三月</h4>
-                            <h5 class="font-bold mb-2">世界錦標賽總決賽</h5>
-                            <ul class="space-y-2 text-gray-300">
-                                <li class="flex items-start">
-                                    <i class="fas fa-chevron-right text-xs mt-1 mr-2 text-green-400"></i>
-                                    <span>地點：瑞士達沃斯（固定）</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-chevron-right text-xs mt-1 mr-2 text-green-400"></i>
-                                    <span>形式：5天內三輪淘汰賽</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-chevron-right text-xs mt-1 mr-2 text-green-400"></i>
-                                    <span>全球轉播觀眾目標：1億觀眾</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-chevron-right text-xs mt-1 mr-2 text-green-400"></i>
-                                    <span>頂尖選手對決，決出年度總冠軍</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-chevron-right text-xs mt-1 mr-2 text-green-400"></i>
-                                    <span>結合技術與速度的巔峰對決</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CSTL Section -->
-    <section class="py-20" id="cstl">
-        <div class="container mx-auto px-4">
-            <div class="max-w-6xl mx-auto">
-                <h2 class="text-4xl font-bold text-center mb-16 section-title center">
-                    中國滑雪技術階梯 (CSTL)
-                </h2>
-                
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-                    <div class="animate-slide-up">
-                        <h3 class="text-3xl font-bold mb-6">通往錦標賽之路</h3>
-                        <p class="text-gray-300 mb-6 text-lg leading-relaxed">
-                            CSTL認證系統提供從初學者到職業選手的結構化路徑，採用與錦標賽相同的感測技術，
-                            通過六個逐步提升的難度級別實現技能精進。
-                        </p>
-                        
-                        <div class="space-y-4 mb-8">
-                            <div class="accent-bg p-4 rounded-lg">
-                                <h4 class="font-semibold text-lg mb-2">客觀評估</h4>
-                                <p class="text-gray-300">即時感測回饋消除主觀評判</p>
-                            </div>
-                            
-                            <div class="accent-bg p-4 rounded-lg">
-                                <h4 class="font-semibold text-lg mb-2">全球認可</h4>
-                                <p class="text-gray-300">證書在全球合作度假村通用</p>
-                            </div>
-                            
-                            <div class="accent-bg p-4 rounded-lg">
-                                <h4 class="font-semibold text-lg mb-2">錦標賽通道</h4>
-                                <p class="text-gray-300">直通WSTC職業競賽的清晰路徑</p>
-                            </div>
-                        </div>
-                        
-                        <a href="#" class="btn-primary px-6 py-3 rounded-lg font-medium">
-                            開始您的CSTL之旅
-                        </a>
-                    </div>
-                    
-                    <div class="animate-slide-right">
-                        <!-- CSTL Level Progression -->
-                        <div class="space-y-4">
-                            <div class="card p-6 flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold mr-4">
-                                        專家
-                                    </div>
-                                    <div>
-                                        <h4 class="font-semibold">專家級</h4>
-                                        <p class="text-sm text-gray-400">職業選手準備</p>
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <div class="text-lg font-bold">¥5,999</div>
-                                    <div class="text-sm text-gray-400">$850</div>
-                                </div>
-                            </div>
-                            
-                            <div class="card p-6 flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-red-500 to-orange-500 flex items-center justify-center text-white font-bold mr-4">
-                                        L1
-                                    </div>
-                                    <div>
-                                        <h4 class="font-semibold">等級1</h4>
-                                        <p class="text-sm text-gray-400">進階技術</p>
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <div class="text-lg font-bold">¥2,999</div>
-                                    <div class="text-sm text-gray-400">$425</div>
-                                </div>
-                            </div>
-                            
-                            <div class="card p-6 flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-orange-500 to-yellow-500 flex items-center justify-center text-white font-bold mr-4">
-                                        L2
-                                    </div>
-                                    <div>
-                                        <h4 class="font-semibold">等級2</h4>
-                                        <p class="text-sm text-gray-400">動態滑雪</p>
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <div class="text-lg font-bold">¥1,999</div>
-                                    <div class="text-sm text-gray-400">$285</div>
-                                </div>
-                            </div>
-                            
-                            <div class="card p-6 flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-500 to-green-500 flex items-center justify-center text-white font-bold mr-4">
-                                        L3
-                                    </div>
-                                    <div>
-                                        <h4 class="font-semibold">等級3</h4>
-                                        <p class="text-sm text-gray-400">平行轉換</p>
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <div class="text-lg font-bold">¥1,299</div>
-                                    <div class="text-sm text-gray-400">$185</div>
-                                </div>
-                            </div>
-                            
-                            <div class="card p-6 flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center text-white font-bold mr-4">
-                                        L4
-                                    </div>
-                                    <div>
-                                        <h4 class="font-semibold">等級4</h4>
-                                        <p class="text-sm text-gray-400">進階發展</p>
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <div class="text-lg font-bold">¥899</div>
-                                    <div class="text-sm text-gray-400">$125</div>
-                                </div>
-                            </div>
-                            
-                            <div class="card p-6 flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center text-white font-bold mr-4">
-                                        L5
-                                    </div>
-                                    <div>
-                                        <h4 class="font-semibold">等級5</h4>
-                                        <p class="text-sm text-gray-400">基礎建立</p>
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <div class="text-lg font-bold">¥599</div>
-                                    <div class="text-sm text-gray-400">$85</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Technology Section -->
-    <section class="py-20 bg-gradient-to-b from-gray-900 to-black" id="technology">
-        <div class="container mx-auto px-4">
-            <div class="max-w-6xl mx-auto">
-                <h2 class="text-4xl font-bold text-center mb-16 section-title center">
-                    革命性技術
-                </h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Sensor Technology -->
-                    <div class="card p-8 text-center">
-                        <div class="text-5xl mb-6">
-                            <i class="fas fa-microchip text-blue-400"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-4">先進感測器</h3>
-                        <p class="text-gray-300 mb-6">
-                            可穿戴感測器即時測量立刃角度、G力、壓力分佈和生物力學效率。
-                        </p>
-                        <ul class="text-sm text-gray-400 space-y-2">
-                            <li>• 0.1° 角度精度</li>
-                            <li>• 1000Hz 採樣率</li>
-                            <li>• IPX8 防水等級</li>
-                            <li>• 8小時電池續航</li>
-                        </ul>
-                    </div>
-                    
-                    <!-- FPV Drone Technology -->
-                    <div class="card p-8 text-center">
-                        <div class="text-5xl mb-6">
-                            <i class="fas fa-camera text-green-400"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-4">FPV轉播技術</h3>
-                        <p class="text-gray-300 mb-6">
-                            第一人稱視角無人機捕捉沉浸式畫面，高速跟隨選手穿越挑戰性地形。
-                        </p>
-                        <ul class="text-sm text-gray-400 space-y-2">
-                            <li>• 4K UHD 錄製</li>
-                            <li>• 150 公里/小時最高速度</li>
-                            <li>• 30分鐘飛行時間</li>
-                            <li>• 5公里傳輸範圍</li>
-                        </ul>
-                    </div>
-                    
-                    <!-- AR Graphics -->
-                    <div class="card p-8 text-center">
-                        <div class="text-5xl mb-6">
-                            <i class="fas fa-eye text-purple-400"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-4">AR增強實境</h3>
-                        <p class="text-gray-300 mb-6">
-                            即時增強實境疊加顯示實時性能數據，創造遊戲般的觀看體驗。
-                        </p>
-                        <ul class="text-sm text-gray-400 space-y-2">
-                            <li>• 即時速度顯示</li>
-                            <li>• 3D軌跡視覺化</li>
-                            <li>• 技術分數追蹤</li>
-                            <li>• 比較分析</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Technology Demo Video -->
-                <div class="mt-16 text-center">
-                    <div class="card p-8 max-w-4xl mx-auto">
-                        <h3 class="text-2xl font-bold mb-6">技術實戰展示</h3>
-                        <div class="relative bg-gray-800 rounded-lg overflow-hidden" style="padding-bottom: 56.25%;">
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <div class="text-center">
-                                    <i class="fas fa-play-circle text-6xl text-blue-400 mb-4"></i>
-                                    <p class="text-lg">技術演示影片</p>
-                                    <p class="text-sm text-gray-400">觀看我們的感測器和AR如何協同工作</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-6">
-                            <button class="btn-primary px-6 py-3 rounded-lg font-medium mr-4">
-                                觀看演示
-                            </button>
-                            <button class="btn-secondary px-6 py-3 rounded-lg font-medium">
-                                技術規格
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Partners Section -->
-    <section class="py-20" id="partners">
-        <div class="container mx-auto px-4">
-            <div class="max-w-6xl mx-auto">
-                <h2 class="text-4xl font-bold text-center mb-16 section-title center">
-                    全球合作夥伴
-                </h2>
-                
-                <div class="mb-16">
-                    <h3 class="text-2xl font-bold text-center mb-8 text-gray-300">全球冠名合作夥伴</h3>
-                    <div class="flex justify-center">
-                        <div class="card p-8 w-80 text-center">
-                            <div class="text-4xl mb-4">
-                                <i class="fas fa-handshake text-yellow-400"></i>
-                            </div>
-                            <h4 class="text-xl font-bold mb-2">誠徵冠名合作夥伴</h4>
-                            <p class="text-gray-400 mb-4">$6000-8000萬年投資</p>
-                            <p class="text-sm text-gray-500">錦標賽命名權和全球行銷機會</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-                    <div class="card p-6 text-center">
-                        <h4 class="font-bold text-lg mb-4">官方全球合作夥伴</h4>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex justify-between">
-                                <span>金融服務</span>
-                                <span class="text-green-400">$1500-2500萬</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>豪華汽車</span>
-                                <span class="text-green-400">$1500-2500萬</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>高端技術</span>
-                                <span class="text-green-400">$1500-2500萬</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>官方計時</span>
-                                <span class="text-green-400">$1500-2500萬</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card p-6 text-center">
-                        <h4 class="font-bold text-lg mb-4">技術合作夥伴</h4>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex justify-between">
-                                <span>裝備技術</span>
-                                <span class="text-blue-400">$300-800萬</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>感測與分析</span>
-                                <span class="text-blue-400">$300-800萬</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>轉播技術</span>
-                                <span class="text-blue-400">$300-800萬</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>安全裝備</span>
-                                <span class="text-blue-400">$300-800萬</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card p-6 text-center">
-                        <h4 class="font-bold text-lg mb-4">媒體合作夥伴</h4>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex justify-between">
-                                <span>ESPN (北美)</span>
-                                <span class="text-purple-400">$8000萬</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Eurosport (歐洲)</span>
-                                <span class="text-purple-400">$6000萬</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>央視體育 (中國)</span>
-                                <span class="text-purple-400">$4500萬</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>NHK (日本)</span>
-                                <span class="text-purple-400">$2500萬</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Venue Partners -->
-                <div>
-                    <h3 class="text-2xl font-bold text-center mb-8 text-gray-300">錦標賽場地</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="card p-6 text-center">
-                            <div class="bg-gray-800 w-full h-32 rounded-lg mb-4 flex items-center justify-center">
-                                <i class="fas fa-mountain text-4xl text-blue-400"></i>
-                            </div>
-                            <h4 class="font-bold">達沃斯，瑞士</h4>
-                            <p class="text-sm text-gray-400">世界錦標賽總決賽</p>
-                        </div>
-                        
-                        <div class="card p-6 text-center">
-                            <div class="bg-gray-800 w-full h-32 rounded-lg mb-4 flex items-center justify-center">
-                                <i class="fas fa-snowflake text-4xl text-blue-400"></i>
-                            </div>
-                            <h4 class="font-bold">聖莫里茨，瑞士</h4>
-                            <p class="text-sm text-gray-400">技術輪賽事</p>
-                        </div>
-                        
-                        <div class="card p-6 text-center">
-                            <div class="bg-gray-800 w-full h-32 rounded-lg mb-4 flex items-center justify-center">
-                                <i class="fas fa-tree text-4xl text-blue-400"></i>
-                            </div>
-                            <h4 class="font-bold">二世谷，日本</h4>
-                            <p class="text-sm text-gray-400">創新輪賽事</p>
-                        </div>
-                        
-                        <div class="card p-6 text-center">
-                            <div class="bg-gray-800 w-full h-32 rounded-lg mb-4 flex items-center justify-center">
-                                <i class="fas fa-flag text-4xl text-blue-400"></i>
-                            </div>
-                            <h4 class="font-bold">因斯布魯克，奧地利</h4>
-                            <p class="text-sm text-gray-400">速度輪賽事</p>
-                        </div>
-                        
-                        <div class="card p-6 text-center">
-                            <div class="bg-gray-800 w-full h-32 rounded-lg mb-4 flex items-center justify-center">
-                                <i class="fas fa-skiing text-4xl text-blue-400"></i>
-                            </div>
-                            <h4 class="font-bold">阿斯本，美國</h4>
-                            <p class="text-sm text-gray-400">風格輪賽事</p>
-                        </div>
-                        
-                        <div class="card p-6 text-center">
-                            <div class="bg-gray-800 w-full h-32 rounded-lg mb-4 flex items-center justify-center">
-                                <i class="fas fa-medal text-4xl text-blue-400"></i>
-                            </div>
-                            <h4 class="font-bold">惠斯勒，加拿大</h4>
-                            <p class="text-sm text-gray-400">冠軍輪賽事</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- News Section -->
-    <section class="py-20 bg-gradient-to-b from-gray-900 to-black" id="news">
-        <div class="container mx-auto px-4">
-            <div class="max-w-6xl mx-auto">
-                <h2 class="text-4xl font-bold text-center mb-16 section-title center">
-                    最新消息
-                </h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- News Article 1 -->
-                    <div class="card overflow-hidden">
-                        <div class="bg-gray-800 w-full h-48 rounded-lg mb-4 flex items-center justify-center">
-                            <i class="fas fa-trophy text-5xl text-yellow-400"></i>
-                        </div>
-                        <div class="p-6">
-                            <div class="text-sm text-blue-400 mb-2">2024年12月15日</div>
-                            <h3 class="text-xl font-bold mb-3">WSTC宣布首屆錦標賽系列賽事</h3>
-                            <p class="text-gray-300 mb-4">
-                                融合速度與技術的革命性滑雪錦標賽正式啟動，全球六個場地總獎金達1900萬美元。
-                            </p>
-                            <a href="#" class="text-blue-400 hover:text-blue-300 font-medium">
-                                閱讀更多 →
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <!-- News Article 2 -->
-                    <div class="card overflow-hidden">
-                        <div class="bg-gray-800 w-full h-48 rounded-lg mb-4 flex items-center justify-center">
-                            <i class="fas fa-certificate text-5xl text-green-400"></i>
-                        </div>
-                        <div class="p-6">
-                            <div class="text-sm text-blue-400 mb-2">2024年12月10日</div>
-                            <h3 class="text-xl font-bold mb-3">CSTL認證計畫開放註冊</h3>
-                            <p class="text-gray-300 mb-4">
-                                中國滑雪技術階梯(CSTL)開始接受六個技能等級的感測器滑雪認證申請。
-                            </p>
-                            <a href="#" class="text-blue-400 hover:text-blue-300 font-medium">
-                                閱讀更多 →
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <!-- News Article 3 -->
-                    <div class="card overflow-hidden">
-                        <div class="bg-gray-800 w-full h-48 rounded-lg mb-4 flex items-center justify-center">
-                            <i class="fas fa-microchip text-5xl text-blue-400"></i>
-                        </div>
-                        <div class="p-6">
-                            <div class="text-sm text-blue-400 mb-2">2024年12月5日</div>
-                            <h3 class="text-xl font-bold mb-3">與領先感測器製造商達成技術合作</h3>
-                            <p class="text-gray-300 mb-4">
-                                WSTC宣布與先進可穿戴感測器技術獨家合作夥伴關係，提供即時生物力學分析。
-                            </p>
-                            <a href="#" class="text-blue-400 hover:text-blue-300 font-medium">
-                                閱讀更多 →
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="text-center mt-12">
-                    <a href="#" class="btn-primary px-8 py-3 rounded-lg font-medium">
-                        查看所有新聞
+                        <span data-i18n="hero_cta_heatmap">View Heatmap</span>
                     </a>
                 </div>
+                
+                <!-- Trust Badges -->
+                <div class="pt-8 flex flex-wrap gap-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                    <div class="flex items-center gap-2 text-xs font-mono text-gray-500">
+                        <i class="fas fa-shield-alt"></i> <span data-i18n="trust_audit">Audited by CertiK</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs font-mono text-gray-500">
+                        <i class="fas fa-layer-group"></i> <span data-i18n="trust_chain">Solana SVM</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs font-mono text-gray-500">
+                        <i class="fas fa-microchip"></i> <span data-i18n="trust_hw">NVIDIA Edge Ready</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Preview / Stats -->
+            <div class="lg:col-span-5 relative hidden md:block">
+                <div class="glass-panel rounded-3xl p-8 shadow-2xl animate-float">
+                    <div class="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
+                        <h3 class="font-bold text-lg flex items-center gap-2 text-white">
+                            <span class="w-2 h-2 rounded-full bg-neonGreen animate-pulse"></span>
+                            <span data-i18n="stats_title">Network Status</span>
+                        </h3>
+                        <span class="text-xs font-mono text-gray-500">H3 GRID: RES-9</span>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-4 bg-black/40 rounded-xl border border-white/5">
+                            <span class="text-sm text-gray-400" data-i18n="stat_nodes">Active Nodes</span>
+                            <span class="text-xl font-mono font-bold text-white">1,248</span>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-black/40 rounded-xl border border-white/5">
+                            <span class="text-sm text-gray-400" data-i18n="stat_latency">Global Latency</span>
+                            <span class="text-xl font-mono font-bold text-neonGreen">18.4ms</span>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-black/40 rounded-xl border border-white/5">
+                            <span class="text-sm text-gray-400" data-i18n="stat_compute">Compute Power</span>
+                            <span class="text-xl font-mono font-bold text-accent">450 PFLOPS</span>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-black/40 rounded-xl border border-white/5">
+                            <span class="text-sm text-gray-400" data-i18n="stat_staked">TVL (Staked)</span>
+                            <span class="text-xl font-mono font-bold text-white">$12.5M USD</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- NEW Global Heatmap Section (Integrated from AIFM) -->
+    <section id="heatmap" class="h-[800px] bg-black text-white relative overflow-hidden border-y border-white/10 flex flex-col">
+        <!-- Background Map Image -->
+        <div class="absolute inset-0 opacity-30 pointer-events-none">
+            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop" class="w-full h-full object-cover" alt="World Map">
+        </div>
+        <div class="absolute inset-0 bg-black/60 pointer-events-none"></div>
+
+        <!-- THE CANVAS LAYER -->
+        <canvas id="globalCanvas" class="absolute inset-0 z-10"></canvas>
+
+        <!-- UI Overlay -->
+        <div class="absolute inset-0 pointer-events-none flex flex-col p-6 md:p-12 max-w-[1920px] mx-auto w-full h-full z-20">
+            
+            <!-- Top Row -->
+            <div class="flex flex-col md:flex-row justify-between items-start gap-4">
+                <div class="bg-black/60 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-2xl animate-fade-in-up max-w-lg">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="w-2 h-2 rounded-full bg-neonGreen animate-pulse"></span>
+                        <span class="text-xs font-mono text-neonGreen font-bold uppercase tracking-widest" data-i18n="map_status_live">Live Mainnet Status</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-2 tracking-tight text-white" data-i18n="map_title">Global Compute Grid</h2>
+                    <p class="text-gray-400 text-sm" data-i18n="map_desc">
+                        Real-time visualization of Cloud-Fog-Edge data transmission.
+                        <span class="text-accent block mt-1" data-i18n="map_sub">H3 Geospatial Indexing Active.</span>
+                    </p>
+                </div>
+
+                <!-- Block Simulation Ticker -->
+                <div class="bg-zinc-900/80 backdrop-blur-xl border border-accent/30 p-4 rounded-2xl text-center shadow-[0_0_30px_rgba(37,99,235,0.2)]">
+                    <div class="text-[10px] text-gray-400 uppercase tracking-widest mb-1" data-i18n="map_block_time">Network Block</div>
+                    <div class="text-3xl font-mono font-bold text-white tracking-tighter" id="blockTicker">BLK #892...</div>
+                    <div class="text-[10px] font-bold text-accent">TPS: 4,200+</div>
+                </div>
+            </div>
+
+            <!-- Bottom Row -->
+            <div class="mt-auto flex flex-col md:flex-row items-end gap-6 w-full">
+                
+                <!-- Live Event Ticker -->
+                <div class="w-full md:w-96 space-y-2 pointer-events-auto" id="liveTickerContainer">
+                    <!-- JS Injected -->
+                </div>
+
+                <!-- Stats Panel -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl">
+                    <div class="bg-black/70 backdrop-blur border border-white/10 p-4 rounded-xl">
+                        <div class="text-[10px] text-gray-500 uppercase" data-i18n="stat_nodes">Active Nodes</div>
+                        <div class="text-2xl font-mono font-bold text-white">528</div>
+                    </div>
+                    <div class="bg-black/70 backdrop-blur border border-white/10 p-4 rounded-xl">
+                        <div class="text-[10px] text-gray-500 uppercase" data-i18n="stat_latency">Global Latency</div>
+                        <div class="text-2xl font-mono font-bold text-neonGreen">18ms</div>
+                    </div>
+                    <div class="bg-black/70 backdrop-blur border border-white/10 p-4 rounded-xl">
+                        <div class="text-[10px] text-gray-500 uppercase" data-i18n="stat_compute">Total Compute</div>
+                        <div class="text-2xl font-mono font-bold text-accent">45 PFLOPS</div>
+                    </div>
+                    <div class="bg-black/70 backdrop-blur border border-white/10 p-4 rounded-xl">
+                        <div class="text-[10px] text-gray-500 uppercase" data-i18n="stat_staked">Total Staked</div>
+                        <div class="text-2xl font-mono font-bold text-white">12.5M</div>
+                    </div>
+                </div>
+                
+                <div class="flex-1"></div>
             </div>
         </div>
     </section>
 
-    <!-- Newsletter Section -->
-    <section class="py-16 bg-gradient-to-r from-blue-900 to-purple-900">
-        <div class="container mx-auto px-4">
-            <div class="max-w-3xl mx-auto text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-6">加入WSTC革命</h2>
-                <p class="text-xl text-gray-200 mb-8">
-                    訂閱接收錦標賽賽程、CSTL認證機會以及全球最先進滑雪競賽的獨家幕後內容。
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
-                    <input type="email" placeholder="輸入您的電子郵件" class="input-field rounded-full px-6 py-3 w-full">
-                    <button class="btn-primary px-8 py-3 rounded-full font-medium">
-                        訂閱
-                    </button>
+    <!-- Why AIF? / Problem & Solution -->
+    <section class="py-24 px-6 md:px-8 bg-zinc-950">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <span class="text-accent font-mono text-xs uppercase tracking-widest font-bold mb-2 block">THE CHALLENGE</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6" data-i18n="prob_title">The "Last Mile" of Spatial Computing</h2>
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 rounded-full bg-zinc-900 flex-shrink-0 flex items-center justify-center text-red-500"><i class="fas fa-tachometer-alt"></i></div>
+                            <div>
+                                <h4 class="font-bold text-white mb-1" data-i18n="prob_1_t">Latency Kills Immersion</h4>
+                                <p class="text-sm text-gray-400" data-i18n="prob_1_d">Traditional cloud rendering adds >100ms latency. AR/VR needs <20ms to prevent motion sickness.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 rounded-full bg-zinc-900 flex-shrink-0 flex items-center justify-center text-red-500"><i class="fas fa-server"></i></div>
+                            <div>
+                                <h4 class="font-bold text-white mb-1" data-i18n="prob_2_t">Centralized Costs</h4>
+                                <p class="text-sm text-gray-400" data-i18n="prob_2_d">Deploying dedicated edge servers is too expensive for single apps. Infrastructure must be shared.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <p class="text-sm text-gray-300 mt-4">
-                    訂閱即表示您同意接收行銷通訊。可隨時取消訂閱。
-                </p>
+                
+                <div class="relative">
+                    <div class="absolute -inset-4 bg-accent/20 rounded-full blur-3xl opacity-30"></div>
+                    <div class="glass-panel p-8 rounded-3xl border border-accent/30 relative">
+                        <span class="text-neonGreen font-mono text-xs uppercase tracking-widest font-bold mb-2 block">THE SOLUTION</span>
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6" data-i18n="sol_title">Distributed Edge Fog</h2>
+                        <p class="text-gray-400 leading-relaxed mb-6" data-i18n="sol_desc">
+                            AIF.WTF aggregates consumer GPUs (RTX 3060+) and commercial servers into a unified fog network. Content is cached physically close to users in commercial districts, enabling instant rendering and interactions.
+                        </p>
+                        <ul class="space-y-2 text-sm text-gray-300 font-mono">
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-accent"></i> <span data-i18n="sol_p1">H3 Hexagonal Indexing</span></li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-accent"></i> <span data-i18n="sol_p2">TEE Privacy Computing</span></li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-accent"></i> <span data-i18n="sol_p3">Dynamic Resource Allocation</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture -->
+    <section id="architecture" class="py-24 px-6 md:px-8 max-w-[1920px] mx-auto border-t border-white/10">
+        <div class="text-center max-w-3xl mx-auto mb-20">
+            <span class="text-accent font-mono text-xs uppercase tracking-widest font-bold mb-4 block" data-i18n="tech_label">Architecture</span>
+            <h2 class="text-4xl md:text-5xl font-bold mb-6" data-i18n="tech_title">Cloud-Fog-Edge Trinity</h2>
+            <p class="text-gray-400 text-lg" data-i18n="tech_desc">A robust three-layer architecture designed for the high-bandwidth, low-latency demands of the Metaverse.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Card 1 -->
+            <div class="p-8 rounded-3xl bg-zinc-900/50 border border-white/10 hover:border-accent/50 transition-all group">
+                <div class="w-14 h-14 rounded-2xl bg-black border border-white/10 flex items-center justify-center text-2xl mb-6 text-white group-hover:text-accent group-hover:scale-110 transition-all">
+                    <i class="fas fa-cloud"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-white">404.world (Cloud)</h3>
+                <p class="text-gray-400 text-sm leading-relaxed" data-i18n="tech_cloud">Content generation hub where AI creates infinite 3D assets and narratives. Handles heavy lifting of content creation and long-term storage.</p>
+            </div>
+            <!-- Card 2 -->
+            <div class="p-8 rounded-3xl bg-zinc-900/50 border border-white/10 hover:border-accent/50 transition-all group relative overflow-hidden">
+                <div class="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="w-14 h-14 rounded-2xl bg-black border border-white/10 flex items-center justify-center text-2xl mb-6 text-white group-hover:text-accent group-hover:scale-110 transition-all relative z-10">
+                    <i class="fas fa-server"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-white relative z-10">AIF Nodes (Fog)</h3>
+                <p class="text-gray-400 text-sm leading-relaxed relative z-10" data-i18n="tech_fog">The core innovation. Distributed nodes handle real-time rendering, physics simulation, and TEE-based privacy computing with sub-20ms latency.</p>
+            </div>
+            <!-- Card 3 -->
+            <div class="p-8 rounded-3xl bg-zinc-900/50 border border-white/10 hover:border-accent/50 transition-all group">
+                <div class="w-14 h-14 rounded-2xl bg-black border border-white/10 flex items-center justify-center text-2xl mb-6 text-white group-hover:text-accent group-hover:scale-110 transition-all">
+                    <i class="fas fa-glasses"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-white">404GLASS (Edge)</h3>
+                <p class="text-gray-400 text-sm leading-relaxed" data-i18n="tech_edge">Lightweight hardware (under 180g) focused on sensing and display. Heavy compute is offloaded to the Fog layer, enabling all-day battery life.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust & Endorsement -->
+    <section id="trust" class="py-20 bg-zinc-900/50 border-y border-white/10">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-12" data-i18n="trust_title">Trusted By & Built With</h3>
+            <div class="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                <!-- Mock Logos with FontAwesome placeholders -->
+                <div class="flex items-center gap-2 text-2xl font-bold text-white"><i class="fab fa-ethereum text-gray-400"></i> SOLIDITY</div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-white"><i class="fas fa-cube text-gray-400"></i> NVIDIA</div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-white"><i class="fas fa-link text-gray-400"></i> CHAINLINK</div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-white"><i class="fas fa-shield-alt text-gray-400"></i> CERTIK</div>
+                <div class="flex items-center gap-2 text-2xl font-bold text-white"><i class="fas fa-server text-gray-400"></i> AWS EDGE</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Node Mining / Join Section -->
+    <section id="nodes" class="py-24 bg-zinc-900 border-b border-white/10 relative">
+        <div class="px-6 md:px-8 max-w-[1920px] mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16">
+                <div>
+                    <span class="text-neonGreen font-mono text-xs uppercase tracking-widest font-bold mb-4 block flex items-center gap-2">
+                        <span class="w-2 h-2 bg-neonGreen rounded-full animate-pulse"></span>
+                        <span data-i18n="node_status">Network Open</span>
+                    </span>
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4 text-white" data-i18n="node_title">Join the Network</h2>
+                    <p class="text-gray-400 max-w-xl" data-i18n="node_subtitle">Stake AIF to become a node operator. Provide compute, earn rewards. 70% of revenue flows to operators.</p>
+                </div>
+                <div class="mt-6 md:mt-0">
+                    <div class="text-right">
+                        <div class="text-xs text-gray-500 uppercase tracking-widest mb-1" data-i18n="current_apy">Current Staking APY</div>
+                        <div class="text-3xl font-mono font-bold text-accent">12% - 24%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tiers Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                
+                <!-- Tier S -->
+                <div class="node-card bg-black border border-zinc-800 rounded-3xl p-1 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-neonRed text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl z-20">LIMITED</div>
+                    <div class="bg-zinc-950 rounded-[22px] p-6 h-full flex flex-col relative z-10">
+                        <div class="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center text-neonRed mb-4 border border-zinc-800">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-1">Tier S</h3>
+                        <p class="text-xs text-gray-500 font-mono mb-6" data-i18n="tier_s_loc">Super Nodes (Times Square, Shibuya)</p>
+                        <div class="space-y-3 mb-8 flex-1">
+                            <div class="flex justify-between text-sm border-b border-white/5 pb-2">
+                                <span class="text-gray-400" data-i18n="card_stake">Stake</span>
+                                <span class="font-mono font-bold text-white">5,000,000 AIF</span>
+                            </div>
+                            <div class="flex justify-between text-sm border-b border-white/5 pb-2">
+                                <span class="text-gray-400" data-i18n="card_hw">Hardware</span>
+                                <span class="font-mono text-right text-gray-300">Dual EPYC 9654<br>2x H100 80GB</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400" data-i18n="card_rev">Est. Revenue</span>
+                                <span class="font-mono font-bold text-neonGreen">$5k - $15k / mo</span>
+                            </div>
+                        </div>
+                        <button onclick="openJoinModal('S')" class="w-full bg-white text-black py-3 rounded-xl font-bold text-sm hover:bg-gray-200 transition-colors flex justify-center items-center gap-2">
+                            <span data-i18n="btn_join">Join Node</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tier A -->
+                <div class="node-card bg-black border border-zinc-800 rounded-3xl p-1 relative overflow-hidden group">
+                    <div class="bg-zinc-950 rounded-[22px] p-6 h-full flex flex-col relative z-10">
+                        <div class="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center text-accent mb-4 border border-zinc-800">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-1">Tier A</h3>
+                        <p class="text-xs text-gray-500 font-mono mb-6" data-i18n="tier_a_loc">Commercial Districts (Malls, CBD)</p>
+                        <div class="space-y-3 mb-8 flex-1">
+                            <div class="flex justify-between text-sm border-b border-white/5 pb-2">
+                                <span class="text-gray-400" data-i18n="card_stake">Stake</span>
+                                <span class="font-mono font-bold text-white">500,000 AIF</span>
+                            </div>
+                            <div class="flex justify-between text-sm border-b border-white/5 pb-2">
+                                <span class="text-gray-400" data-i18n="card_hw">Hardware</span>
+                                <span class="font-mono text-right text-gray-300">Ryzen 9 7950X<br>RTX 4090 24GB</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400" data-i18n="card_rev">Est. Revenue</span>
+                                <span class="font-mono font-bold text-neonGreen">$800 - $2.5k / mo</span>
+                            </div>
+                        </div>
+                        <button onclick="openJoinModal('A')" class="w-full border border-white/20 text-white py-3 rounded-xl font-bold text-sm hover:bg-white hover:text-black transition-colors">
+                            <span data-i18n="btn_join">Join Node</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tier B -->
+                <div class="node-card bg-black border border-zinc-800 rounded-3xl p-1 relative overflow-hidden group">
+                    <div class="bg-zinc-950 rounded-[22px] p-6 h-full flex flex-col relative z-10">
+                        <div class="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center text-neonPurp mb-4 border border-zinc-800">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-1">Tier B</h3>
+                        <p class="text-xs text-gray-500 font-mono mb-6" data-i18n="tier_b_loc">Community (Residential, Campus)</p>
+                        <div class="space-y-3 mb-8 flex-1">
+                            <div class="flex justify-between text-sm border-b border-white/5 pb-2">
+                                <span class="text-gray-400" data-i18n="card_stake">Stake</span>
+                                <span class="font-mono font-bold text-white">50,000 AIF</span>
+                            </div>
+                            <div class="flex justify-between text-sm border-b border-white/5 pb-2">
+                                <span class="text-gray-400" data-i18n="card_hw">Hardware</span>
+                                <span class="font-mono text-right text-gray-300">Ryzen 7 / M4 Pro<br>RTX 4070 12GB</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400" data-i18n="card_rev">Est. Revenue</span>
+                                <span class="font-mono font-bold text-neonGreen">$100 - $500 / mo</span>
+                            </div>
+                        </div>
+                        <button onclick="openJoinModal('B')" class="w-full border border-white/20 text-white py-3 rounded-xl font-bold text-sm hover:bg-white hover:text-black transition-colors">
+                            <span data-i18n="btn_join">Join Node</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tier C -->
+                <div class="node-card bg-black border border-zinc-800 rounded-3xl p-1 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-neonGreen text-black text-[10px] font-bold px-3 py-1 rounded-bl-xl z-20">ENTRY</div>
+                    <div class="bg-zinc-950 rounded-[22px] p-6 h-full flex flex-col relative z-10">
+                        <div class="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center text-white mb-4 border border-zinc-800">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-1">Tier C</h3>
+                        <p class="text-xs text-gray-500 font-mono mb-6" data-i18n="tier_c_loc">Long Tail (Suburban, Emerging)</p>
+                        <div class="space-y-3 mb-8 flex-1">
+                            <div class="flex justify-between text-sm border-b border-white/5 pb-2">
+                                <span class="text-gray-400" data-i18n="card_stake">Stake</span>
+                                <span class="font-mono font-bold text-white">10,000 AIF</span>
+                            </div>
+                            <div class="flex justify-between text-sm border-b border-white/5 pb-2">
+                                <span class="text-gray-400" data-i18n="card_hw">Hardware</span>
+                                <span class="font-mono text-right text-gray-300">i5 / Ryzen 5<br>RTX 3060 8GB</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400" data-i18n="card_rev">Est. Revenue</span>
+                                <span class="font-mono font-bold text-neonGreen">$5 - $20 / mo</span>
+                            </div>
+                        </div>
+                        <button onclick="openJoinModal('C')" class="w-full border border-white/20 text-white py-3 rounded-xl font-bold text-sm hover:bg-white hover:text-black transition-colors">
+                            <span data-i18n="btn_join">Join Node</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap (Strictly from Feb 2026) -->
+    <section id="roadmap" class="py-24 px-6 md:px-8 max-w-[1920px] mx-auto overflow-hidden">
+        <h2 class="text-4xl font-bold mb-16 text-center" data-i18n="roadmap_title">Development Roadmap</h2>
+        
+        <div class="relative max-w-4xl mx-auto">
+            <!-- Central Line -->
+            <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-white/10 md:-translate-x-1/2"></div>
+
+            <!-- Feb 2026 -->
+            <div class="relative flex flex-col md:flex-row items-center justify-between mb-16 group">
+                <div class="md:w-1/2 pr-0 md:pr-12 pl-12 md:pl-0 w-full text-left md:text-right">
+                    <div class="bg-zinc-900 border border-white/10 p-6 rounded-2xl relative">
+                        <div class="text-accent font-bold text-xs mb-2">FEB 2026</div>
+                        <h3 class="text-lg font-bold text-white mb-2" data-i18n="rm_1_t">Network Genesis</h3>
+                        <p class="text-gray-400 text-sm" data-i18n="rm_1_d">Official Mainnet Launch. Deployment of initial 50 validator nodes in Tier S locations.</p>
+                        <!-- Arrow for desktop -->
+                        <div class="hidden md:block absolute top-6 -right-2 w-4 h-4 bg-zinc-900 border-t border-r border-white/10 rotate-45 transform translate-x-1/2"></div>
+                    </div>
+                </div>
+                <div class="absolute left-4 md:left-1/2 w-3 h-3 bg-accent rounded-full border-2 border-black z-10 -translate-x-1.5 md:-translate-x-1.5"></div>
+                <div class="md:w-1/2"></div>
+            </div>
+
+            <!-- Q2 2026 -->
+            <div class="relative flex flex-col md:flex-row items-center justify-between mb-16 group">
+                <div class="md:w-1/2"></div>
+                <div class="absolute left-4 md:left-1/2 w-3 h-3 bg-white rounded-full border-2 border-black z-10 -translate-x-1.5 md:-translate-x-1.5"></div>
+                <div class="md:w-1/2 pl-12 w-full">
+                    <div class="bg-zinc-900 border border-white/10 p-6 rounded-2xl relative">
+                        <div class="text-gray-500 font-bold text-xs mb-2">Q2 2026</div>
+                        <h3 class="text-lg font-bold text-white mb-2" data-i18n="rm_2_t">SDK Release</h3>
+                        <p class="text-gray-400 text-sm" data-i18n="rm_2_d">Public release of Unity/Unreal SDKs. Opening Tier B node registration for residential areas.</p>
+                         <div class="hidden md:block absolute top-6 -left-2 w-4 h-4 bg-zinc-900 border-b border-l border-white/10 rotate-45 transform -translate-x-1/2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q4 2026 -->
+            <div class="relative flex flex-col md:flex-row items-center justify-between mb-16 group">
+                <div class="md:w-1/2 pr-0 md:pr-12 pl-12 md:pl-0 w-full text-left md:text-right">
+                    <div class="bg-zinc-900 border border-white/10 p-6 rounded-2xl relative">
+                        <div class="text-gray-500 font-bold text-xs mb-2">Q4 2026</div>
+                        <h3 class="text-lg font-bold text-white mb-2" data-i18n="rm_3_t">Global Expansion</h3>
+                        <p class="text-gray-400 text-sm" data-i18n="rm_3_d">Target: 5,000 Active Nodes. Launching cross-chain bridge to Ethereum and Cosmos.</p>
+                         <div class="hidden md:block absolute top-6 -right-2 w-4 h-4 bg-zinc-900 border-t border-r border-white/10 rotate-45 transform translate-x-1/2"></div>
+                    </div>
+                </div>
+                <div class="absolute left-4 md:left-1/2 w-3 h-3 bg-white rounded-full border-2 border-black z-10 -translate-x-1.5 md:-translate-x-1.5"></div>
+                <div class="md:w-1/2"></div>
+            </div>
+
+            <!-- 2027 -->
+            <div class="relative flex flex-col md:flex-row items-center justify-between group">
+                <div class="md:w-1/2"></div>
+                <div class="absolute left-4 md:left-1/2 w-3 h-3 bg-gray-600 rounded-full border-2 border-black z-10 -translate-x-1.5 md:-translate-x-1.5"></div>
+                <div class="md:w-1/2 pl-12 w-full">
+                    <div class="bg-zinc-900 border border-white/10 p-6 rounded-2xl relative">
+                        <div class="text-gray-500 font-bold text-xs mb-2">2027</div>
+                        <h3 class="text-lg font-bold text-white mb-2" data-i18n="rm_4_t">Mass Adoption</h3>
+                        <p class="text-gray-400 text-sm" data-i18n="rm_4_d">404GLASS consumer launch. Full DAO governance implementation.</p>
+                         <div class="hidden md:block absolute top-6 -left-2 w-4 h-4 bg-zinc-900 border-b border-l border-white/10 rotate-45 transform -translate-x-1/2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section (New) -->
+    <section id="faq" class="py-24 bg-zinc-950 border-t border-white/10">
+        <div class="max-w-3xl mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12 text-center" data-i18n="faq_title">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                <div class="bg-zinc-900 rounded-xl p-6 border border-white/5">
+                    <h4 class="font-bold text-white mb-2" data-i18n="faq_1_q">What is the return on staking?</h4>
+                    <p class="text-sm text-gray-400" data-i18n="faq_1_a">Returns vary by Tier and location demand. Generally, Tier S/A nodes in high-traffic areas earn 12-24% APY plus usage fees.</p>
+                </div>
+                <div class="bg-zinc-900 rounded-xl p-6 border border-white/5">
+                    <h4 class="font-bold text-white mb-2" data-i18n="faq_2_q">Can I use my own hardware?</h4>
+                    <p class="text-sm text-gray-400" data-i18n="faq_2_a">Yes. You can join via "BYO Device" if your hardware meets the minimum specs (RTX 3060 or equivalent). You still need to stake the required AIF.</p>
+                </div>
+                <div class="bg-zinc-900 rounded-xl p-6 border border-white/5">
+                    <h4 class="font-bold text-white mb-2" data-i18n="faq_3_q">Why is there a lock-up period?</h4>
+                    <p class="text-sm text-gray-400" data-i18n="faq_3_a">To ensure network stability and reliability for enterprise clients, nodes must commit to a 12-month service period.</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-12 bg-black">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <!-- Brand Column -->
-                <div>
-                    <a href="#home" class="flex flex-col items-start mb-4">
-                        <div class="logo-font text-2xl">WSTC</div>
-                        <div class="logo-sub text-xs">世界滑行技術錦標賽</div>
-                    </a>
-                    <p class="text-gray-400 mb-6">
-                        通過先進技術和客觀評估革新滑雪競賽，冬季運動的一級方程式。
+    <footer class="bg-zinc-950 border-t border-white/10 pt-20 pb-10 px-6 md:px-8">
+        <div class="max-w-[1920px] mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
+                <div class="col-span-1 md:col-span-2 pr-12">
+                    <a href="#" class="text-3xl font-bold block mb-6 text-white">AIF.WTF</a>
+                    <p class="text-gray-500 text-sm max-w-sm leading-relaxed mb-6" data-i18n="footer_desc">
+                        Redefining the relationship between humans and space. Building the physical infrastructure for the spatial internet.
                     </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-blue-400 transition">
-                            <i class="fab fa-twitter text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-blue-400 transition">
-                            <i class="fab fa-instagram text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-blue-400 transition">
-                            <i class="fab fa-youtube text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-blue-400 transition">
-                            <i class="fab fa-linkedin text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-blue-400 transition">
-                            <i class="fab fa-facebook text-xl"></i>
-                        </a>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-white hover:text-black transition-colors text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-white hover:text-black transition-colors text-white"><i class="fab fa-discord"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-white hover:text-black transition-colors text-white"><i class="fab fa-github"></i></a>
                     </div>
                 </div>
-                
-                <!-- Championships Column -->
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">錦標賽</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">世界錦標賽總決賽</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">全球巡迴賽</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">大師系列賽</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">賽事日曆</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">選手與排名</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">競賽規則</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">場館資訊</a></li>
+                    <h4 class="font-bold text-sm mb-6 uppercase tracking-wider text-gray-300">Ecosystem</h4>
+                    <ul class="space-y-4 text-sm text-gray-500 font-mono">
+                        <li><a href="#" class="hover:text-accent transition-colors">Explorer</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Governance</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Grants</a></li>
                     </ul>
                 </div>
-                
-                <!-- CSTL & Resources Column -->
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">CSTL與資源</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">CSTL認證</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">訓練中心</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">線上學習</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">教練認證</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">技術指南</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">行動應用</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">支援中心</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Company & Legal Column -->
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">公司</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">關於WSTC</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">領導團隊</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">職涯機會</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">合作機會</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">媒體中心</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">投資者關係</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition">聯絡我們</a></li>
+                    <h4 class="font-bold text-sm mb-6 uppercase tracking-wider text-gray-300">Legal</h4>
+                    <ul class="space-y-4 text-sm text-gray-500">
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Node Agreement</a></li>
                     </ul>
                 </div>
             </div>
-            
-            <!-- Bottom Footer -->
-            <div class="border-t border-gray-800 mt-12 pt-8">
-                <div class="flex flex-col md:flex-row justify-between items-center">
-                    <div class="text-gray-500 text-sm mb-4 md:mb-0">
-                        © 2025 世界滑行技術錦標賽。保留所有權利。
-                    </div>
-                    <div class="flex space-x-6 text-sm">
-                        <a href="#" class="text-gray-500 hover:text-blue-400 transition">隱私政策</a>
-                        <a href="#" class="text-gray-500 hover:text-blue-400 transition">服務條款</a>
-                        <a href="#" class="text-gray-500 hover:text-blue-400 transition">Cookie政策</a>
-                        <a href="#" class="text-gray-500 hover:text-blue-400 transition">反興奮劑政策</a>
-                    </div>
-                </div>
-                
-                <!-- Additional Info -->
-                <div class="mt-8 pt-8 border-t border-gray-800 text-center">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-500">
-                        <div>
-                            <h4 class="font-semibold text-gray-300 mb-2">總部</h4>
-                            <p>中國北京</p>
-                            <p>全球營運中心</p>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-gray-300 mb-2">錦標賽場地</h4>
-                            <p>瑞士達沃斯</p>
-                            <p>世界總決賽地點</p>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-gray-300 mb-2">技術合作夥伴</h4>
-                            <p>先進感測解決方案</p>
-                            <p>即時性能分析</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 font-mono border-t border-white/5 pt-8">
+                <p>&copy; 2026 AIF.WTF Foundation. All Rights Reserved.</p>
+                <p class="mt-2 md:mt-0">Powered by Solana DePIN.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Scroll to Top Button -->
-    <button id="scrollToTop" class="fixed bottom-8 right-8 btn-primary p-3 rounded-full opacity-0 transition-opacity duration-300 z-40">
-        <i class="fas fa-chevron-up"></i>
-    </button>
+    <!-- JOIN NODE MODAL (Detailed) -->
+    <div id="joinModal" class="fixed inset-0 z-[100] bg-black/90 backdrop-blur-xl hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-zinc-900 border border-zinc-700 rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh] transform scale-95 transition-transform duration-300" id="joinModalContent">
+            
+            <!-- Header -->
+            <div class="p-6 border-b border-white/10 flex justify-between items-center bg-black/50">
+                <div>
+                    <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span data-i18n="modal_join_title">Initialize Node</span>
+                        <span id="modalTierBadge" class="bg-accent text-white text-[10px] px-2 py-0.5 rounded font-mono">TIER S</span>
+                    </h3>
+                    <p class="text-xs text-gray-400 mt-1" data-i18n="modal_join_desc">Select your hardware configuration and confirm staking.</p>
+                </div>
+                <button onclick="closeJoinModal()" class="w-8 h-8 rounded-full bg-zinc-800 hover:bg-zinc-700 text-white flex items-center justify-center transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="p-6 overflow-y-auto custom-scrollbar space-y-8">
+                
+                <!-- Step 1: Hardware -->
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="text-xs font-bold text-gray-500 uppercase tracking-widest">1. Hardware Configuration</div>
+                        <a href="#" class="text-[10px] text-accent hover:underline">View Spec Sheet <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- BYO Option -->
+                        <label class="cursor-pointer relative group">
+                            <input type="radio" name="hw_mode" value="byo" class="peer sr-only" checked onchange="updateCalc()">
+                            <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800 peer-checked:border-accent peer-checked:bg-accent/10 transition-all h-full flex flex-col">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div class="text-lg"><i class="fas fa-tools text-gray-400 peer-checked:text-accent"></i></div>
+                                    <div class="custom-radio"></div>
+                                </div>
+                                <div class="font-bold text-sm text-white mb-1" data-i18n="opt_byo">BYO Device</div>
+                                <div class="text-[10px] text-gray-500 leading-tight mb-2">Use your own GPU server. Must verify via TEE.</div>
+                                <div class="mt-auto pt-2 border-t border-white/5 text-[10px] font-mono text-neonGreen">Cost: 0 AIF</div>
+                            </div>
+                        </label>
+                        
+                        <!-- Buy Option -->
+                        <label class="cursor-pointer relative group">
+                            <input type="radio" name="hw_mode" value="buy" class="peer sr-only" onchange="updateCalc()">
+                            <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800 peer-checked:border-accent peer-checked:bg-accent/10 transition-all h-full flex flex-col">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div class="text-lg"><i class="fas fa-box-open text-gray-400 peer-checked:text-accent"></i></div>
+                                    <div class="custom-radio"></div>
+                                </div>
+                                <div class="font-bold text-sm text-white mb-1" data-i18n="opt_buy">Order Official Node</div>
+                                <div class="text-[10px] text-gray-500 leading-tight mb-2">Plug-and-play AIF Box. Pre-verified & Optimized.</div>
+                                <div class="mt-auto pt-2 border-t border-white/5 text-[10px] font-mono text-white" id="modalHwCostDisplay">Cost: 3,000,000 AIF</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Step 2: Staking -->
+                <div>
+                    <div class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">2. Staking Commitment</div>
+                    <div class="bg-zinc-950 rounded-xl p-5 border border-zinc-800 flex justify-between items-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-accent/5 pointer-events-none"></div>
+                        <div>
+                            <div class="text-gray-400 text-xs mb-1" data-i18n="stake_lock">Required Lock-up</div>
+                            <div class="text-3xl font-mono font-bold text-white tracking-tight" id="modalStakeAmount">5,000,000</div>
+                            <div class="text-[10px] text-neonGreen mt-1 font-mono">APY: ~18.5%</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-gray-400 text-xs mb-1">Token</div>
+                            <div class="text-xl font-bold text-accent">AIF</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 mt-3">
+                        <i class="fas fa-info-circle text-gray-500 text-xs mt-0.5"></i>
+                        <p class="text-[10px] text-gray-500 leading-relaxed" data-i18n="stake_disclaimer">
+                            Staked tokens are locked in the smart contract for 365 days. 
+                            Unstaking early incurs a 15% slashing penalty. Rewards are distributed daily.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 3: Summary -->
+                <div class="bg-zinc-800/50 rounded-xl p-4 border border-white/5 space-y-2">
+                    <div class="flex justify-between text-xs">
+                        <span class="text-gray-400" data-i18n="sum_hardware">Hardware Cost</span>
+                        <span class="text-white font-mono" id="sumHwCost">0 AIF</span>
+                    </div>
+                    <div class="flex justify-between text-xs">
+                        <span class="text-gray-400" data-i18n="sum_stake">Staking Amount</span>
+                        <span class="text-white font-mono" id="sumStake">5,000,000 AIF</span>
+                    </div>
+                    <div class="h-px bg-white/10 my-2"></div>
+                    <div class="flex justify-between text-sm font-bold">
+                        <span class="text-white" data-i18n="sum_total">Total To Pay</span>
+                        <span class="text-accent font-mono text-lg" id="sumTotal">5,000,000 AIF</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="p-6 border-t border-white/10 bg-black/50">
+                <button onclick="processJoin()" id="processBtn" class="w-full bg-white text-black py-4 rounded-xl font-bold text-sm hover:bg-gray-200 transition-colors shadow-lg flex justify-center items-center gap-2">
+                    <span data-i18n="btn_confirm">Confirm Transaction</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-8 right-8 bg-zinc-900 border border-accent/50 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-y-40 transition-transform duration-500 z-[200] flex items-center gap-4">
+        <div class="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-white shadow-lg shadow-blue-900/20">
+            <i class="fas fa-check"></i>
+        </div>
+        <div>
+            <h4 class="font-bold text-sm" data-i18n="toast_success">Success</h4>
+            <p class="text-xs text-gray-400" id="toastMsg">Transaction submitted to Solana Mainnet.</p>
+        </div>
+    </div>
 
     <script>
-        // Add random data streams
-        function createDataStreams() {
-            for (let i = 0; i < 5; i++) {
-                setTimeout(() => {
-                    const stream = document.createElement('div');
-                    stream.className = 'data-stream';
-                    stream.style.left = Math.random() * 100 + '%';
-                    stream.style.animationDelay = Math.random() * 2 + 's';
-                    document.body.appendChild(stream);
-                    
-                    // Remove after animation
-                    setTimeout(() => {
-                        stream.remove();
-                    }, 4000);
-                }, i * 3000);
+        // --- 1. Data & Localization ---
+        const translations = {
+            en: {
+                nav_vision: "Vision", nav_tech: "Technology", nav_nodes: "Join Node", nav_roadmap: "Roadmap", nav_faq: "FAQ", nav_trust: "Trust", nav_heatmap: "Live Heatmap", btn_connect: "Connect Wallet",
+                hero_title1: "Drop Content,", hero_title2: "Not Hardware.", hero_desc: "The world's first decentralized physical infrastructure network (DePIN) optimized for AR/VR. We transform idle computing power into \"digital anchors\" for the spatial web.",
+                hero_cta_primary: "Join as Node", hero_cta_heatmap: "View Heatmap", trust_audit: "Audited by CertiK", trust_chain: "Solana SVM", trust_hw: "NVIDIA Edge Ready",
+                stats_title: "Network Status", stat_nodes: "Active Nodes", stat_latency: "Global Latency", stat_compute: "Total Compute", stat_staked: "Total Staked",
+                map_title: "Global Compute Grid", map_desc: "Real-time visualization of Cloud-Fog-Edge data transmission.", map_sub: "H3 Geospatial Indexing Active.", map_status_live: "Live Mainnet Status", map_block_time: "Network Block",
+                prob_title: "The \"Last Mile\" of Spatial Computing", prob_1_t: "Latency Kills Immersion", prob_1_d: "Traditional cloud rendering adds >100ms latency. AR/VR needs <20ms.", prob_2_t: "Centralized Costs", prob_2_d: "Deploying dedicated edge servers is too expensive for single apps.",
+                sol_title: "Distributed Edge Fog", sol_desc: "AIF.WTF aggregates consumer GPUs and servers into a unified fog network. Content is cached physically close to users.", sol_p1: "H3 Hexagonal Indexing", sol_p2: "TEE Privacy Computing", sol_p3: "Dynamic Resource Allocation",
+                tech_label: "Architecture", tech_title: "Cloud-Fog-Edge Trinity", tech_desc: "A robust three-layer architecture designed for the high-bandwidth, low-latency demands of the Metaverse.",
+                tech_cloud: "Content generation hub where AI creates infinite 3D assets and narratives. Handles heavy lifting.", tech_fog: "The core innovation. Distributed nodes handle real-time rendering and privacy computing with sub-20ms latency.", tech_edge: "Lightweight hardware (under 180g) focused on sensing and display. Heavy compute is offloaded.",
+                trust_title: "Trusted By & Built With",
+                node_status: "Network Open", node_title: "Join the Network", node_subtitle: "Stake AIF to become a node operator. Provide compute, earn rewards. 70% of revenue flows to operators.", current_apy: "Current Staking APY", btn_join: "Join Node",
+                tier_s_loc: "Super Nodes (Times Square)", tier_a_loc: "Commercial Districts", tier_b_loc: "Community / Residential", tier_c_loc: "Long Tail / Entry Level",
+                card_stake: "Stake", card_hw: "Hardware", card_rev: "Est. Revenue",
+                roadmap_title: "Development Roadmap", rm_1_t: "Network Genesis", rm_1_d: "Official Mainnet Launch. Deployment of initial 50 validator nodes.", rm_2_t: "SDK Release", rm_2_d: "Public release of SDKs. Opening Tier B node registration.", rm_3_t: "Global Expansion", rm_3_d: "Target: 5,000 Active Nodes. Launching cross-chain bridge.", rm_4_t: "Mass Adoption", rm_4_d: "404GLASS consumer launch. Full DAO governance.",
+                faq_title: "Frequently Asked Questions", faq_1_q: "What is the return on staking?", faq_1_a: "Returns vary by Tier. Tier S/A nodes earn 12-24% APY plus usage fees.", faq_2_q: "Can I use my own hardware?", faq_2_a: "Yes. BYO Device is allowed if it meets specs (RTX 3060+).", faq_3_q: "Why is there a lock-up period?", faq_3_a: "To ensure network stability, nodes commit to 12 months.",
+                footer_desc: "Redefining the relationship between humans and space. Building the physical infrastructure for the spatial internet.",
+                modal_join_title: "Initialize Node", modal_join_desc: "Select your hardware configuration and confirm staking.", opt_byo: "BYO Device", opt_buy: "Order Official Node", stake_lock: "Required Lock-up", stake_disclaimer: "Staked tokens are locked for 365 days. Early unstaking incurs a 15% penalty.", sum_hardware: "Hardware Cost", sum_stake: "Staking Amount", sum_total: "Total To Pay", btn_confirm: "Confirm Transaction", toast_success: "Success"
+            },
+            zh: {
+                nav_vision: "願景", nav_tech: "技術架構", nav_nodes: "加入節點", nav_roadmap: "路線圖", nav_faq: "常見問題", nav_trust: "信任背書", nav_heatmap: "全球熱度", btn_connect: "連接錢包",
+                hero_title1: "投放內容，", hero_title2: "而非硬件。", hero_desc: "全球首個專為 AR/VR 優化的去中心化物理基礎設施網絡 (DePIN)。我們將閒置算力轉化為空間網絡的「數字錨點」，解決「最後一公里」延遲問題。",
+                hero_cta_primary: "加入節點", hero_cta_heatmap: "查看熱力圖", trust_audit: "CertiK 審計通過", trust_chain: "Solana SVM 架構", trust_hw: "NVIDIA Edge Ready",
+                stats_title: "網絡狀態", stat_nodes: "活躍節點", stat_latency: "全球延遲", stat_compute: "算力總量", stat_staked: "總質押 (TVL)",
+                map_title: "全球算力網格", map_desc: "雲-霧-端數據傳輸實時可視化。", map_sub: "H3 地理空間索引已激活。", map_status_live: "主網實時狀態", map_block_time: "網絡區塊",
+                prob_title: "空間計算的「最後一公里」", prob_1_t: "延遲破壞沉浸感", prob_1_d: "傳統雲渲染延遲 >100ms。AR/VR 需要 <20ms 以防止暈動症。", prob_2_t: "中心化成本過高", prob_2_d: "為單個應用部署專用邊緣服務器過於昂貴。",
+                sol_title: "分佈式邊緣霧計算", sol_desc: "AIF.WTF 將消費級 GPU 和服務器聚合成統一的霧網絡。內容緩存在物理上靠近用戶的商業區。", sol_p1: "H3 六邊形索引", sol_p2: "TEE 隱私計算", sol_p3: "動態資源分配",
+                tech_label: "架構", tech_title: "雲-霧-端 三位一體", tech_desc: "專為元宇宙高帶寬、低延遲需求設計的穩健三層架構。",
+                tech_cloud: "內容生成中心，AI 創造無限 3D 資產。處理內容創建的繁重工作。", tech_fog: "核心創新。分佈式節點處理實時渲染和隱私計算，實現低於 20ms 的延遲。", tech_edge: "輕量化硬件（低於 180g），專注於傳感和顯示。重型計算卸載至霧層。",
+                trust_title: "合作夥伴與技術支持",
+                node_status: "網絡開放", node_title: "加入網絡", node_subtitle: "質押 AIF 成為節點運營商。提供算力，賺取獎勵。70% 的收入流向運營商。", current_apy: "當前質押 APY", btn_join: "加入節點",
+                tier_s_loc: "超級節點 (時代廣場)", tier_a_loc: "商業區節點", tier_b_loc: "社區/住宅節點", tier_c_loc: "長尾/入門節點",
+                card_stake: "質押金額", card_hw: "硬件要求", card_rev: "預估收益",
+                roadmap_title: "發展路線圖", rm_1_t: "網絡創世", rm_1_d: "主網正式啟動。在 Tier S 位置部署首批 50 個驗證節點。", rm_2_t: "SDK 發佈", rm_2_d: "發佈 Unity/Unreal SDK。開放 Tier B 住宅區節點註冊。", rm_3_t: "全球擴張", rm_3_d: "目標：5,000 個活躍節點。啟動跨鏈橋。", rm_4_t: "大規模採用", rm_4_d: "404GLASS 消費版發佈。全面 DAO 治理。",
+                faq_title: "常見問題", faq_1_q: "質押收益是多少？", faq_1_a: "收益因 Tier 和位置需求而異。Tier S/A 節點通常獲得 12-24% APY 加上使用費。", faq_2_q: "我可以使用自己的硬件嗎？", faq_2_a: "可以。只要硬件符合規格（RTX 3060+），您可以選擇「自帶設備」。", faq_3_q: "為什麼有鎖定期？", faq_3_a: "為了確保網絡對企業客戶的穩定性和可靠性，節點必須承諾 12 個月的服務期。",
+                footer_desc: "重新定義人類與空間的關係。構建空間互聯網的物理基礎設施。",
+                modal_join_title: "初始化節點", modal_join_desc: "選擇您的硬件配置並確認質押。", opt_byo: "自帶設備 (BYO)", opt_buy: "購買官方節點", stake_lock: "鎖定金額", stake_disclaimer: "質押代幣將鎖定 365 天。提前解質押將產生 15% 的罰款。獎勵每日發放。", sum_hardware: "硬件成本", sum_stake: "質押金額", sum_total: "總計支付", btn_confirm: "確認交易", toast_success: "成功"
+            }
+        };
+
+        const tierData = {
+            'S': { stake: 5000000, hw_cost: 3000000 },
+            'A': { stake: 500000, hw_cost: 700000 },
+            'B': { stake: 50000, hw_cost: 160000 },
+            'C': { stake: 10000, hw_cost: 60000 } 
+        };
+
+        let currentLang = 'en';
+        let currentTier = 'S';
+        let isConnected = false;
+
+        // --- Functions ---
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'zh' : 'en';
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    el.innerText = translations[currentLang][key];
+                }
+            });
+            document.querySelectorAll('.lang-text').forEach(el => el.innerText = currentLang === 'en' ? '繁體中文' : 'English');
+            
+            // Re-calc modal if open
+            if(!document.getElementById('joinModal').classList.contains('hidden')) updateCalc();
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('translate-x-full');
+            
+            // Hamburger animation
+            const spans = document.querySelectorAll('.hamburger-line');
+            if(!menu.classList.contains('translate-x-full')) {
+                spans[0].style.transform = "rotate(45deg) translate(5px, 5px)";
+                spans[1].style.transform = "rotate(-45deg) translate(5px, -5px)";
+            } else {
+                spans[0].style.transform = "none";
+                spans[1].style.transform = "none";
             }
         }
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            // Start data streams
-            createDataStreams();
-            setInterval(createDataStreams, 15000);
+
+        function connectWallet() {
+            const btn = document.getElementById('walletBtn');
+            const txt = document.getElementById('walletText');
+            if(isConnected) return;
             
-            // Add scroll animations
-            const animatedElements = document.querySelectorAll('.animate-fade-in, .animate-slide-up, .animate-slide-right');
+            txt.innerText = '...';
+            setTimeout(() => {
+                isConnected = true;
+                txt.innerText = '0x3F...82A1';
+                btn.classList.add('bg-zinc-800', 'text-white', 'border', 'border-zinc-700');
+                btn.classList.remove('bg-white', 'text-black');
+            }, 800);
+        }
+
+        // --- Modal Logic ---
+
+        function openJoinModal(tier) {
+            currentTier = tier;
+            document.getElementById('modalTierBadge').innerText = `TIER ${tier}`;
             
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        if (entry.target.classList.contains('animate-slide-up')) {
-                            entry.target.style.transform = 'translateY(0)';
-                        }
-                        if (entry.target.classList.contains('animate-slide-right')) {
-                            entry.target.style.transform = 'translateX(0)';
-                        }
-                        if (entry.target.classList.contains('animate-fade-in')) {
-                            entry.target.style.transform = 'scale(1)';
-                        }
-                    }
-                });
-            }, { threshold: 0.1 });
+            // Reset to BYO
+            document.querySelector('input[name="hw_mode"][value="byo"]').checked = true;
             
-            animatedElements.forEach(el => {
-                el.style.opacity = '0';
-                if (el.classList.contains('animate-slide-up')) {
-                    el.style.transform = 'translateY(50px)';
-                }
-                if (el.classList.contains('animate-slide-right')) {
-                    el.style.transform = 'translateX(-50px)';
-                }
-                if (el.classList.contains('animate-fade-in')) {
-                    el.style.transform = 'scale(0.95)';
-                }
-                observer.observe(el);
-            });
+            updateCalc();
             
-            // Mobile menu functionality
-            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-            const mobileMenu = document.querySelector('.mobile-menu');
-            const mobileMenuClose = document.querySelector('.mobile-menu-close');
+            const modal = document.getElementById('joinModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                document.getElementById('joinModalContent').classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeJoinModal() {
+            const modal = document.getElementById('joinModal');
+            modal.classList.add('opacity-0');
+            document.getElementById('joinModalContent').classList.add('scale-95');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        function updateCalc() {
+            const mode = document.querySelector('input[name="hw_mode"]:checked').value;
+            const data = tierData[currentTier];
             
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.add('open');
-                document.body.style.overflow = 'hidden';
-            });
+            const stakeVal = data.stake;
+            const hwVal = mode === 'buy' ? data.hw_cost : 0;
+            const total = stakeVal + hwVal;
+
+            document.getElementById('modalStakeAmount').innerText = stakeVal.toLocaleString();
+            document.getElementById('modalHwCostDisplay').innerText = `Cost: ${data.hw_cost.toLocaleString()} AIF`;
             
-            mobileMenuClose.addEventListener('click', () => {
-                mobileMenu.classList.remove('open');
-                document.body.style.overflow = 'auto';
-            });
-            
-            // Login option handlers
-            const loginOptions = document.querySelectorAll('.login-option');
-            
-            loginOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                    const loginType = option.getAttribute('data-login');
-                    
-                    if (loginType === 'metamask' || loginType === 'walletconnect') {
-                        alert(`正在透過${loginType.charAt(0).toUpperCase() + loginType.slice(1)}連接錢包...`);
-                    } else {
-                        alert(`正在使用${loginType.charAt(0).toUpperCase() + loginType.slice(1)}登入...`);
-                    }
-                });
-            });
-            
-            // Smooth scrolling for navigation links
-            const navLinks = document.querySelectorAll('a[href^="#"]');
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetId = link.getAttribute('href').substring(1);
-                    const targetElement = document.getElementById(targetId);
-                    
-                    // Close mobile menu if open
-                    if (mobileMenu.classList.contains('open')) {
-                        mobileMenu.classList.remove('open');
-                        document.body.style.overflow = 'auto';
-                        
-                        // Wait for menu to close before scrolling
-                        setTimeout(() => {
-                            if (targetElement) {
-                                targetElement.scrollIntoView({
-                                    behavior: 'smooth',
-                                    block: 'start'
-                                });
-                            }
-                        }, 300);
-                    } else {
-                        if (targetElement) {
-                            targetElement.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'start'
-                            });
-                        }
-                    }
-                });
-            });
-            
-            // Mobile menu links
-            const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
-            mobileMenuLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetId = link.getAttribute('href').substring(1);
-                    const targetElement = document.getElementById(targetId);
-                    
-                    // Close mobile menu
-                    mobileMenu.classList.remove('open');
-                    document.body.style.overflow = 'auto';
-                    
-                    // Wait for menu to close before scrolling
-                    setTimeout(() => {
-                        if (targetElement) {
-                            targetElement.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'start'
-                            });
-                        }
-                    }, 300);
-                });
-            });
-            
-            // Scroll to top functionality
-            const scrollToTopBtn = document.getElementById('scrollToTop');
-            
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 300) {
-                    scrollToTopBtn.style.opacity = '1';
-                } else {
-                    scrollToTopBtn.style.opacity = '0';
-                }
-            });
-            
-            scrollToTopBtn.addEventListener('click', () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-            
-            // Newsletter subscription
-            const newsletterForm = document.querySelector('.newsletter-form');
-            if (newsletterForm) {
-                newsletterForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const email = e.target.querySelector('input[type="email"]').value;
-                    alert(`感謝您使用電子郵件訂閱：${email}`);
-                    e.target.reset();
-                });
+            document.getElementById('sumHwCost').innerText = hwVal === 0 ? "0 AIF" : `${hwVal.toLocaleString()} AIF`;
+            document.getElementById('sumStake').innerText = `${stakeVal.toLocaleString()} AIF`;
+            document.getElementById('sumTotal').innerText = `${total.toLocaleString()} AIF`;
+        }
+
+        function processJoin() {
+            if(!isConnected) {
+                alert("Please connect wallet first / 請先連接錢包");
+                return;
             }
+
+            const btn = document.getElementById('processBtn');
+            const originalHtml = btn.innerHTML;
             
-            // Competition card hover effects
-            const competitionCards = document.querySelectorAll('.competition-card');
-            competitionCards.forEach(card => {
-                card.addEventListener('mouseenter', () => {
-                    card.style.transform = 'translateY(-10px) scale(1.02)';
-                });
+            btn.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> Processing...`;
+            
+            setTimeout(() => {
+                closeJoinModal();
+                btn.innerHTML = originalHtml;
                 
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'translateY(0) scale(1)';
-                });
-            });
-            
-            // Add loading animation for demo video
-            const videoDemo = document.querySelector('.technology-demo');
-            if (videoDemo) {
-                videoDemo.addEventListener('click', () => {
-                    alert('技術演示影片即將上線！');
-                });
+                const toast = document.getElementById('toast');
+                toast.classList.remove('translate-y-40');
+                setTimeout(() => {
+                    toast.classList.add('translate-y-40');
+                }, 4000);
+            }, 2000);
+        }
+
+        // --- NEW CANVAS ANIMATION LOGIC (Heatmap) ---
+        const canvas = document.getElementById('globalCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        // Expanded City Data from AIF.WTF Whitepaper + Major Hubs
+        const cities = [
+            { name_en: "Hong Kong", name_zh: "香港", x: 0.81, y: 0.45, color: "#2563eb" }, 
+            { name_en: "New York", name_zh: "紐約", x: 0.28, y: 0.32, color: "#d946ef" },  
+            { name_en: "London", name_zh: "倫敦", x: 0.48, y: 0.26, color: "#f59e0b" },    
+            { name_en: "Tokyo", name_zh: "東京", x: 0.88, y: 0.35, color: "#10b981" },     
+            { name_en: "Seoul", name_zh: "首爾", x: 0.84, y: 0.34, color: "#f43f5e" },     
+            { name_en: "Los Angeles", name_zh: "洛杉磯", x: 0.15, y: 0.35, color: "#8b5cf6" }, 
+            { name_en: "San Francisco", name_zh: "舊金山", x: 0.14, y: 0.33, color: "#06b6d4" },
+            { name_en: "Singapore", name_zh: "新加坡", x: 0.79, y: 0.55, color: "#ef4444" },
+            { name_en: "Paris", name_zh: "巴黎", x: 0.49, y: 0.28, color: "#ec4899" },
+            { name_en: "Berlin", name_zh: "柏林", x: 0.51, y: 0.25, color: "#f97316" },
+            { name_en: "Dubai", name_zh: "迪拜", x: 0.60, y: 0.40, color: "#fbbf24" },
+            { name_en: "Sao Paulo", name_zh: "聖保羅", x: 0.32, y: 0.75, color: "#84cc16" }
+        ];
+
+        let particles = [];
+
+        function resizeCanvas() {
+            const container = document.getElementById('heatmap');
+            width = container.offsetWidth;
+            height = container.offsetHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        class Particle {
+            constructor() {
+                this.reset();
             }
-            
-            // Navbar background on scroll
-            const navbar = document.querySelector('.navbar');
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 100) {
-                    navbar.style.backgroundColor = 'rgba(10, 10, 10, 0.98)';
-                } else {
-                    navbar.style.backgroundColor = 'rgba(10, 10, 10, 0.95)';
+            reset() {
+                this.target = cities[Math.floor(Math.random() * cities.length)];
+                this.sx = Math.random() * width;
+                this.sy = Math.random() * height;
+                this.ex = this.target.x * width;
+                this.ey = this.target.y * height;
+                this.progress = 0;
+                this.speed = 0.001 + Math.random() * 0.002;
+                this.color = this.target.color;
+                
+                const dist = Math.hypot(this.ex - this.sx, this.ey - this.sy);
+                this.cx = (this.sx + this.ex) / 2;
+                this.cy = (this.sy + this.ey) / 2 - dist * 0.6; // Curve height
+            }
+            update() {
+                this.progress += this.speed;
+                if (this.progress >= 1) {
+                    this.reset();
                 }
+            }
+            draw() {
+                const t = this.progress;
+                // Quadratic Bezier
+                const x = (1 - t) * (1 - t) * this.sx + 2 * (1 - t) * t * this.cx + t * t * this.ex;
+                const y = (1 - t) * (1 - t) * this.sy + 2 * (1 - t) * t * this.cy + t * t * this.ey;
+                
+                const trailLen = 0.15;
+                const tPrev = Math.max(0, t - trailLen);
+                const xp = (1 - tPrev) * (1 - tPrev) * this.sx + 2 * (1 - tPrev) * tPrev * this.cx + tPrev * tPrev * this.ex;
+                const yp = (1 - tPrev) * (1 - tPrev) * this.sy + 2 * (1 - tPrev) * tPrev * this.cy + tPrev * tPrev * this.ey;
+
+                const grad = ctx.createLinearGradient(xp, yp, x, y);
+                grad.addColorStop(0, 'rgba(0,0,0,0)');
+                grad.addColorStop(1, this.color);
+
+                ctx.beginPath();
+                ctx.moveTo(xp, yp);
+                ctx.lineTo(x, y);
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = "#fff";
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for(let i=0; i<150; i++) particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            cities.forEach(city => {
+                const cx = city.x * width;
+                const cy = city.y * height;
+                ctx.beginPath();
+                ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+                ctx.fillStyle = city.color;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = city.color;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+
+                // Label
+                ctx.fillStyle = "rgba(255,255,255,0.7)";
+                ctx.font = "10px Space Mono"; 
+                const label = currentLang === 'en' ? city.name_en : city.name_zh;
+                ctx.fillText(label, cx + 8, cy + 3);
             });
+
+            ctx.globalCompositeOperation = 'lighter';
+            particles.forEach(p => { p.update(); p.draw(); });
+            ctx.globalCompositeOperation = 'source-over';
+            
+            requestAnimationFrame(animate);
+        }
+
+        function startLiveTicker() {
+            const container = document.getElementById('liveTickerContainer');
+            const actions = [
+                "staked 50K AIF", "deployed node", "connected 404GLASS", 
+                "minted NFT", "earned 2.5 AIF", "verified location"
+            ];
+            const locations = ["Tokyo", "New York", "London", "Singapore", "Hong Kong", "Paris"];
+            
+            setInterval(() => {
+                const act = actions[Math.floor(Math.random() * actions.length)];
+                const loc = locations[Math.floor(Math.random() * locations.length)];
+                const user = "0x" + Math.floor(Math.random()*16777215).toString(16).substring(0,4);
+                
+                const el = document.createElement('div');
+                el.className = "bg-black/60 border-l-2 border-accent p-2 text-[10px] text-gray-300 backdrop-blur-sm animate-fade-in-up flex justify-between";
+                el.innerHTML = `<span>${user}...</span> <span class="text-white font-bold">${act}</span> <span class="text-gray-500">${loc}</span>`;
+                
+                container.prepend(el);
+                if(container.children.length > 4) container.lastElementChild.remove();
+            }, 1500);
+        }
+
+        function startBlockTicker() {
+            const el = document.getElementById('blockTicker');
+            let block = 892400;
+            setInterval(() => {
+                block += Math.floor(Math.random() * 5);
+                el.innerText = `BLK #${block.toLocaleString()}`;
+            }, 2000);
+        }
+
+        // Init Sequence
+        window.addEventListener('load', () => {
+            resizeCanvas();
+            initParticles();
+            animate();
+            startLiveTicker();
+            startBlockTicker();
         });
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+        });
+
     </script>
 </body>
 </html>
