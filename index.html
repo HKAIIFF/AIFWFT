@@ -5,18 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AIF.WTF | SPATIAL COMPUTING GENESIS NODE SALE</title>
     
-    <!-- External Resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
-    <!-- Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Configuration -->
     <script>
         tailwind.config = {
             theme: {
@@ -189,7 +186,6 @@
 </head>
 <body id="mainBody" class="overflow-x-hidden bg-black text-white selection:bg-accent selection:text-white overflow-hidden">
 
-    <!-- DISCLAIMER MODAL -->
     <div id="disclaimer-modal" class="fixed inset-0 z-[10000] bg-black/95 backdrop-blur-xl flex justify-center items-center p-4">
         <div class="glass-panel w-full max-w-lg p-8 rounded-3xl border border-accent/20 shadow-[0_0_50px_rgba(37,99,235,0.15)] max-h-[90vh] overflow-y-auto">
             <h2 class="text-2xl md:text-3xl font-bold mb-6 text-white border-b border-white/10 pb-4">
@@ -241,7 +237,6 @@
         </div>
     </div>
 
-    <!-- Loading Screen -->
     <div id="boot-sequence" class="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center font-mono">
         <div class="w-[300px] text-xs text-dim mb-4 px-4">
             > INITIALIZING SPATIAL MATRIX...<br>
@@ -255,7 +250,6 @@
         </div>
     </div>
 
-    <!-- Navigation -->
     <nav class="fixed w-full z-50 top-0 left-0 border-b border-white/10 bg-black/90 backdrop-blur-xl">
         <div class="max-w-[1600px] mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
             <div class="flex items-center gap-3 group cursor-pointer" onclick="window.scrollTo(0,0)">
@@ -283,9 +277,7 @@
 
     <main class="relative z-10 pt-16 md:pt-20">
 
-        <!-- Hero Section -->
         <section class="max-w-[1600px] mx-auto px-4 md:px-6 py-12 md:py-20 relative">
-            <!-- BG Elements -->
             <div class="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
             <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-accent/10 to-transparent pointer-events-none"></div>
 
@@ -324,19 +316,16 @@
                     </div>
                 </div>
 
-                <!-- Visual / Ecosystem Map -->
                 <div id="heatmap-section" class="glass-panel relative h-[350px] md:h-[600px] w-full rounded-2xl overflow-hidden group order-1 lg:order-2 mb-8 lg:mb-0">
                     <div class="absolute top-4 left-4 z-10 bg-black/60 backdrop-blur px-3 py-1 text-[10px] md:text-xs font-mono text-neonGreen border border-neonGreen/30 rounded-full">
                         <i class="fa-solid fa-satellite-dish mr-2 animate-pulse"></i><span data-i18n="map_status">LIVE NETWORK STATUS</span>
                     </div>
-                    <!-- The Canvas Map -->
                     <canvas id="heatmapCanvas" class="w-full h-full opacity-80 group-hover:opacity-100 transition-opacity duration-500"></canvas>
                     <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgNDBMMCAwTDQwIDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsIDI1NSwgMjU1LCAwLjAzKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIiAvPjwvc3ZnPg==')] pointer-events-none"></div>
                 </div>
             </div>
         </section>
 
-        <!-- Ecosystem & Backing -->
         <section id="ecosystem" class="py-12 md:py-20 border-y border-white/10 bg-zinc-900/30">
             <div class="max-w-[1600px] mx-auto px-4 md:px-6">
                 <div class="flex flex-col md:flex-row justify-between items-end mb-8 md:mb-12">
@@ -347,7 +336,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                    <!-- Card 1 -->
                     <div class="glass-panel p-6 md:p-8 rounded-2xl hover:border-accent/50 transition-all group">
                         <div class="w-10 h-10 md:w-12 md:h-12 bg-zinc-800 rounded-xl flex items-center justify-center mb-4 md:mb-6 group-hover:bg-accent group-hover:text-white transition-colors text-accent">
                             <i class="fa-solid fa-vr-cardboard text-lg md:text-xl"></i>
@@ -358,7 +346,6 @@
                         </p>
                     </div>
 
-                    <!-- Card 2 -->
                     <div class="glass-panel p-6 md:p-8 rounded-2xl hover:border-accent/50 transition-all group">
                         <div class="w-10 h-10 md:w-12 md:h-12 bg-zinc-800 rounded-xl flex items-center justify-center mb-4 md:mb-6 group-hover:bg-accent group-hover:text-white transition-colors text-accent">
                             <i class="fa-solid fa-database text-lg md:text-xl"></i>
@@ -369,7 +356,6 @@
                         </p>
                     </div>
 
-                    <!-- Card 3 -->
                     <div class="glass-panel p-6 md:p-8 rounded-2xl hover:border-accent/50 transition-all group">
                         <div class="w-10 h-10 md:w-12 md:h-12 bg-zinc-800 rounded-xl flex items-center justify-center mb-4 md:mb-6 group-hover:bg-accent group-hover:text-white transition-colors text-accent">
                             <i class="fa-solid fa-chart-line text-lg md:text-xl"></i>
@@ -383,7 +369,6 @@
             </div>
         </section>
 
-        <!-- Genesis Fission Rules -->
         <section id="fission-rules" class="py-12 md:py-20 relative overflow-hidden">
             <div class="max-w-[1200px] mx-auto px-4 md:px-6 relative z-10">
                 <div class="glass-panel p-6 md:p-10 rounded-3xl relative overflow-hidden animate-float">
@@ -425,7 +410,6 @@
                             </div>
                         </div>
 
-                        <!-- Interactive Tree Visual -->
                         <div class="bg-black/40 border border-white/10 rounded-xl p-6 flex items-center justify-center relative min-h-[200px]">
                             <div class="text-center w-full">
                                 <div class="inline-block p-2 md:p-3 border-2 border-accent bg-accent/10 rounded-lg mb-6 md:mb-8 relative text-xs md:text-sm text-white">
@@ -456,7 +440,6 @@
             </div>
         </section>
 
-        <!-- Deep Dive Analysis Section -->
         <section id="deep-dive" class="py-12 md:py-24 bg-zinc-950 border-t border-white/10">
             <div class="max-w-[1200px] mx-auto px-4 md:px-6">
                 <div class="mb-8 md:mb-16">
@@ -468,7 +451,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-8 md:mb-12">
-                    <!-- Tech Architecture -->
                     <div class="glass-panel p-6 md:p-8 rounded-2xl relative overflow-hidden group hover:border-accent/50 transition-colors">
                         <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                             <i class="fa-solid fa-microchip text-8xl md:text-9xl text-white"></i>
@@ -498,7 +480,6 @@
                         </div>
                     </div>
 
-                    <!-- Market Value -->
                     <div class="glass-panel p-6 md:p-8 rounded-2xl relative overflow-hidden group hover:border-accent/50 transition-colors">
                         <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                             <i class="fa-solid fa-chart-pie text-8xl md:text-9xl text-white"></i>
@@ -526,10 +507,8 @@
             </div>
         </section>
 
-        <!-- Node Matrix Section -->
         <section id="node-matrix" class="py-12 min-h-screen bg-black">
             <div class="max-w-[1600px] mx-auto px-4 md:px-6">
-                <!-- Toolbar -->
                 <div class="sticky top-16 md:top-20 z-30 bg-black/90 backdrop-blur-xl border-y border-white/10 py-4 mb-6 md:mb-8 -mx-4 md:mx-0 px-4 md:px-0">
                     <div class="flex flex-col gap-4">
                         <div class="flex items-center gap-4 justify-between">
@@ -537,9 +516,7 @@
                             <span class="text-[10px] md:text-xs font-mono text-neonGreen border border-neonGreen/30 px-2 py-0.5 rounded bg-neonGreen/10 animate-pulse whitespace-nowrap">● SYSTEM ONLINE (500 GENESIS)</span>
                         </div>
 
-                        <!-- Filters -->
                         <div class="flex flex-col gap-3">
-                            <!-- TIER FILTERS -->
                             <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide w-full">
                                 <button onclick="filterManager.setTier('all')" class="flex-shrink-0 px-3 py-1.5 text-[10px] md:text-xs font-mono rounded bg-white text-black hover:opacity-80 transition-opacity whitespace-nowrap">ALL</button>
                                 <button onclick="filterManager.setTier('S')" class="flex-shrink-0 px-3 py-1.5 text-[10px] md:text-xs font-mono rounded bg-neonRed/20 text-neonRed border border-neonRed hover:opacity-80 transition-opacity whitespace-nowrap">TIER S (CITY)</button>
@@ -548,24 +525,19 @@
                                 <button onclick="filterManager.setTier('C')" class="flex-shrink-0 px-3 py-1.5 text-[10px] md:text-xs font-mono rounded bg-accent/20 text-accent border border-accent hover:opacity-80 transition-opacity whitespace-nowrap">TIER C</button>
                             </div>
                             
-                            <!-- CITY FILTERS -->
                             <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide w-full" id="city-filters">
-                                <!-- JS Injected City Buttons -->
-                            </div>
+                                </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Grid -->
                 <div id="grid-container" class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3 md:gap-4 min-h-[500px]">
-                    <!-- JS Injected Nodes -->
-                </div>
+                    </div>
             </div>
         </section>
 
     </main>
 
-    <!-- Footer -->
     <footer class="bg-zinc-950 border-t border-white/10 pt-12 md:pt-16 pb-8">
         <div class="max-w-[1600px] mx-auto px-4 md:px-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-12">
@@ -594,8 +566,7 @@
                 <div>
                     <h4 class="font-mono text-accent font-bold mb-6">LIVE FEED</h4>
                     <div id="footer-ticker" class="h-32 overflow-hidden text-[10px] font-mono space-y-2 relative mask-gradient">
-                        <!-- JS injected -->
-                    </div>
+                        </div>
                 </div>
             </div>
             
@@ -610,13 +581,11 @@
         </div>
     </footer>
 
-    <!-- WIZARD MODAL (Full Screen on Mobile) -->
     <div id="modal-backdrop" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[100] hidden transition-opacity duration-300 opacity-0"></div>
 
     <div id="node-wizard" class="fixed top-0 left-0 md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-[101] w-full h-full md:h-[90vh] md:max-w-5xl md:max-h-[700px] bg-black/50 border-none md:border md:border-white/10 md:shadow-[0_0_100px_rgba(37,99,235,0.2)] hidden flex flex-col md:flex-row overflow-hidden md:rounded-3xl backdrop-blur-xl">
         <div class="absolute inset-0 z-[102] crt-overlay pointer-events-none"></div>
 
-        <!-- Sidebar -->
         <div class="w-full md:w-64 bg-zinc-900/50 border-b md:border-b-0 md:border-r border-white/10 flex flex-row md:flex-col justify-between relative z-[103] p-4 md:p-6 shrink-0">
             <div class="flex items-center md:block justify-between w-full">
                 <div class="font-bold text-lg md:text-xl tracking-tighter md:mb-8 text-white">AIF<span class="text-accent">.WTF</span></div>
@@ -650,7 +619,6 @@
             </div>
         </div>
 
-        <!-- Mobile Stepper -->
         <div class="md:hidden flex justify-around border-b border-white/10 bg-black p-2 relative z-[103]">
             <div id="m-step-1" class="w-2 h-2 rounded-full bg-accent"></div>
             <div id="m-step-2" class="w-2 h-2 rounded-full bg-zinc-800"></div>
@@ -658,14 +626,11 @@
             <div id="m-step-4" class="w-2 h-2 rounded-full bg-zinc-800"></div>
         </div>
 
-        <!-- Content Area -->
         <div class="flex-1 relative bg-black/40 z-[103] flex flex-col overflow-hidden">
-            <!-- Close Button Desktop -->
             <button onclick="wizard.close()" class="absolute top-6 right-6 text-dim hover:text-white z-50 transition-colors hidden md:block">
                 <i class="fa-solid fa-xmark text-2xl"></i>
             </button>
 
-            <!-- STEP 1: DETAILS -->
             <div id="step-1" class="wizard-step flex-1 p-4 md:p-12 overflow-y-auto">
                 <div class="flex flex-col md:flex-row md:items-end gap-2 md:gap-4 mb-6 border-b border-white/10 pb-6">
                     <div class="flex-1">
@@ -703,7 +668,6 @@
                             </div>
                         </div>
                         
-                        <!-- New Technical Metrics -->
                         <div class="grid grid-cols-3 gap-2 mt-2">
                             <div class="text-center bg-black/40 p-2 rounded border border-white/10">
                                 <div class="text-[8px] md:text-[9px] text-dim">LATENCY</div>
@@ -724,9 +688,7 @@
                         </div>
                     </div>
 
-                    <!-- Enhanced Visual / Heatmap -->
                     <div class="bg-zinc-900/30 border border-white/5 rounded-lg p-3 md:p-4 relative overflow-hidden flex flex-col justify-end group min-h-[200px] md:min-h-[250px]">
-                        <!-- Canvas for local heatmap -->
                         <canvas id="localHeatmap" class="absolute inset-0 w-full h-full opacity-60"></canvas>
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent pointer-events-none"></div>
                         
@@ -757,12 +719,10 @@
                 </div>
             </div>
 
-            <!-- STEP 2: PAYMENT METHOD -->
             <div id="step-2" class="wizard-step flex-1 p-4 md:p-12 hidden flex flex-col">
                 <h2 class="text-xl md:text-2xl font-bold mb-6 md:mb-8 text-white" data-i18n="pay_title">選擇支付方式 / SELECT PAYMENT</h2>
                 
                 <div class="grid grid-cols-1 gap-4 md:gap-6 mb-8 overflow-y-auto">
-                    <!-- USDT -->
                     <label class="cursor-pointer group">
                         <input type="radio" name="pay-method" value="crypto" class="peer hidden" checked onchange="wizard.updatePaymentUI()">
                         <div class="h-full border border-white/10 bg-zinc-900/50 p-4 md:p-6 rounded-xl peer-checked:border-accent peer-checked:bg-accent/10 transition-all group-hover:border-white/30 flex items-center gap-4">
@@ -774,7 +734,6 @@
                         </div>
                     </label>
 
-                    <!-- Fiat -->
                     <label class="cursor-pointer group">
                         <input type="radio" name="pay-method" value="fiat" class="peer hidden" onchange="wizard.updatePaymentUI()">
                         <div class="h-full border border-white/10 bg-zinc-900/50 p-4 md:p-6 rounded-xl peer-checked:border-accent peer-checked:bg-accent/10 transition-all group-hover:border-white/30 flex items-center gap-4">
@@ -786,7 +745,6 @@
                         </div>
                     </label>
 
-                    <!-- AIF -->
                     <label class="cursor-pointer group">
                         <input type="radio" name="pay-method" value="aif" class="peer hidden" onchange="wizard.updatePaymentUI()">
                         <div class="h-full border border-white/10 bg-zinc-900/50 p-4 md:p-6 rounded-xl peer-checked:border-accent peer-checked:bg-accent/10 transition-all group-hover:border-white/30 flex items-center gap-4">
@@ -807,7 +765,6 @@
                 </div>
             </div>
 
-            <!-- STEP 3: CODE & PAY -->
             <div id="step-3" class="wizard-step flex-1 p-4 md:p-12 hidden flex flex-col">
                 <div class="text-center mb-6">
                     <div class="text-dim text-xs font-mono mb-2" data-i18n="code_label">YOUR UNIQUE NODE IDENTIFIER</div>
@@ -825,10 +782,8 @@
                     </div>
                 </div>
 
-                <!-- Payment Details Container (Dynamic) -->
                 <div id="payment-details-container" class="bg-zinc-900/50 border border-white/10 rounded-xl p-4 md:p-6 max-w-3xl mx-auto w-full overflow-y-auto max-h-[40vh] md:max-h-[300px] custom-scrollbar mb-4">
-                    <!-- Injected via JS based on selection -->
-                </div>
+                    </div>
 
                 <div class="mt-auto flex flex-col md:flex-row justify-between pt-4 md:pt-6 border-t border-white/10 items-center gap-4 pb-8 md:pb-0">
                     <span class="text-xs text-dim italic text-center md:text-left" data-i18n="pay_note">請在支付完成後保存截圖。</span>
@@ -838,7 +793,6 @@
                 </div>
             </div>
 
-            <!-- STEP 4: VERIFY -->
             <div id="step-4" class="wizard-step flex-1 p-4 md:p-12 hidden flex flex-col items-center justify-center text-center">
                 <div class="w-12 h-12 md:w-16 md:h-16 rounded-full border-2 border-neonGreen flex items-center justify-center mb-4 md:mb-6">
                     <i class="fa-solid fa-lock text-xl md:text-2xl text-neonGreen"></i>
@@ -849,8 +803,7 @@
                     <p class="text-xs md:text-sm text-dim mb-4" data-i18n="verify_desc">請複製以下內容並發送郵件至 <strong class="text-white select-all">depin@aif.wtf</strong>，同時附上您的支付截圖。</p>
                     
                     <div class="bg-black p-3 md:p-4 rounded border border-white/10 font-mono text-[10px] md:text-xs text-white break-all whitespace-pre-wrap relative group" id="receipt-text">
-                        <!-- JS Generated Receipt -->
-                    </div>
+                        </div>
                     <button onclick="copyReceipt()" class="mt-2 w-full bg-white/5 hover:bg-white/10 text-xs py-2 rounded transition-colors text-white border border-white/10">
                         <i class="fa-regular fa-copy mr-2"></i> <span data-i18n="btn_copy_tpl">複製郵件模板 / COPY TEMPLATE</span>
                     </button>
@@ -1154,7 +1107,8 @@
                 const cityDisplayName = currentLang === 'zh' ? node.cityZh : node.city;
                 const locationDisplay = currentLang === 'zh' ? node.locationZh : node.locationEn;
                 let tagLabel = cityDisplayName.toUpperCase(); 
-                let tagColor = "bg-accent text-white";
+                // CHANGED: Use node.color instead of fixed bg-accent
+                let tagColor = `${node.color} text-white`;
 
                 let overlayHTML = '';
                 if(node.status === 'sold') {
