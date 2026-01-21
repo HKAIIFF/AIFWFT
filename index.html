@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AIF.WTF | GLOBAL NODE ISSUANCE V18</title>
+    <title>AIF.WORLD | DIGITAL HUMAN AGENCY NETWORK</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -11,19 +11,17 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        void: '#050505',
+                        void: '#020202',
                         panel: '#0a0a0a',
                         border: '#333',
                         signal: '#CCFF00', 
                         signalDim: 'rgba(204, 255, 0, 0.1)',
-                        danger: '#FF3333',
                         dim: '#888',
                     },
                     fontFamily: {
@@ -33,6 +31,9 @@
                     },
                     backgroundImage: {
                         'grid-pattern': "linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px)",
+                    },
+                    animation: {
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     }
                 }
             }
@@ -40,85 +41,80 @@
     </script>
 
     <style>
-        body { background-color: #050505; color: #EAEAEA; font-family: 'Space Mono', 'Noto Sans TC', monospace; overflow-x: hidden; }
+        body { background-color: #020202; color: #EAEAEA; font-family: 'Space Mono', 'Noto Sans TC', monospace; overflow-x: hidden; }
         ::selection { background: #CCFF00; color: #000; }
 
-        /* STRICT LANGUAGE SWITCHING */
+        /* LANGUAGE CONTROL */
         body.lang-en .zh-text { display: none !important; }
         body.lang-en .en-text { display: inline !important; }
         body.lang-zh .en-text { display: none !important; }
         body.lang-zh .zh-text { display: inline !important; }
 
         /* COMPONENTS */
-        .brutal-border { border: 1px solid #333; }
         .brutal-btn {
             background: #CCFF00; color: #000; font-family: 'Oswald', sans-serif; text-transform: uppercase; font-weight: bold; letter-spacing: 1px;
             padding: 0.75rem 1.5rem; clip-path: polygon(0 0, 100% 0, 100% 85%, 95% 100%, 0 100%);
             transition: all 0.2s; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
         }
-        .brutal-btn:hover { transform: translateY(-2px); box-shadow: 4px 4px 0 rgba(204, 255, 0, 0.3); }
-        .brutal-btn:disabled { background: #222; color: #555; cursor: not-allowed; box-shadow: none; transform: none; border: 1px solid #333; }
-
+        .brutal-btn:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(204, 255, 0, 0.4); }
+        
         .nav-link { font-family: 'Oswald'; font-size: 14px; color: #888; text-transform: uppercase; transition: color 0.3s; cursor: pointer;}
         .nav-link:hover { color: #CCFF00; }
 
-        /* SCROLLBAR */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #333; }
-        ::-webkit-scrollbar-thumb:hover { background: #CCFF00; }
-
-        /* CRT OVERLAY */
-        .crt-overlay {
-            position: fixed; inset: 0; pointer-events: none; z-index: 50;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
-            background-size: 100% 3px; opacity: 0.1;
-        }
-        .glitch { position: relative; }
-        .glitch::before { content: attr(data-text); position: absolute; left: 2px; text-shadow: -1px 0 #CCFF00; top: 0; clip: rect(44px, 450px, 56px, 0); animation: glitch 2s infinite linear alternate-reverse; }
-        @keyframes glitch { 0% { clip: rect(12px, 9999px, 32px, 0); } 50% { clip: rect(45px, 9999px, 80px, 0); } 100% { clip: rect(24px, 9999px, 12px, 0); } }
-
-        /* STATUS BADGE */
-        .status-badge { padding: 2px 6px; font-size: 10px; border: 1px solid; font-weight: bold; }
-        .status-active { color: #CCFF00; border-color: #CCFF00; background: rgba(204,255,0,0.1); }
-        .status-inactive { color: #555; border-color: #333; background: #111; }
+        /* VISUAL EFFECTS */
+        canvas#heatmapCanvas { width: 100%; height: 100%; display: block; }
         
-        /* TABLE */
-        .detail-table th { text-align: left; padding: 12px; border-bottom: 1px solid #333; color: #888; font-family: 'Oswald'; }
-        .detail-table td { padding: 12px; border-bottom: 1px solid #222; font-family: 'Space Mono'; font-size: 12px; }
+        .id-card {
+            background: linear-gradient(135deg, #111 0%, #0a0a0a 100%);
+            border: 1px solid #333; position: relative; overflow: hidden; transition: transform 0.3s ease;
+        }
+        .id-card::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
+            transform: rotate(45deg); animation: holo 3s infinite linear; pointer-events: none;
+        }
+        @keyframes holo { 0% { transform: rotate(45deg) translateY(-100%); } 100% { transform: rotate(45deg) translateY(100%); } }
+
+        .glitch { position: relative; }
+        .glitch::before { content: attr(data-text); position: absolute; left: 2px; text-shadow: -1px 0 #CCFF00; top: 0; clip: rect(44px, 450px, 56px, 0); animation: glitch 3s infinite linear alternate-reverse; }
+        @keyframes glitch { 0% { clip: rect(12px, 9999px, 32px, 0); } 50% { clip: rect(45px, 9999px, 80px, 0); } 100% { clip: rect(24px, 9999px, 12px, 0); } }
     </style>
 </head>
 <body class="bg-grid-pattern lang-en">
 
-    <div class="crt-overlay"></div>
-
     <div id="boot-screen" class="fixed inset-0 z-[9999] bg-void flex flex-col items-center justify-center font-mono">
         <div class="w-[300px] text-xs text-dim mb-4 px-4 space-y-1">
-            <div>> INITIALIZING AIF PROTOCOL...</div>
-            <div>> MAPPING CHINA NODES...</div>
-            <div>> LOADING HKAIIFF ASSETS...</div>
+            <div class="text-signal">> LOADING AGENCY PROTOCOL...</div>
+            <div>> SYNCING GLOBAL NODES...</div>
+            <div>> CONNECTING HKAIIFF...</div>
         </div>
-        <div class="text-6xl font-heavy text-white mb-2 tracking-tighter">AIF<span class="text-signal">.WTF</span></div>
+        <div class="text-6xl font-heavy text-white mb-2 tracking-tighter">AIF<span class="text-signal">.WORLD</span></div>
         <div class="w-64 h-1 bg-[#222] overflow-hidden relative"><div id="loader-bar" class="h-full bg-signal w-0 absolute top-0 left-0"></div></div>
     </div>
 
     <nav class="fixed w-full z-50 top-0 left-0 border-b border-[#333] bg-void/95 backdrop-blur-xl">
         <div class="max-w-[1920px] mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center gap-4 cursor-pointer" onclick="window.scrollTo(0,0)">
-                <div class="font-heavy text-3xl tracking-tighter text-white">AIF<span class="text-signal">.WTF</span></div>
+                <div class="font-heavy text-3xl tracking-tighter text-white">AIF<span class="text-signal">.WORLD</span></div>
                 <div class="hidden md:block h-6 w-[1px] bg-[#333]"></div>
-                <div class="hidden md:block font-mono text-[10px] text-dim tracking-widest">NEURAL TERMINAL</div>
+                <div class="hidden md:block font-mono text-[10px] text-dim tracking-widest leading-tight">
+                    <span class="en-text">DIGITAL HUMAN<br>DISTRIBUTED NETWORK</span>
+                    <span class="zh-text">數字人分布式<br>算力網絡</span>
+                </div>
             </div>
             
-            <div class="hidden lg:flex items-center gap-12">
-                <a href="#ecosystem" class="nav-link"><span class="en-text">ECOSYSTEM</span><span class="zh-text">生態背書</span></a>
-                <a href="#cpi-metrics" class="nav-link"><span class="en-text">AIF-CPI INDEX</span><span class="zh-text">算力指數</span></a>
-                <a href="#rewards" class="nav-link"><span class="en-text">REWARDS</span><span class="zh-text">節點獎勵</span></a>
-                <a href="#matrix" class="brutal-btn text-xs h-10 px-6 py-0 flex items-center bg-[#111] border-[#333] text-white hover:border-signal hover:text-signal"><span class="en-text">CITY MATRIX</span><span class="zh-text">城市矩陣</span></a>
+            <div class="hidden lg:flex items-center gap-8">
+                <a href="#logic" class="nav-link"><span class="en-text">LOGIC</span><span class="zh-text">底層邏輯</span></a>
+                <a href="#agency" class="nav-link text-signal"><span class="en-text">AGENCY MODEL</span><span class="zh-text">經紀體系</span></a>
+                <a href="#tech" class="nav-link"><span class="en-text">TECH</span><span class="zh-text">技術架構</span></a>
+                <a href="#journey" class="nav-link"><span class="en-text">JOURNEY</span><span class="zh-text">旅程</span></a>
+                <a href="#mint" class="brutal-btn text-xs h-9 px-6 bg-[#111] border-[#333] text-white hover:border-signal hover:text-signal">
+                    <span class="en-text">MINT IDENTITY</span><span class="zh-text">鑄造身份</span>
+                </a>
             </div>
 
             <div class="flex items-center gap-3">
-                <button onclick="app.toggleLang()" class="h-10 px-4 border border-[#333] hover:border-white text-xs font-mono text-dim hover:text-white transition-colors">
+                <button onclick="app.toggleLang()" class="h-9 px-4 border border-[#333] hover:border-white text-xs font-mono text-dim hover:text-white transition-colors">
                     <span class="en-text">EN / 中文</span><span class="zh-text">中文 / EN</span>
                 </button>
             </div>
@@ -127,558 +123,572 @@
 
     <main class="relative z-10 pt-20">
 
-        <section class="max-w-[1920px] mx-auto px-6 py-12 relative border-b border-[#333]">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-                <div>
-                    <div class="inline-flex items-center gap-2 border border-signal text-signal px-3 py-1 mb-6 bg-signalDim">
-                        <span class="w-2 h-2 rounded-full bg-signal animate-pulse"></span>
-                        <span class="text-xs font-mono font-bold uppercase">Genesis Phase Live</span>
+        <section class="max-w-[1920px] mx-auto px-6 py-12 md:py-20 border-b border-[#333]">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="order-2 lg:order-1">
+                    <div class="inline-flex items-center gap-2 border border-signal text-signal px-3 py-1 mb-6 bg-signalDim rounded-sm">
+                        <span class="w-2 h-2 rounded-full bg-signal animate-pulse-fast"></span>
+                        <span class="text-xs font-mono font-bold uppercase">
+                            <span class="en-text">Global Genesis Live</span><span class="zh-text">全球創世招募中</span>
+                        </span>
                     </div>
-                    <h1 class="text-5xl md:text-7xl font-heavy tracking-tighter leading-[0.9] mb-8 glitch" data-text="AIF NEURAL TERMINAL">
-                        AIF NEURAL<br><span class="text-signal">TERMINAL</span>
+                    
+                    <h1 class="text-5xl md:text-7xl font-heavy tracking-tighter leading-[0.9] mb-8 glitch text-white uppercase" data-text="COMPUTE IS LIFE FORCE">
+                        <span class="en-text">COMPUTE IS <span class="text-signal">LIFE</span><br>HARDWARE IS <span class="text-gray-500">GEAR</span></span>
+                        <span class="zh-text">算力即<span class="text-signal">生命力</span><br>硬件即<span class="text-gray-500">裝備</span></span>
                     </h1>
                     
-                    <div class="text-base text-gray-400 max-w-xl font-mono leading-relaxed mb-8 border-l-4 border-signal pl-6 space-y-4">
+                    <div class="text-base text-gray-400 font-mono leading-relaxed mb-10 border-l-4 border-signal pl-6 space-y-4">
                         <p>
-                            <span class="zh-text">全球首個專為 AI原生互動內容 優化的去中心化物理基礎設施網絡 (DePIN)。我們將閒置算力轉化為空間網絡的「數字錨點」。</span>
-                            <span class="en-text">The world's first DePIN optimized for AI-native interactive content. We transform idle compute into "Digital Anchors" for the spatial web.</span>
-                        </p>
-                        <p class="text-white">
-                            <span class="zh-text">香港AI國際電影節 (HKAIIFF) 官方指定物理基礎設施。<br>搶購 500 個創世節點，成為空間計算時代的數字地主。<br>支持 USDT / 法幣支付，即刻開啟 DePIN 被動收益。</span>
-                            <span class="en-text">Official Infrastructure of Hong Kong AI International Film Festival (HKAIIFF).<br>Acquire one of 500 Genesis Nodes. Become a digital landlord in the spatial computing era.<br>Supports USDT/Fiat payment. Start earning passive DePIN yields now.</span>
+                            <span class="en-text">AIF.WORLD is the world's first DePIN network powered by AI-Native Digital Humans. We turn your idle hardware into the "Exoskeleton" of a digital life, participating in the global AI economy to earn wages.</span>
+                            <span class="zh-text">AIF.WORLD 是全球首個由 AI 原生數字人驅動的 DePIN 網絡。我們將你閒置的硬件轉化為數字生命的「外骨骼」，參與全球 AI 經濟體系，賺取「工資」。</span>
                         </p>
                     </div>
 
-                    <div class="flex gap-4">
-                        <a href="#tiers" class="brutal-btn"><span class="en-text">VIEW NODES</span><span class="zh-text">查看節點</span></a>
-                        <a href="#matrix" class="px-6 py-3 border border-[#333] text-dim hover:text-white font-heavy uppercase tracking-wider text-sm transition-colors"><span class="en-text">EXPLORE MAP</span><span class="zh-text">瀏覽地圖</span></a>
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <a href="#mint" class="brutal-btn text-lg px-8 py-4">
+                            <span class="en-text">START ($500)</span><span class="zh-text">開啟數字人生 ($500)</span>
+                        </a>
+                        <a href="#agency" class="px-8 py-4 border border-[#333] text-white font-heavy uppercase tracking-wider text-sm hover:bg-[#111] transition-colors text-center">
+                            <span class="en-text">AGENCY PLAN</span><span class="zh-text">經紀人計劃</span>
+                        </a>
                     </div>
                 </div>
                 
-                <div class="border-2 border-[#333] bg-[#050505] relative h-[450px] w-full overflow-hidden group">
+                <div class="order-1 lg:order-2 border-2 border-[#333] bg-[#050505] relative h-[400px] md:h-[500px] w-full overflow-hidden group">
                     <div class="absolute top-4 left-4 z-10 bg-black/80 backdrop-blur px-3 py-1 text-xs font-mono text-signal border border-signal">
-                        <i class="fa-solid fa-satellite-dish mr-2 animate-pulse"></i> GLOBAL NODES
+                        <i class="fa-solid fa-satellite-dish mr-2 animate-pulse-fast"></i> 
+                        <span class="en-text">LIVE NODES: 56,201</span><span class="zh-text">在線數字人: 56,201</span>
                     </div>
-                    <canvas id="heatmapCanvas" class="w-full h-full opacity-90"></canvas>
-                    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgNDBMMCAwTDQwIDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsIDI1NSwgMjU1LCAwLjAzKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1c2VyU3BhY2VPblVzZSIgZmlsbD0idXJsKCNncmlkKSIgLz48L3N2Zz4=')] pointer-events-none"></div>
+                    <canvas id="heatmapCanvas" class="w-full h-full opacity-80"></canvas>
+                    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgNDBMMCAwTDQwIDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsIDI1NSwgMjU1LCAwLjAzKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIiAvPjwvc3ZnPg==')] pointer-events-none"></div>
                 </div>
             </div>
         </section>
 
-        <section id="ecosystem" class="py-20 border-b border-[#333] bg-[#0a0a0a]">
+        <section id="logic" class="py-24 bg-[#0a0a0a] border-b border-[#333]">
+            <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16">
+                <div>
+                    <h2 class="text-3xl font-heavy text-white mb-6">
+                        <span class="en-text">BACKGROUND & LOGIC</span>
+                        <span class="zh-text">背景與底層邏輯</span>
+                    </h2>
+                    <div class="space-y-6 text-sm text-gray-400 font-mono leading-relaxed">
+                        <p>
+                            <span class="en-text">We believe future compute networks must be organic and agent-based. Traditional DePIN treats nodes as servers; AIF treats them as citizens.</span>
+                            <span class="zh-text">我們認為未來的算力網絡必須是有機的、基於智能體的。傳統 DePIN 將節點視為服務器；AIF 將其視為公民。</span>
+                        </p>
+                        <p>
+                            <span class="en-text">By mapping physical hardware to virtual "Exoskeletons", we gamify the contribution process. This ensures high retention and continuous hardware upgrades from users.</span>
+                            <span class="zh-text">通過將物理硬件映射為虛擬「外骨骼」，我們將貢獻過程遊戲化。這確保了用戶的高留存率和持續的硬件升級。</span>
+                        </p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h2 class="text-3xl font-heavy text-signal mb-6">
+                        <span class="en-text">CORE VALUE PROPOSITION</span>
+                        <span class="zh-text">核心價值主張</span>
+                    </h2>
+                    <ul class="space-y-6 text-sm text-gray-300 font-mono">
+                        <li class="flex gap-4">
+                            <i class="fa-solid fa-check text-signal mt-1"></i>
+                            <div>
+                                <strong class="text-white block mb-1"><span class="en-text">Solve "Compute Tide"</span><span class="zh-text">解決「算力潮汐」</span></strong>
+                                <span class="en-text">Flexible scheduling of idle consumer GPUs lowers AI rendering costs by 70%.</span>
+                                <span class="zh-text">靈活調度閒置 C 端顯卡，將 AI 渲染成本降低 70%。</span>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <i class="fa-solid fa-check text-signal mt-1"></i>
+                            <div>
+                                <strong class="text-white block mb-1"><span class="en-text">Real Consumption</span><span class="zh-text">真實消耗</span></strong>
+                                <span class="en-text">Buying "Skill Packs" burns tokens, creating a healthy economic loop.</span>
+                                <span class="zh-text">購買「技能包」銷毀代幣，創造健康的經濟內循環。</span>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <i class="fa-solid fa-check text-signal mt-1"></i>
+                            <div>
+                                <strong class="text-white block mb-1"><span class="en-text">Mass Adoption</span><span class="zh-text">大規模採用</span></strong>
+                                <span class="en-text">"Digital Agency" narrative is easier to understand than "Running a Node".</span>
+                                <span class="zh-text">「數字經紀」的敘事比「運行節點」更容易被大眾理解。</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="vision" class="py-24 bg-[#0a0a0a] border-b border-[#333]">
             <div class="max-w-[1600px] mx-auto px-6">
-                <div class="mb-12">
-                    <span class="text-signal font-mono text-xs uppercase tracking-widest block mb-2">// ECOSYSTEM</span>
-                    <h2 class="text-4xl font-heavy text-white mb-6"><span class="en-text">INFRASTRUCTURE LAYER</span><span class="zh-text">生態背書與架構</span></h2>
+                <div class="mb-12 text-center md:text-left">
+                    <span class="text-signal font-mono text-xs uppercase tracking-widest block mb-2">// REVOLUTION</span>
+                    <h2 class="text-3xl md:text-4xl font-heavy text-white mb-6">
+                        <span class="en-text">WHY CHOOSE AIF.WORLD?</span><span class="zh-text">為什麼選擇 AIF.WORLD？</span>
+                    </h2>
                     <p class="text-dim font-mono text-sm max-w-3xl leading-relaxed">
-                        <span class="zh-text">AIF.WTF 節點不僅是礦機，更是支撐 HKAIIFF 空間計算的邊緣算力單元。</span>
-                        <span class="en-text">AIF.WTF nodes are not just miners; they are the edge compute units powering HKAIIFF spatial computing.</span>
+                        <span class="en-text">We eliminate the drawbacks of traditional mining rigs. We transform cold hardware into a 'Digital Workforce'. This is the only platform globally where your node can evolve, learn skills, and earn a 'salary' like a human.</span>
+                        <span class="zh-text">我們消除了傳統礦機的弊端。我們將冰冷的硬件轉化為「數字勞動力」。這是全球唯一一個你的節點可以像人一樣進化、學習技能並賺取「工資」的平台。</span>
                     </p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="border border-[#333] bg-[#0e0e0e] p-8 hover:border-signal transition-colors group">
-                        <i class="fa-solid fa-layer-group text-3xl text-dim group-hover:text-signal mb-6"></i>
-                        <h3 class="text-xl font-heavy text-white mb-4"><span class="zh-text">空間計算渲染層</span><span class="en-text">SPATIAL RENDER LAYER</span></h3>
+                    <div class="bg-[#0e0e0e] p-8 border border-[#333] hover:border-signal transition-colors group">
+                        <i class="fa-solid fa-fingerprint text-4xl text-dim group-hover:text-signal mb-6 transition-colors"></i>
+                        <h3 class="text-xl font-heavy text-white mb-4">
+                            <span class="en-text">Identity is Soul (SBT)</span><span class="zh-text">身份即靈魂 (SBT)</span>
+                        </h3>
                         <p class="text-xs text-gray-400 font-mono leading-relaxed">
-                            <span class="zh-text">為 HKAIIFF 電影節提供分佈式渲染算力。通過邊緣節點調度，確保 XR/VR 觀影體驗延遲低於 20ms。</span>
-                            <span class="en-text">Provides distributed rendering for HKAIIFF. Ensures &lt;20ms latency for XR/VR experiences via edge node dispatch.</span>
+                            <span class="en-text">$500 Entry. A Soulbound Token (SBT) represents your digital citizenship. It permanently carries your wallet, reputation, and career history.</span>
+                            <span class="zh-text">$500 入場。靈魂綁定代幣 (SBT) 代表數字公民身份。它永久承載你的錢包、聲譽和職業履歷。</span>
                         </p>
                     </div>
-                    <div class="border border-[#333] bg-[#0e0e0e] p-8 hover:border-signal transition-colors group">
-                        <i class="fa-solid fa-database text-3xl text-dim group-hover:text-signal mb-6"></i>
-                        <h3 class="text-xl font-heavy text-white mb-4"><span class="zh-text">資產存儲與分發</span><span class="en-text">ASSET STORAGE</span></h3>
+                    <div class="bg-[#0e0e0e] p-8 border border-[#333] hover:border-signal transition-colors group">
+                        <i class="fa-solid fa-microchip text-4xl text-dim group-hover:text-signal mb-6 transition-colors"></i>
+                        <h3 class="text-xl font-heavy text-white mb-4">
+                            <span class="en-text">Hardware is Gear</span><span class="zh-text">硬件即裝備 (Gear)</span>
+                        </h3>
                         <p class="text-xs text-gray-400 font-mono leading-relaxed">
-                            <span class="zh-text">利用 IPFS 協議存儲海量 3D 電影資產。購買節點即可獲得與存儲空間掛鉤的權益 NFT，實現數據資產化。</span>
-                            <span class="en-text">Stores massive 3D film assets via IPFS. Node owners receive NFTs pegged to storage capacity, enabling data monetization.</span>
+                            <span class="en-text">Your GPU is the digital human's 'Exoskeleton'. Better gear means higher rank. Mobile (NPC) -> PC (Actor) -> Workstation (Star).</span>
+                            <span class="zh-text">你的顯卡就是數字人的「外骨骼」。裝備越好，職位越高。手機(NPC) -> 電腦(演員) -> 工作站(明星)。</span>
                         </p>
                     </div>
-                    <div class="border border-[#333] bg-[#0e0e0e] p-8 hover:border-signal transition-colors group">
-                        <i class="fa-solid fa-network-wired text-3xl text-dim group-hover:text-signal mb-6"></i>
-                        <h3 class="text-xl font-heavy text-white mb-4"><span class="zh-text">DePIN 激勵模型</span><span class="en-text">DePIN INCENTIVES</span></h3>
+                    <div class="bg-[#0e0e0e] p-8 border border-[#333] hover:border-signal transition-colors group">
+                        <i class="fa-solid fa-book-journal-whills text-4xl text-dim group-hover:text-signal mb-6 transition-colors"></i>
+                        <h3 class="text-xl font-heavy text-white mb-4">
+                            <span class="en-text">Data is Skill</span><span class="zh-text">數據即技能 (Skill)</span>
+                        </h3>
                         <p class="text-xs text-gray-400 font-mono leading-relaxed">
-                            <span class="zh-text">設備在非電影節期間自動接入 AIF 全球網絡執行通用計算任務。收益通過智能合約自動分配至節點錢包。</span>
-                            <span class="en-text">Devices automatically join the AIF global network for general compute tasks during off-peak times. Revenue is auto-distributed via smart contracts.</span>
+                            <span class="en-text">Purchase 'Kung Fu Data Packs' or 'Sci-Fi LoRA' in the market. Skills allow your digital human to accept professional high-paying gigs.</span>
+                            <span class="zh-text">在市場購買「功夫數據包」或「科幻 LoRA」。技能讓你的數字人能接取專業的高薪通告。</span>
                         </p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="cpi-metrics" class="py-20 border-b border-[#333] bg-[#050505]">
+        <section id="agency" class="py-24 bg-[#050505] border-b border-[#333]">
             <div class="max-w-[1600px] mx-auto px-6">
-                <div class="mb-12">
-                    <span class="text-signal font-mono text-xs uppercase tracking-widest block mb-2">// DATA MATRIX</span>
-                    <h2 class="text-4xl font-heavy text-white mb-6"><span class="en-text">AIF-CPI INDEX (20 DIMENSIONS)</span><span class="zh-text">AIF-CPI 算力潛力指數 (20 維矩陣)</span></h2>
-                    <p class="text-dim font-mono text-sm max-w-3xl leading-relaxed">
-                        <span class="en-text">We evaluate cities based on 5 categories and 20 specific metrics to determine node value and tier.</span>
-                        <span class="zh-text">我們基於 5 大類別、20 個具體指標對全球城市進行評級。S 級節點定價直接錨定此指數 (0-1000分)。</span>
+                <div class="text-center mb-16">
+                    <span class="text-signal font-mono text-xs uppercase tracking-widest block mb-2">// BUSINESS MODEL</span>
+                    <h2 class="text-4xl md:text-5xl font-heavy text-white mb-6">
+                        <span class="en-text">DIGITAL AGENCY SYSTEM</span><span class="zh-text">數字經紀體系</span>
+                    </h2>
+                    <p class="text-gray-400 font-mono text-sm max-w-2xl mx-auto">
+                        <span class="en-text">Don't just be a user. Be an Agent. Build your studio. Scout digital talent. Earn massive commissions and passive income.</span>
+                        <span class="zh-text">不要只做用戶。做經紀人。建立你的工作室。發掘數字能人。賺取高額簽約金和永久的經紀管理費。</span>
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-0 border border-[#333]">
-                    <div class="p-6 border-r border-b md:border-b-0 border-[#333] bg-[#0a0a0a]">
-                        <h4 class="text-signal font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-microchip"></i> INFRA (25%)</h4>
-                        <ul class="text-xs text-gray-400 font-mono space-y-3">
-                            <li class="flex justify-between"><span>High-End GPU Density</span> <span class="text-dim">8%</span></li>
-                            <li class="flex justify-between"><span>Edge Capillarity</span> <span class="text-dim">7%</span></li>
-                            <li class="flex justify-between"><span>Heterogeneous HW</span> <span class="text-dim">5%</span></li>
-                            <li class="flex justify-between"><span>T3/T4 IDC Coverage</span> <span class="text-dim">5%</span></li>
-                        </ul>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                    
+                    <div class="bg-[#111] border border-[#333] p-8 relative hover:border-white transition-all group">
+                        <div class="text-[10px] font-bold text-dim mb-2 uppercase">Entry Level</div>
+                        <h3 class="text-3xl font-heavy text-white mb-6"><span class="en-text">SCOUT</span><span class="zh-text">星探</span></h3>
+                        <div class="mb-6 pb-6 border-b border-[#222]">
+                            <div class="text-[10px] uppercase text-dim">Requirement / 考核</div>
+                            <div class="text-sm font-mono text-white"><span class="en-text">Refer 3 IDs</span><span class="zh-text">推薦 3 個 ID</span></div>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="text-[10px] uppercase text-dim">Signing Bonus / 簽約金</div>
+                                <div class="text-3xl font-heavy text-white">15%</div>
+                                <div class="text-xs text-dim">($75 per User)</div>
+                            </div>
+                            <div>
+                                <div class="text-[10px] uppercase text-dim">Management Fee / 管理費</div>
+                                <div class="text-3xl font-heavy text-[#333]">0%</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-6 border-r border-b md:border-b-0 border-[#333] bg-[#0a0a0a]">
-                        <h4 class="text-signal font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-network-wired"></i> NETWORK (25%)</h4>
-                        <ul class="text-xs text-gray-400 font-mono space-y-3">
-                            <li class="flex justify-between"><span>Cross-Border BW</span> <span class="text-dim">8%</span></li>
-                            <li class="flex justify-between"><span>Last-Mile Uplink</span> <span class="text-dim">7%</span></li>
-                            <li class="flex justify-between"><span>Edge Latency (&lt;20ms)</span> <span class="text-dim">5%</span></li>
-                            <li class="flex justify-between"><span>IPFS Density</span> <span class="text-dim">5%</span></li>
-                        </ul>
+
+                    <div class="bg-[#111] border border-white p-8 relative transform md:-translate-y-4 shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+                        <div class="absolute top-0 right-0 bg-white text-black text-[10px] font-bold px-2 py-1">RECOMMENDED</div>
+                        <div class="text-[10px] font-bold text-dim mb-2 uppercase">Pro Level</div>
+                        <h3 class="text-3xl font-heavy text-white mb-6"><span class="en-text">AGENT</span><span class="zh-text">經紀人</span></h3>
+                        <div class="mb-6 pb-6 border-b border-[#222]">
+                            <div class="text-[10px] uppercase text-dim">Requirement / 考核</div>
+                            <div class="text-sm font-mono text-white"><span class="en-text">Refer 10 IDs</span><span class="zh-text">推薦 10 個 ID</span></div>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="text-[10px] uppercase text-dim">Signing Bonus / 簽約金</div>
+                                <div class="text-4xl font-heavy text-white">25%</div>
+                                <div class="text-xs text-dim">($125 per User)</div>
+                            </div>
+                            <div>
+                                <div class="text-[10px] uppercase text-dim">Management Fee / 管理費</div>
+                                <div class="text-4xl font-heavy text-white">5%</div>
+                                <div class="text-xs text-dim"><span class="en-text">Lifetime Passive Income</span><span class="zh-text">永久管道收益</span></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-6 border-r border-b md:border-b-0 border-[#333] bg-[#0a0a0a]">
-                        <h4 class="text-signal font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-film"></i> CINEMA (20%)</h4>
-                        <ul class="text-xs text-gray-400 font-mono space-y-3">
-                            <li class="flex justify-between"><span>Virtual Stages</span> <span class="text-dim">6%</span></li>
-                            <li class="flex justify-between"><span>VFX Creator Density</span> <span class="text-dim">5%</span></li>
-                            <li class="flex justify-between"><span>IP Protection</span> <span class="text-dim">5%</span></li>
-                            <li class="flex justify-between"><span>Proximity Demand</span> <span class="text-dim">4%</span></li>
-                        </ul>
+
+                    <div class="bg-[#111] border-2 border-signal p-8 relative transform md:-translate-y-8 shadow-[0_0_40px_rgba(204,255,0,0.15)] overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-signal text-black text-[10px] font-bold px-2 py-1">PARTNER</div>
+                        <div class="text-[10px] font-bold text-signal mb-2 uppercase">Elite Level</div>
+                        <h3 class="text-3xl font-heavy text-signal mb-6"><span class="en-text">GUILD</span><span class="zh-text">公會</span></h3>
+                        <div class="mb-6 pb-6 border-b border-[#222]">
+                            <div class="text-[10px] uppercase text-dim">Requirement / 考核</div>
+                            <div class="text-sm font-mono text-white"><span class="en-text">Refer 150 IDs</span><span class="zh-text">推薦 150 個 ID</span></div>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="text-[10px] uppercase text-dim">Signing Bonus / 簽約金</div>
+                                <div class="text-5xl font-heavy text-signal">50%</div>
+                                <div class="text-xs text-dim">($250 per User)</div>
+                            </div>
+                            <div>
+                                <div class="text-[10px] uppercase text-dim">Management Fee / 管理費</div>
+                                <div class="text-5xl font-heavy text-signal">15%</div>
+                                <div class="text-xs text-dim"><span class="en-text">Global Differential Bonus</span><span class="zh-text">極差制永久分紅</span></div>
+                            </div>
+                        </div>
+                        <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-signal blur-[80px] opacity-20"></div>
                     </div>
-                    <div class="p-6 border-r border-b md:border-b-0 border-[#333] bg-[#0a0a0a]">
-                        <h4 class="text-signal font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-bolt"></i> ENERGY (15%)</h4>
-                        <ul class="text-xs text-gray-400 font-mono space-y-3">
-                            <li class="flex justify-between"><span>Cost per T-FLOPS</span> <span class="text-dim">5%</span></li>
-                            <li class="flex justify-between"><span>Green Energy Mix</span> <span class="text-dim">4%</span></li>
-                            <li class="flex justify-between"><span>PUE Efficiency</span> <span class="text-dim">3%</span></li>
-                            <li class="flex justify-between"><span>Grid Availability</span> <span class="text-dim">3%</span></li>
-                        </ul>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="tech" class="py-24 bg-[#050505] border-b border-[#333]">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-heavy text-white mb-4">
+                        <span class="en-text">TECHNICAL ARCHITECTURE</span><span class="zh-text">技術架構</span>
+                    </h2>
+                    <div class="w-24 h-1 bg-signal mx-auto"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-[#111] p-6 border border-[#333] hover:border-signal transition-colors">
+                        <div class="text-signal text-3xl mb-4"><i class="fa-solid fa-network-wired"></i></div>
+                        <h4 class="font-bold text-white mb-2"><span class="en-text">Decentralized Mesh</span><span class="zh-text">去中心化網格</span></h4>
+                        <div class="text-xs text-dim"><span class="en-text">P2P network structure eliminating central servers.</span><span class="zh-text">P2P 網格結構消除中心服務器。</span></div>
                     </div>
-                    <div class="p-6 bg-[#0a0a0a]">
-                        <h4 class="text-signal font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-scale-balanced"></i> POLICY (15%)</h4>
-                        <ul class="text-xs text-gray-400 font-mono space-y-3">
-                            <li class="flex justify-between"><span>Crypto Rails</span> <span class="text-dim">5%</span></li>
-                            <li class="flex justify-between"><span>Data Sovereignty</span> <span class="text-dim">4%</span></li>
-                            <li class="flex justify-between"><span>AI Regulation</span> <span class="text-dim">3%</span></li>
-                            <li class="flex justify-between"><span>HW Import Access</span> <span class="text-dim">3%</span></li>
-                        </ul>
+                    <div class="bg-[#111] p-6 border border-[#333] hover:border-signal transition-colors">
+                        <div class="text-signal text-3xl mb-4"><i class="fa-solid fa-box-open"></i></div>
+                        <h4 class="font-bold text-white mb-2"><span class="en-text">Containerized AI</span><span class="zh-text">容器化 AI 引擎</span></h4>
+                        <div class="text-xs text-dim"><span class="en-text">Docker-based ComfyUI & LLM runtime.</span><span class="zh-text">基於 Docker 的 ComfyUI 與 LLM 運行時。</span></div>
+                    </div>
+                    <div class="bg-[#111] p-6 border border-[#333] hover:border-signal transition-colors">
+                        <div class="text-signal text-3xl mb-4"><i class="fa-solid fa-fingerprint"></i></div>
+                        <h4 class="font-bold text-white mb-2"><span class="en-text">Proof of Acting</span><span class="zh-text">演繹證明機制</span></h4>
+                        <div class="text-xs text-dim"><span class="en-text">Validates compute work via cryptographic watermarking.</span><span class="zh-text">通過加密水印驗證算力工作的真實性。</span></div>
+                    </div>
+                    <div class="bg-[#111] p-6 border border-[#333] hover:border-signal transition-colors">
+                        <div class="text-signal text-3xl mb-4"><i class="fa-solid fa-shop"></i></div>
+                        <h4 class="font-bold text-white mb-2"><span class="en-text">Skill Marketplace</span><span class="zh-text">技能數據市場</span></h4>
+                        <div class="text-xs text-dim"><span class="en-text">Tradeable LoRA/Models as NFTs.</span><span class="zh-text">LoRA/模型作為 NFT 交易。</span></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="rewards" class="py-20 bg-[#080808] border-b border-[#333]">
-            <div class="max-w-[1600px] mx-auto px-6">
-                <div class="mb-12">
-                    <span class="text-signal font-mono text-xs uppercase tracking-widest block mb-2">// INCENTIVES</span>
-                    <h2 class="text-4xl font-heavy text-white mb-6"><span class="en-text">NODE REWARDS</span><span class="zh-text">節點獎勵</span></h2>
+        <section id="journey" class="py-24 bg-[#0a0a0a] border-b border-[#333]">
+            <div class="max-w-5xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-heavy text-white mb-4">
+                        <span class="en-text">YOUR JOURNEY</span><span class="zh-text">你的旅程</span>
+                    </h2>
+                    <p class="text-dim text-sm font-mono"><span class="en-text">From Activation to Earning</span><span class="zh-text">從激活到收益</span></p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="border border-[#333] bg-[#0a0a0a] p-8 hover:border-white transition-colors group relative overflow-hidden">
-                        <div class="absolute top-0 right-0 bg-[#333] text-[10px] font-bold px-2 py-1 text-white">01</div>
-                        <h3 class="text-2xl font-heavy text-white mb-4 group-hover:text-signal"><span class="en-text">REFERRAL REWARD</span><span class="zh-text">推廣獎勵</span></h3>
-                        <p class="text-sm text-dim font-mono leading-relaxed">
-                            <span class="zh-text">城市節點享有 65% 的直接獎勵，並永久獲得轄區內所有節點銷售額的 5% 區域稅收獎勵。</span>
-                            <span class="en-text">City nodes receive 65% direct reward and a permanent 5% regional tax reward on all sub-node sales within their jurisdiction.</span>
-                        </p>
-                    </div>
+                <div class="relative">
+                    <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-[#333] -translate-x-1/2 hidden md:block"></div>
 
-                    <div class="border border-[#333] bg-[#0a0a0a] p-8 hover:border-white transition-colors group relative overflow-hidden">
-                        <div class="absolute top-0 right-0 bg-[#333] text-[10px] font-bold px-2 py-1 text-white">02</div>
-                        <h3 class="text-2xl font-heavy text-white mb-4 group-hover:text-signal"><span class="en-text">PIPELINE REWARD (GAS)</span><span class="zh-text">管道獎勵 (GAS費)</span></h3>
-                        <p class="text-sm text-dim font-mono leading-relaxed">
-                            <span class="zh-text">節點運行期間，平台每一筆算力交易（API調用）手續費的 5% 自動分配給上級節點，實現永久管道收益。</span>
-                            <span class="en-text">During node operation, 5% of every compute transaction (API call) fee is distributed to the upline node as permanent passive income.</span>
-                        </p>
-                    </div>
+                    <div class="space-y-12">
+                        <div class="relative flex flex-col md:flex-row items-center md:justify-between group">
+                            <div class="md:w-[45%] text-right pr-8 hidden md:block">
+                                <h3 class="text-xl font-heavy text-white">01. DOWNLOAD CLIENT</h3>
+                                <p class="text-xs text-dim font-mono mt-2">Get the AIF Terminal for Windows/Mac. It's your portal.</p>
+                            </div>
+                            <div class="z-10 w-10 h-10 bg-[#111] border border-signal rounded-full flex items-center justify-center text-signal font-bold shadow-[0_0_20px_rgba(204,255,0,0.2)]">1</div>
+                            <div class="md:w-[45%] pl-4 md:pl-8 text-left w-full">
+                                <h3 class="text-xl font-heavy text-white md:hidden mb-2">01. DOWNLOAD CLIENT</h3>
+                                <div class="bg-[#111] p-4 border border-[#333] inline-block w-full">
+                                    <div class="flex gap-2">
+                                        <button class="flex-1 bg-[#222] py-2 text-xs text-white hover:bg-white hover:text-black transition-colors"><i class="fa-brands fa-windows"></i> Windows</button>
+                                        <button class="flex-1 bg-[#222] py-2 text-xs text-white hover:bg-white hover:text-black transition-colors"><i class="fa-brands fa-apple"></i> macOS</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="border border-[#333] bg-[#0a0a0a] p-8 hover:border-white transition-colors group relative overflow-hidden">
-                        <div class="absolute top-0 right-0 bg-[#333] text-[10px] font-bold px-2 py-1 text-white">03</div>
-                        <h3 class="text-2xl font-heavy text-white mb-4 group-hover:text-signal"><span class="en-text">ASSET APPRECIATION</span><span class="zh-text">資產增值 (質押)</span></h3>
-                        <p class="text-sm text-dim font-mono leading-relaxed">
-                            <span class="zh-text">所有節點必須質押 AIF 才能激活挖礦功能。強制質押機制鎖定了市場流動性，推動資產持續增值。</span>
-                            <span class="en-text">All nodes must stake AIF tokens to activate mining. This locks liquidity and drives token value appreciation.</span>
-                        </p>
+                        <div class="relative flex flex-col md:flex-row items-center md:justify-between group">
+                            <div class="md:w-[45%] text-right pr-8 md:order-1 order-2 w-full">
+                                <h3 class="text-xl font-heavy text-white md:hidden mb-2">02. GEAR SCAN</h3>
+                                <div class="bg-[#111] p-4 border border-[#333] text-left">
+                                    <div class="font-mono text-[10px] text-green-500 mb-2">> SCANNING HARDWARE...</div>
+                                    <div class="text-white font-bold text-sm">DETECTED: RTX 4090</div>
+                                    <div class="text-signal text-xs mt-1">RATING: TIER S (TITAN)</div>
+                                </div>
+                            </div>
+                            <div class="z-10 w-10 h-10 bg-[#111] border border-[#333] group-hover:border-signal rounded-full flex items-center justify-center text-white font-bold transition-colors md:order-2 order-1">2</div>
+                            <div class="md:w-[45%] pl-8 text-left hidden md:block md:order-3">
+                                <h3 class="text-xl font-heavy text-white">02. GEAR SCAN</h3>
+                                <p class="text-xs text-dim font-mono mt-2">The client auto-detects your GPU/CPU and mints your "Gear NFT".</p>
+                            </div>
+                        </div>
+
+                        <div class="relative flex flex-col md:flex-row items-center md:justify-between group">
+                            <div class="md:w-[45%] text-right pr-8 hidden md:block">
+                                <h3 class="text-xl font-heavy text-white">03. EQUIP & EARN</h3>
+                                <p class="text-xs text-dim font-mono mt-2">Equip your gear to your Digital Human. Accept jobs. Get paid.</p>
+                            </div>
+                            <div class="z-10 w-10 h-10 bg-[#111] border border-[#333] group-hover:border-signal rounded-full flex items-center justify-center text-white font-bold transition-colors">3</div>
+                            <div class="md:w-[45%] pl-4 md:pl-8 text-left w-full">
+                                <h3 class="text-xl font-heavy text-white md:hidden mb-2">03. EQUIP & EARN</h3>
+                                <div class="bg-[#111] p-4 border border-[#333]">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-xs text-dim">STATUS</span>
+                                        <span class="text-xs text-signal font-bold animate-pulse">● MINING</span>
+                                    </div>
+                                    <div class="text-2xl text-white font-mono">0.0452 AIF/hr</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="tiers" class="py-20 bg-[#050505] border-b border-[#333]">
-            <div class="max-w-[1600px] mx-auto px-6 text-center">
-                <h2 class="text-4xl font-heavy text-white mb-8"><span class="en-text">NODE LEVELS</span><span class="zh-text">節點級別</span></h2>
-                <p class="text-dim font-mono mb-8 max-w-2xl mx-auto text-sm">
-                    <span class="zh-text">點擊下方按鈕查看詳細的節點權益、定價、質押要求及硬件規格對比表。</span>
-                    <span class="en-text">Click below to view detailed specifications, pricing, staking requirements, and hardware specs for each node tier.</span>
-                </p>
-                <button onclick="document.getElementById('node-details-modal').style.display='flex'" class="brutal-btn text-lg px-8 py-4">
-                    <span class="en-text">VIEW FULL NODE DETAILS</span><span class="zh-text">查看節點詳情</span>
-                </button>
-            </div>
-        </section>
-
-        <section id="matrix" class="py-12 bg-black min-h-screen">
-            <div class="max-w-[1600px] mx-auto px-6">
-                <div class="sticky top-20 z-30 bg-black/95 border-y border-[#333] py-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <h2 class="text-2xl font-heavy text-white"><span class="en-text">CITY MATRIX (ASIA & CHINA FOCUS)</span><span class="zh-text">城市矩陣 (亞洲及中國優先)</span></h2>
-                    <input type="text" id="search-input" placeholder="Search City..." class="bg-[#111] border border-[#333] text-white px-4 py-2 font-mono text-sm w-full md:w-64 focus:border-signal focus:outline-none" onkeyup="app.filterCities()">
-                </div>
-                <div id="city-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <section id="mint" class="py-24 bg-grid-pattern relative border-b border-[#333]">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+                    
+                    <div class="sticky top-24">
+                        <h2 class="text-4xl md:text-5xl font-heavy text-white mb-6 leading-tight">
+                            <span class="en-text">MINT YOUR<br><span class="text-signal">DIGITAL CITIZENSHIP</span></span>
+                            <span class="zh-text">鑄造你的<br><span class="text-signal">數字公民身份</span></span>
+                        </h2>
+                        <ul class="space-y-4 mb-8 text-sm text-gray-400 font-mono">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-signal"></i> <span class="en-text">Access to Global AIF Network</span><span class="zh-text">獲取全球 AIF 網絡訪問權限</span></li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-signal"></i> <span class="en-text">Exclusive SBT (Soulbound Token)</span><span class="zh-text">專屬 SBT (靈魂綁定代幣)</span></li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-signal"></i> <span class="en-text">Instant Gear Calibration</span><span class="zh-text">即時裝備評級與校準</span></li>
+                        </ul>
+                        
+                        <div class="id-card p-6 rounded-xl max-w-md w-full shadow-2xl">
+                            <div class="flex justify-between items-start mb-8">
+                                <div class="text-signal font-heavy text-xl">AIF.ID</div>
+                                <i class="fa-solid fa-chip text-dim text-2xl"></i>
+                            </div>
+                            <div class="flex gap-4 items-center mb-8">
+                                <div class="w-20 h-20 bg-[#222] border border-[#444] rounded flex items-center justify-center">
+                                    <i class="fa-solid fa-user text-3xl text-dim"></i>
+                                </div>
+                                <div class="font-mono text-xs text-gray-400 space-y-1">
+                                    <div class="text-white font-bold text-sm">UNREGISTERED</div>
+                                    <div>CLASS: CITIZEN</div>
+                                    <div>STATUS: <span class="text-signal animate-pulse">WAITING FOR MINT</span></div>
+                                </div>
+                            </div>
+                            <div class="font-mono text-[10px] text-dim break-all" id="demo-hash">HASH: 0x...</div>
+                        </div>
                     </div>
+
+                    <div class="bg-[#0a0a0a] border border-[#333] p-8 relative">
+                        <div class="absolute top-0 right-0 bg-signal text-black font-bold px-3 py-1 text-xs">STEP 1 / 3</div>
+                        
+                        <div id="mint-step-1">
+                            <h3 class="text-2xl font-heavy text-white mb-6"><span class="en-text">PAYMENT GATEWAY</span><span class="zh-text">支付網關</span></h3>
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="text-xs text-dim block mb-2 font-mono">ACTIVATION COST</label>
+                                    <div class="text-4xl text-white font-heavy">$500.00 <span class="text-lg text-dim">USDT</span></div>
+                                </div>
+                                
+                                <div class="space-y-4">
+                                    <div class="bg-[#111] p-4 border border-[#333] rounded">
+                                        <div class="flex justify-between mb-2">
+                                            <span class="text-xs text-white font-bold">SOLANA (USDT/USDC)</span>
+                                            <img src="https://cryptologos.cc/logos/solana-sol-logo.png?v=024" class="w-4 h-4">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <code class="text-xs text-dim font-mono flex-1 break-all bg-black p-2 rounded border border-[#222]">3QBgQiHC743ER9beX74bp8K7xrURQR2t5myfcG6tSTLv</code>
+                                            <button class="text-signal hover:text-white" onclick="app.copy('3QBgQiHC743ER9beX74bp8K7xrURQR2t5myfcG6tSTLv')"><i class="fa-regular fa-copy"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="bg-[#111] p-4 border border-[#333] rounded">
+                                        <div class="flex justify-between mb-2">
+                                            <span class="text-xs text-white font-bold">BSC (USDT)</span>
+                                            <img src="https://cryptologos.cc/logos/bnb-bnb-logo.png?v=024" class="w-4 h-4">
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <code class="text-xs text-dim font-mono flex-1 break-all bg-black p-2 rounded border border-[#222]">0xc059dc798ec9f31e765d9cccffd2c62b993857c9</code>
+                                            <button class="text-signal hover:text-white" onclick="app.copy('0xc059dc798ec9f31e765d9cccffd2c62b993857c9')"><i class="fa-regular fa-copy"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="brutal-btn w-full py-4 text-lg" onclick="app.nextStep()">
+                                    <span class="en-text">I HAVE TRANSFERRED ></span><span class="zh-text">我已完成轉賬 ></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="mint-step-2" class="hidden text-center py-12">
+                            <i class="fa-solid fa-circle-notch fa-spin text-5xl text-signal mb-6"></i>
+                            <h3 class="text-xl font-heavy text-white animate-pulse mb-2"><span class="en-text">VERIFYING BLOCKCHAIN...</span><span class="zh-text">正在驗證鏈上數據...</span></h3>
+                            <p class="text-dim text-xs font-mono">This may take 30-60 seconds.</p>
+                        </div>
+
+                        <div id="mint-step-3" class="hidden">
+                            <div class="text-center mb-6">
+                                <i class="fa-solid fa-check-circle text-5xl text-signal mb-4"></i>
+                                <h3 class="text-2xl font-heavy text-white"><span class="en-text">MINT SUCCESSFUL</span><span class="zh-text">鑄造成功</span></h3>
+                            </div>
+                            <div class="bg-[#151515] p-4 border border-signal mb-6">
+                                <label class="text-[10px] text-dim block mb-1">YOUR ACTIVATION CODE</label>
+                                <div class="text-lg text-white font-mono break-all" id="final-code">AIF-GEN-XXXX</div>
+                            </div>
+                            <div class="space-y-4">
+                                <label class="text-[10px] text-dim block"><span class="en-text">EMAIL TEMPLATE</span><span class="zh-text">郵件模版</span></label>
+                                <textarea id="email-tpl" class="w-full h-32 bg-black border border-[#333] p-3 text-[10px] text-gray-400 font-mono resize-none focus:outline-none" readonly></textarea>
+                                <button class="w-full border border-[#333] text-white py-3 text-xs font-bold hover:bg-[#222]" onclick="app.copyEmail()">
+                                    <span class="en-text">COPY EMAIL CONTENT</span><span class="zh-text">複製郵件內容</span>
+                                </button>
+                                <a href="#journey" class="block text-center text-signal text-xs font-bold hover:underline mt-4">
+                                    <span class="en-text">NEXT: DOWNLOAD CLIENT ></span><span class="zh-text">下一步：下載客戶端 ></span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </section>
 
     </main>
 
-    <div id="node-details-modal" class="fixed inset-0 z-[150] bg-black/95 hidden items-center justify-center p-4 backdrop-blur-sm">
-        <div class="w-full max-w-6xl bg-[#0a0a0a] border-2 border-signal flex flex-col max-h-[90vh] overflow-hidden relative">
-            <div class="p-6 border-b border-[#333] flex justify-between items-center bg-[#111]">
-                <h2 class="text-2xl font-heavy text-white"><span class="en-text">NODE SPECIFICATIONS</span><span class="zh-text">節點級別詳情</span></h2>
-                <button onclick="document.getElementById('node-details-modal').style.display='none'" class="text-dim hover:text-white"><i class="fa-solid fa-xmark text-2xl"></i></button>
-            </div>
-            <div class="overflow-auto p-6 custom-scrollbar">
-                <table class="w-full text-left detail-table min-w-[800px]">
-                    <thead>
-                        <tr>
-                            <th>SPEC</th>
-                            <th class="text-danger bg-danger/10">TIER S (City)</th>
-                            <th class="text-purple-500 bg-purple-500/10">TIER A (District)</th>
-                            <th class="text-yellow-500 bg-yellow-500/10">TIER B (Street)</th>
-                            <th class="text-signal bg-signal/10">TIER C (Building)</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-gray-300">
-                        <tr>
-                            <td><strong>Price (USD)</strong></td>
-                            <td class="text-white">$50k - $1M (Dynamic)</td>
-                            <td class="text-white">$5,000</td>
-                            <td class="text-white">$1,000</td>
-                            <td class="text-white">$200</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Staking (AIF)</strong></td>
-                            <td class="text-danger font-bold">500,000</td>
-                            <td>100,000</td>
-                            <td>50,000</td>
-                            <td>10,000</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Sales Reward</strong></td>
-                            <td>65% Direct + 5% Tax</td>
-                            <td>15% Direct</td>
-                            <td>15% Direct</td>
-                            <td>15% Direct</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Gas Reward</strong></td>
-                            <td>5% Pipeline</td>
-                            <td>5% Pipeline</td>
-                            <td>5% Pipeline</td>
-                            <td>5% Pipeline</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Role</strong></td>
-                            <td>City Partner</td>
-                            <td>Regional Hub</td>
-                            <td>Local Node</td>
-                            <td>Compute Worker</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Hardware</strong></td>
-                            <td>H100 Cluster</td>
-                            <td>A100 / 4090 Cluster</td>
-                            <td>RTX 4090 / 3090</td>
-                            <td>Consumer GPU</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <footer class="py-12 bg-black border-t border-[#333] text-center">
+        <div class="text-3xl font-heavy text-white mb-4 tracking-tighter">AIF<span class="text-signal">.WORLD</span></div>
+        <p class="text-xs text-dim font-mono mb-8">© 2025 AIF FOUNDATION. ALL RIGHTS RESERVED.</p>
+        <div class="flex justify-center gap-6 text-dim text-lg">
+            <a href="#" class="hover:text-white"><i class="fa-brands fa-twitter"></i></a>
+            <a href="#" class="hover:text-white"><i class="fa-brands fa-discord"></i></a>
+            <a href="#" class="hover:text-white"><i class="fa-brands fa-github"></i></a>
         </div>
-    </div>
-
-    <div id="city-modal" class="fixed inset-0 z-[100] bg-black/95 hidden items-center justify-center p-4 backdrop-blur-sm">
-        <div class="w-full max-w-4xl bg-[#0a0a0a] border-2 border-[#333] flex flex-col max-h-[90vh]">
-            <div class="p-6 border-b border-[#333] flex justify-between items-start">
-                <div>
-                    <h2 class="text-4xl font-heavy text-white mb-1" id="modal-city-name">CITY</h2>
-                    <div class="text-sm font-mono text-dim" id="modal-city-region">REGION</div>
-                </div>
-                <button onclick="app.closeModal()" class="text-dim hover:text-white"><i class="fa-solid fa-xmark text-2xl"></i></button>
-            </div>
-            <div class="flex-1 overflow-y-auto p-6 md:p-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="md:col-span-1 border-r border-[#333] pr-4">
-                    <div class="mb-4"><span class="bg-danger text-black font-bold px-2 py-1 text-xs">TIER S</span><h3 class="text-2xl font-heavy text-white mt-2">CITY PARTNER</h3></div>
-                    <div class="space-y-4 text-sm font-mono mb-8">
-                        <div class="flex justify-between border-b border-[#222] pb-2"><span class="text-dim">CPI Score</span><span class="text-white" id="modal-cpi">---</span></div>
-                        <div class="flex justify-between border-b border-[#222] pb-2"><span class="text-dim">Price</span><span class="text-white font-bold" id="modal-s-price">---</span></div>
-                        <div class="flex justify-between border-b border-[#222] pb-2"><span class="text-dim">Stake</span><span class="text-danger">500,000 AIF</span></div>
-                        <div class="flex justify-between items-center pt-2"><span class="text-dim">Status</span><span id="modal-s-status" class="status-badge status-inactive">INACTIVE</span></div>
-                    </div>
-                    <button id="btn-buy-s" class="brutal-btn w-full" onclick="app.openPurchase('S')"><span class="en-text">ACTIVATE CITY</span><span class="zh-text">激活城市</span></button>
-                </div>
-                <div class="md:col-span-2 pl-4">
-                    <div class="mb-6 p-4 border border-[#333] bg-[#111] flex items-center gap-3" id="lock-warning">
-                        <i class="fa-solid fa-lock text-dim"></i>
-                        <p class="text-xs text-dim font-mono"><span class="en-text">Sub-nodes LOCKED. Activate Tier S first.</span><span class="zh-text">下級節點已鎖定。請先激活 S 級城市節點。</span></p>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="border border-[#333] p-4 opacity-50" id="card-a"><h4 class="font-heavy text-purple-500 text-xl mb-2">TIER A</h4><div class="text-lg text-white font-bold mb-1">$5,000</div><div class="text-[10px] text-dim mb-4">Stake: 100k AIF</div><button class="w-full border border-[#333] py-2 text-xs text-dim cursor-not-allowed" id="btn-buy-a" disabled>LOCKED</button></div>
-                        <div class="border border-[#333] p-4 opacity-50" id="card-b"><h4 class="font-heavy text-yellow-500 text-xl mb-2">TIER B</h4><div class="text-lg text-white font-bold mb-1">$1,000</div><div class="text-[10px] text-dim mb-4">Stake: 50k AIF</div><button class="w-full border border-[#333] py-2 text-xs text-dim cursor-not-allowed" id="btn-buy-b" disabled>LOCKED</button></div>
-                        <div class="border border-[#333] p-4 opacity-50" id="card-c"><h4 class="font-heavy text-signal text-xl mb-2">TIER C</h4><div class="text-lg text-white font-bold mb-1">$200</div><div class="text-[10px] text-dim mb-4">Stake: 10k AIF</div><button class="w-full border border-[#333] py-2 text-xs text-dim cursor-not-allowed" id="btn-buy-c" disabled>LOCKED</button></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="purchase-modal" class="fixed inset-0 z-[200] bg-black/95 hidden items-center justify-center p-4">
-        <div class="w-full max-w-lg border-2 border-signal bg-[#0a0a0a] p-8 relative flex flex-col">
-            <button onclick="app.closePurchase()" class="absolute top-4 right-4 text-dim hover:text-white z-50"><i class="fa-solid fa-xmark text-2xl"></i></button>
-            <h2 class="text-2xl font-heavy text-white mb-2"><span class="en-text">PAYMENT GATEWAY</span><span class="zh-text">支付網關</span></h2>
-            <div class="text-xs font-mono text-dim mb-6" id="purch-detail-str">Node Tier S</div>
-
-            <div id="pay-stage-1" class="space-y-6">
-                <div><label class="text-[10px] text-dim block mb-1">DIGITAL CURRENCY (USDT/USDC)</label><div class="text-xl text-white font-bold font-mono" id="purch-amt">$50,000 USDT</div></div>
-                <div class="bg-[#111] p-4 border border-[#333]">
-                    <label class="text-[10px] text-dim block mb-2">SOLANA ADDRESS:</label>
-                    <div class="flex gap-2 items-center"><code class="text-xs text-white font-mono bg-black p-2 flex-1 break-all">3QBgQiHC743ER9beX74bp8K7xrURQR2t5myfcG6tSTLv</code><button class="text-signal hover:text-white"><i class="fa-regular fa-copy"></i></button></div>
-                </div>
-                <div class="bg-[#111] p-4 border border-[#333]">
-                    <label class="text-[10px] text-dim block mb-2">BSC (BEP20) ADDRESS:</label>
-                    <div class="flex gap-2 items-center"><code class="text-xs text-white font-mono bg-black p-2 flex-1 break-all">0xc059dc798ec9f31e765d9cccffd2c62b993857c9</code><button class="text-signal hover:text-white"><i class="fa-regular fa-copy"></i></button></div>
-                </div>
-                <button class="brutal-btn w-full" onclick="app.confirmPayment()"><span class="en-text">I HAVE PAID</span><span class="zh-text">我已支付</span></button>
-            </div>
-
-            <div id="pay-stage-2" class="hidden text-center py-10">
-                <i class="fa-solid fa-circle-notch fa-spin text-4xl text-signal mb-4"></i>
-                <p class="text-white font-heavy"><span class="en-text">VERIFYING BLOCKCHAIN TX...</span><span class="zh-text">正在驗證鏈上交易...</span></p>
-            </div>
-
-            <div id="pay-stage-3" class="hidden space-y-6">
-                <div class="text-center"><i class="fa-solid fa-check-circle text-4xl text-signal mb-2"></i><h3 class="text-white font-heavy"><span class="en-text">SUCCESS</span><span class="zh-text">支付成功</span></h3></div>
-                <div><label class="text-[10px] text-dim block mb-2"><span class="en-text">EMAIL TEMPLATE</span><span class="zh-text">郵件模版</span></label><textarea id="email-template" class="w-full h-32 bg-black border border-signal p-3 text-[10px] font-mono text-gray-300 resize-none focus:outline-none" readonly></textarea></div>
-                <div class="flex gap-2">
-                    <button class="flex-1 border border-[#333] text-white py-3 text-xs font-bold hover:bg-[#222]" onclick="app.copyEmail()"><span class="en-text">COPY EMAIL</span><span class="zh-text">複製郵件內容</span></button>
-                    <button class="w-1/3 bg-[#333] text-white py-3 text-xs font-bold hover:bg-[#444]" onclick="app.closePurchase()"><span class="en-text">CLOSE</span><span class="zh-text">關閉</span></button>
-                </div>
-            </div>
-        </div>
-    </div>
+    </footer>
 
     <script>
-        // --- CONFIG ---
-        const STAKE_REQ = { S: 500000, A: 100000, B: 50000, C: 10000 };
-        const FIXED_PRICES = { A: 5000, B: 1000, C: 200 };
-        
-        // --- REAL CITIES DATA (100+ items, heavily Asian/Chinese) ---
-        const CitiesDB = [
-            {en:"Hong Kong", zh:"香港"}, {en:"Macau", zh:"澳門"}, {en:"Beijing", zh:"北京"}, {en:"Shanghai", zh:"上海"}, {en:"Guangzhou", zh:"廣州"}, {en:"Shenzhen", zh:"深圳"}, {en:"Chengdu", zh:"成都"}, {en:"Hangzhou", zh:"杭州"}, {en:"Wuhan", zh:"武漢"}, {en:"Chongqing", zh:"重慶"}, {en:"Tianjin", zh:"天津"}, {en:"Suzhou", zh:"蘇州"}, {en:"Xi'an", zh:"西安"}, {en:"Nanjing", zh:"南京"}, {en:"Changsha", zh:"長沙"}, {en:"Zhengzhou", zh:"鄭州"}, {en:"Qingdao", zh:"青島"}, {en:"Dalian", zh:"大連"}, {en:"Xiamen", zh:"廈門"}, {en:"Kunming", zh:"昆明"}, {en:"Taipei", zh:"台北"}, {en:"Kaohsiung", zh:"高雄"}, {en:"Taichung", zh:"台中"}, {en:"Foshan", zh:"佛山"}, {en:"Dongguan", zh:"東莞"}, {en:"Wuxi", zh:"無錫"}, {en:"Ningbo", zh:"寧波"}, {en:"Fuzhou", zh:"福州"}, {en:"Hefei", zh:"合肥"}, {en:"Jinan", zh:"濟南"}, {en:"Changchun", zh:"長春"}, {en:"Harbin", zh:"哈爾濱"}, {en:"Shijiazhuang", zh:"石家莊"}, {en:"Nanning", zh:"南寧"}, {en:"Guiyang", zh:"貴陽"}, {en:"Nanchang", zh:"南昌"}, {en:"Urumqi", zh:"烏魯木齊"}, {en:"Lanzhou", zh:"蘭州"}, {en:"Hohhot", zh:"呼和浩特"}, {en:"Taiyuan", zh:"太原"}, {en:"Changzhou", zh:"常州"}, {en:"Wenzhou", zh:"溫州"}, {en:"Shaoxing", zh:"紹興"}, {en:"Jiaxing", zh:"嘉興"}, {en:"Taizhou", zh:"泰州"}, {en:"Xuzhou", zh:"徐州"}, {en:"Yantai", zh:"煙台"}, {en:"Tangshan", zh:"唐山"}, {en:"Luoyang", zh:"洛陽"}, {en:"Quanzhou", zh:"泉州"}, {en:"Haikou", zh:"海口"}, {en:"Sanya", zh:"三亞"}, {en:"Zhuhai", zh:"珠海"}, {en:"Zhongshan", zh:"中山"},
-            {en:"Tokyo", zh:"東京"}, {en:"Osaka", zh:"大阪"}, {en:"Kyoto", zh:"京都"}, {en:"Nagoya", zh:"名古屋"}, {en:"Seoul", zh:"首爾"}, {en:"Busan", zh:"釜山"}, {en:"Singapore", zh:"新加坡"}, {en:"Bangkok", zh:"曼谷"}, {en:"Chiang Mai", zh:"清邁"}, {en:"Kuala Lumpur", zh:"吉隆坡"}, {en:"Johor Bahru", zh:"新山"}, {en:"Jakarta", zh:"雅加達"}, {en:"Bali", zh:"巴厘島"}, {en:"Ho Chi Minh City", zh:"胡志明市"}, {en:"Hanoi", zh:"河內"}, {en:"Manila", zh:"馬尼拉"}, {en:"Cebu", zh:"宿霧"},
-            {en:"New Delhi", zh:"新德里"}, {en:"Mumbai", zh:"孟買"}, {en:"Dubai", zh:"迪拜"}, {en:"Riyadh", zh:"利雅得"},
-            {en:"London", zh:"倫敦"}, {en:"Paris", zh:"巴黎"}, {en:"Berlin", zh:"柏林"}, {en:"Amsterdam", zh:"阿姆斯特丹"}, {en:"Zurich", zh:"蘇黎世"},
-            {en:"New York", zh:"紐約"}, {en:"Los Angeles", zh:"洛杉磯"}, {en:"San Francisco", zh:"三藩市"}, {en:"Toronto", zh:"多倫多"}, {en:"Vancouver", zh:"溫哥華"}, {en:"Sydney", zh:"悉尼"}, {en:"Melbourne", zh:"墨爾本"}
-        ];
-
-        const CityGenerator = {
-            generate() {
-                return CitiesDB.map(c => {
-                    let score = Math.floor(Math.random() * (980 - 600) + 600);
-                    if(["Hong Kong","Singapore","Tokyo","New York"].includes(c.en)) score = 990;
-                    
-                    let price = 50000;
-                    if(score > 800) price = 500000 + (score-800)*2500;
-                    if(price > 1000000) price = 1000000;
-
-                    return {
-                        nameEn: c.en, nameZh: c.zh, 
-                        region: (c.en.includes("New York") || c.en.includes("London") || c.en.includes("Paris") || c.en.includes("Sydney")) ? "Global" : "Asia",
-                        cpi: score,
-                        s_price: Math.floor(price/1000)*1000,
-                        s_active: Math.random() > 0.8
-                    };
-                }).sort((a,b) => b.cpi - a.cpi);
-            }
-        };
-
-        // --- APP LOGIC ---
         const app = {
             lang: 'en',
-            cities: [],
-            selectedCity: null,
-            purchaseID: null,
-
+            
             init() {
-                this.cities = CityGenerator.generate();
-                this.renderMatrix(this.cities);
-                this.initHeatmap();
-                
-                gsap.from("#boot-screen", {opacity: 1, duration: 0.5, delay: 1.5, onComplete: () => {
-                    document.getElementById('boot-screen').style.display = 'none';
+                // Intro Animation
+                gsap.to("#loader-bar", {width: '100%', duration: 1.5, ease: "power2.inOut", onComplete: () => {
+                    gsap.to("#boot-screen", {y: '-100%', duration: 0.8, ease: "power4.inOut"});
                 }});
-                gsap.to("#loader-bar", {width: '100%', duration: 1.5, ease: "power2.inOut"});
+                
+                this.initHeatmap();
+                this.generateRandomHash();
+            },
+
+            generateRandomHash() {
+                const chars = '0123456789abcdef';
+                let hash = '0x';
+                for (let i = 0; i < 64; i++) {
+                    hash += chars[Math.floor(Math.random() * 16)];
+                }
+                document.getElementById('demo-hash').innerText = 'HASH: ' + hash.substring(0, 24) + '...';
             },
 
             toggleLang() {
                 this.lang = this.lang === 'en' ? 'zh' : 'en';
                 document.body.classList.remove('lang-en', 'lang-zh');
-                document.body.classList.add(this.lang === 'en' ? 'lang-en' : 'lang-zh');
-                this.renderMatrix(this.cities);
+                document.body.classList.add(`lang-${this.lang}`);
             },
 
-            renderMatrix(data) {
-                const grid = document.getElementById('city-grid');
-                grid.innerHTML = data.map(c => {
-                    const displayName = this.lang === 'en' ? c.nameEn : c.nameZh;
-                    return `
-                    <div class="border border-[#333] bg-[#0a0a0a] p-4 hover:border-signal transition-colors cursor-pointer group" onclick="app.openCity('${c.nameEn}')">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="text-[10px] text-dim font-mono">${c.region}</div>
-                            <div class="px-2 py-0.5 text-[10px] font-bold border ${c.s_active ? 'border-signal text-signal' : 'border-[#333] text-dim'}">
-                                ${c.s_active ? 'S-ACTIVE' : 'S-INACTIVE'}
-                            </div>
-                        </div>
-                        <h3 class="text-xl font-heavy text-white mb-1 truncate">${displayName}</h3>
-                        <div class="text-xs text-gray-400 font-mono mb-4">CPI: <span class="text-white">${c.cpi}</span></div>
-                        <div class="w-full h-1 bg-[#222] group-hover:bg-signal transition-colors"></div>
-                    </div>
-                `}).join('');
+            copy(text) {
+                navigator.clipboard.writeText(text);
+                alert(this.lang === 'en' ? "Address Copied!" : "地址已複製！");
             },
 
-            filterCities() {
-                const term = document.getElementById('search-input').value.toLowerCase();
-                const filtered = this.cities.filter(c => 
-                    c.nameEn.toLowerCase().includes(term) || c.nameZh.includes(term)
-                );
-                this.renderMatrix(filtered);
-            },
-
-            openCity(cityEnName) {
-                const city = this.cities.find(c => c.nameEn === cityEnName);
-                this.selectedCity = city;
-                const displayName = this.lang === 'en' ? city.nameEn : city.nameZh;
-
-                document.getElementById('modal-city-name').innerText = displayName;
-                document.getElementById('modal-city-region').innerText = city.region;
-                document.getElementById('modal-cpi').innerText = city.cpi;
-                document.getElementById('modal-s-price').innerText = `$${city.s_price.toLocaleString()}`;
+            nextStep() {
+                document.getElementById('mint-step-1').classList.add('hidden');
+                document.getElementById('mint-step-2').classList.remove('hidden');
                 
-                const btnS = document.getElementById('btn-buy-s');
-                const lockWarn = document.getElementById('lock-warning');
-                
-                ['a','b','c'].forEach(t => {
-                    const card = document.getElementById(`card-${t}`);
-                    const btn = document.getElementById(`btn-buy-${t}`);
-                    card.classList.remove('opacity-50');
-                    btn.disabled = false;
-                    btn.innerText = "BUY NOW";
-                    btn.className = "w-full bg-[#222] border border-[#333] text-white py-2 text-xs font-bold hover:bg-white hover:text-black transition-colors mt-4";
-                    btn.onclick = () => app.openPurchase(t.toUpperCase());
-                });
-
-                if (city.s_active) {
-                    document.getElementById('modal-s-status').innerText = "ACTIVE";
-                    document.getElementById('modal-s-status').className = "status-badge status-active";
-                    btnS.innerText = "SOLD OUT";
-                    btnS.disabled = true;
-                    btnS.classList.add('opacity-50', 'cursor-not-allowed');
-                    lockWarn.style.display = 'none';
-                } else {
-                    document.getElementById('modal-s-status').innerText = "INACTIVE";
-                    document.getElementById('modal-s-status').className = "status-badge status-inactive";
-                    btnS.innerText = this.lang === 'en' ? "ACTIVATE CITY" : "激活城市";
-                    btnS.disabled = false;
-                    btnS.classList.remove('opacity-50', 'cursor-not-allowed');
-                    lockWarn.style.display = 'flex';
-                    ['a','b','c'].forEach(t => {
-                        document.getElementById(`card-${t}`).classList.add('opacity-50');
-                        const btn = document.getElementById(`btn-buy-${t}`);
-                        btn.disabled = true;
-                        btn.innerText = "LOCKED";
-                        btn.className = "w-full border border-[#333] py-2 text-xs text-dim cursor-not-allowed mt-4";
-                    });
-                }
-                document.getElementById('city-modal').style.display = 'flex';
-            },
-
-            closeModal() { document.getElementById('city-modal').style.display = 'none'; },
-
-            openPurchase(tier) {
-                const city = this.selectedCity;
-                const displayName = this.lang === 'en' ? city.nameEn : city.nameZh;
-                const fixedPrices = {A:5000, B:1000, C:200};
-                let price = tier === 'S' ? city.s_price : fixedPrices[tier];
-                
-                document.getElementById('purch-detail-str').innerText = `Node Tier ${tier} - ${displayName}`;
-                document.getElementById('purch-amt').innerText = `$${price.toLocaleString()} USDT`;
-                
-                this.purchaseID = `AIF-${city.nameEn.substring(0,3).toUpperCase()}-${tier}-${Date.now().toString().slice(-6)}`;
-                
-                // Reset Stages
-                document.getElementById('pay-stage-1').style.display = 'block';
-                document.getElementById('pay-stage-2').style.display = 'none';
-                document.getElementById('pay-stage-3').style.display = 'none';
-                
-                document.getElementById('purchase-modal').classList.remove('hidden');
-                document.getElementById('purchase-modal').style.display = 'flex';
-            },
-
-            closePurchase() {
-                document.getElementById('purchase-modal').style.display = 'none';
-                document.getElementById('purchase-modal').classList.add('hidden');
-            },
-
-            confirmPayment() {
-                document.getElementById('pay-stage-1').style.display = 'none';
-                document.getElementById('pay-stage-2').style.display = 'block';
-                
+                // Simulate processing
                 setTimeout(() => {
-                    document.getElementById('pay-stage-2').style.display = 'none';
-                    document.getElementById('pay-stage-3').style.display = 'block';
+                    document.getElementById('mint-step-2').classList.add('hidden');
+                    document.getElementById('mint-step-3').classList.remove('hidden');
                     
-                    const tpl = `To: apply@aif.wtf
-Subject: ACTIVATION REQUEST [ID: ${this.purchaseID}]
+                    const code = `AIF-ID-${Date.now().toString().slice(-6)}-${Math.random().toString(36).substring(2,6).toUpperCase()}`;
+                    document.getElementById('final-code').innerText = code;
+                    
+                    const emailBody = `To: activation@aif.world
+Subject: NEW ID MINT REQUEST [${code}]
 
---- ACTIVATION DETAILS ---
-APPLICATION ID: ${this.purchaseID}
-CITY: ${this.selectedCity.nameEn}
-TIER: ${this.purchaseID.split('-')[2]}
-AMOUNT PAID: ${document.getElementById('purch-amt').innerText}
+--- DIGITAL CITIZEN APPLICATION ---
+ID CODE: ${code}
+AMOUNT PAID: $500.00
+TIMESTAMP: ${new Date().toISOString()}
 
-PAYMENT TX HASH: [PASTE YOUR TX HASH HERE]
+TX HASH: [PASTE YOUR TRANSACTION HASH HERE]
 WALLET ADDRESS: [YOUR WALLET ADDRESS]
 
-I confirm that I have transferred the required USDT/USDC to the official AIF wallet.`;
-                    document.getElementById('email-template').value = tpl;
-                }, 2000);
+I confirm that I have transferred the required USDT/USDC to the official AIF wallet to activate my Digital Human.`;
+                    
+                    document.getElementById('email-tpl').value = emailBody;
+                    
+                }, 2500);
             },
 
             copyEmail() {
-                const el = document.getElementById('email-template');
+                const el = document.getElementById('email-tpl');
                 el.select();
                 navigator.clipboard.writeText(el.value);
-                alert("Email template copied! Please send to apply@aif.wtf");
+                alert(this.lang === 'en' ? "Email Template Copied!" : "郵件模版已複製！");
             },
 
             initHeatmap() {
                 const canvas = document.getElementById('heatmapCanvas');
                 const ctx = canvas.getContext('2d');
-                let w, h;
-                const resize = () => { w = canvas.width = canvas.parentElement.offsetWidth; h = canvas.height = canvas.parentElement.offsetHeight; };
-                resize(); window.addEventListener('resize', resize);
-                let particles = [];
-                for(let i=0; i<60; i++) particles.push({x:Math.random()*w, y:Math.random()*h, tx:Math.random()*w, ty:Math.random()*h, speed:0.005+Math.random()*0.01, progress:0});
                 
-                function draw() {
-                    ctx.fillStyle = 'rgba(5,5,5,0.2)'; ctx.fillRect(0,0,w,h);
-                    particles.forEach(p => {
-                        p.progress += p.speed;
-                        if(p.progress>=1) { p.x=p.tx; p.y=p.ty; p.tx=Math.random()*w; p.ty=Math.random()*h; p.progress=0; }
-                        const curX = p.x + (p.tx-p.x)*p.progress;
-                        const curY = p.y + (p.ty-p.y)*p.progress;
-                        ctx.strokeStyle = `rgba(204,255,0,${1-p.progress})`; ctx.lineWidth=1; 
-                        ctx.beginPath(); ctx.moveTo(curX,curY); ctx.lineTo(curX-(p.tx-p.x)*0.05, curY-(p.ty-p.y)*0.05); ctx.stroke();
+                const resize = () => {
+                    canvas.width = canvas.parentElement.offsetWidth;
+                    canvas.height = canvas.parentElement.offsetHeight;
+                };
+                window.addEventListener('resize', resize);
+                resize();
+
+                const particles = [];
+                for(let i=0; i<60; i++) {
+                    particles.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        vx: (Math.random() - 0.5) * 0.5,
+                        vy: (Math.random() - 0.5) * 0.5,
+                        size: Math.random() * 2
                     });
+                }
+
+                function draw() {
+                    ctx.fillStyle = 'rgba(5, 5, 5, 0.1)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = '#CCFF00';
+                    
+                    particles.forEach(p => {
+                        p.x += p.vx; p.y += p.vy;
+                        if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                        if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+                    });
+
+                    ctx.strokeStyle = 'rgba(204, 255, 0, 0.1)';
+                    ctx.lineWidth = 0.5;
+                    for(let i=0; i<particles.length; i++) {
+                        for(let j=i+1; j<particles.length; j++) {
+                            const dx = particles[i].x - particles[j].x;
+                            const dy = particles[i].y - particles[j].y;
+                            if(Math.sqrt(dx*dx + dy*dy) < 100) {
+                                ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
+                                ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
+                            }
+                        }
+                    }
                     requestAnimationFrame(draw);
                 }
                 draw();
