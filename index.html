@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AIF.WTF | GLOBAL NODE ISSUANCE V17</title>
+    <title>AIF.WTF | GLOBAL NODE ISSUANCE V18</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -62,7 +62,13 @@
         .nav-link { font-family: 'Oswald'; font-size: 14px; color: #888; text-transform: uppercase; transition: color 0.3s; cursor: pointer;}
         .nav-link:hover { color: #CCFF00; }
 
-        /* CRT & GLITCH */
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; }
+        ::-webkit-scrollbar-thumb:hover { background: #CCFF00; }
+
+        /* CRT OVERLAY */
         .crt-overlay {
             position: fixed; inset: 0; pointer-events: none; z-index: 50;
             background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
@@ -77,12 +83,6 @@
         .status-active { color: #CCFF00; border-color: #CCFF00; background: rgba(204,255,0,0.1); }
         .status-inactive { color: #555; border-color: #333; background: #111; }
         
-        /* SCROLLBAR */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #333; }
-        ::-webkit-scrollbar-thumb:hover { background: #CCFF00; }
-        
         /* TABLE */
         .detail-table th { text-align: left; padding: 12px; border-bottom: 1px solid #333; color: #888; font-family: 'Oswald'; }
         .detail-table td { padding: 12px; border-bottom: 1px solid #222; font-family: 'Space Mono'; font-size: 12px; }
@@ -95,7 +95,7 @@
     <div id="boot-screen" class="fixed inset-0 z-[9999] bg-void flex flex-col items-center justify-center font-mono">
         <div class="w-[300px] text-xs text-dim mb-4 px-4 space-y-1">
             <div>> INITIALIZING AIF PROTOCOL...</div>
-            <div>> MAPPING GLOBAL NODES...</div>
+            <div>> MAPPING CHINA NODES...</div>
             <div>> LOADING HKAIIFF ASSETS...</div>
         </div>
         <div class="text-6xl font-heavy text-white mb-2 tracking-tighter">AIF<span class="text-signal">.WTF</span></div>
@@ -209,7 +209,11 @@
             <div class="max-w-[1600px] mx-auto px-6">
                 <div class="mb-12">
                     <span class="text-signal font-mono text-xs uppercase tracking-widest block mb-2">// DATA MATRIX</span>
-                    <h2 class="text-4xl font-heavy text-white mb-6"><span class="en-text">AIF-CPI INDEX (20 DIMENSIONS)</span><span class="zh-text">AIF-CPI 算力潛力指數 (20 維權重)</span></h2>
+                    <h2 class="text-4xl font-heavy text-white mb-6"><span class="en-text">AIF-CPI INDEX (20 DIMENSIONS)</span><span class="zh-text">AIF-CPI 算力潛力指數 (20 維矩陣)</span></h2>
+                    <p class="text-dim font-mono text-sm max-w-3xl leading-relaxed">
+                        <span class="en-text">We evaluate cities based on 5 categories and 20 specific metrics to determine node value and tier.</span>
+                        <span class="zh-text">我們基於 5 大類別、20 個具體指標對全球城市進行評級。S 級節點定價直接錨定此指數 (0-1000分)。</span>
+                    </p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-5 gap-0 border border-[#333]">
@@ -316,8 +320,8 @@
         <section id="matrix" class="py-12 bg-black min-h-screen">
             <div class="max-w-[1600px] mx-auto px-6">
                 <div class="sticky top-20 z-30 bg-black/95 border-y border-[#333] py-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <h2 class="text-2xl font-heavy text-white"><span class="en-text">CITY MATRIX</span><span class="zh-text">城市矩陣</span></h2>
-                    <input type="text" id="search-input" placeholder="Search..." class="bg-[#111] border border-[#333] text-white px-4 py-2 font-mono text-sm w-full md:w-64 focus:border-signal focus:outline-none" onkeyup="app.filterCities()">
+                    <h2 class="text-2xl font-heavy text-white"><span class="en-text">CITY MATRIX (ASIA & CHINA FOCUS)</span><span class="zh-text">城市矩陣 (亞洲及中國優先)</span></h2>
+                    <input type="text" id="search-input" placeholder="Search City..." class="bg-[#111] border border-[#333] text-white px-4 py-2 font-mono text-sm w-full md:w-64 focus:border-signal focus:outline-none" onkeyup="app.filterCities()">
                 </div>
                 <div id="city-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                     </div>
@@ -434,7 +438,7 @@
             <div class="text-xs font-mono text-dim mb-6" id="purch-detail-str">Node Tier S</div>
 
             <div id="pay-stage-1" class="space-y-6">
-                <div><label class="text-[10px] text-dim block mb-1">TOTAL AMOUNT</label><div class="text-xl text-white font-bold font-mono" id="purch-amt">$50,000 USDT</div></div>
+                <div><label class="text-[10px] text-dim block mb-1">DIGITAL CURRENCY (USDT/USDC)</label><div class="text-xl text-white font-bold font-mono" id="purch-amt">$50,000 USDT</div></div>
                 <div class="bg-[#111] p-4 border border-[#333]">
                     <label class="text-[10px] text-dim block mb-2">SOLANA ADDRESS:</label>
                     <div class="flex gap-2 items-center"><code class="text-xs text-white font-mono bg-black p-2 flex-1 break-all">3QBgQiHC743ER9beX74bp8K7xrURQR2t5myfcG6tSTLv</code><button class="text-signal hover:text-white"><i class="fa-regular fa-copy"></i></button></div>
@@ -463,14 +467,17 @@
     </div>
 
     <script>
-        // --- REAL CITIES DATA ---
-        // Contains bilingual names for 100+ cities
+        // --- CONFIG ---
+        const STAKE_REQ = { S: 500000, A: 100000, B: 50000, C: 10000 };
+        const FIXED_PRICES = { A: 5000, B: 1000, C: 200 };
+        
+        // --- REAL CITIES DATA (100+ items, heavily Asian/Chinese) ---
         const CitiesDB = [
-            {en:"Hong Kong", zh:"香港"}, {en:"Macau", zh:"澳門"}, {en:"Beijing", zh:"北京"}, {en:"Shanghai", zh:"上海"}, {en:"Shenzhen", zh:"深圳"}, {en:"Guangzhou", zh:"廣州"}, {en:"Chengdu", zh:"成都"}, {en:"Hangzhou", zh:"杭州"}, {en:"Wuhan", zh:"武漢"}, {en:"Chongqing", zh:"重慶"}, {en:"Tianjin", zh:"天津"}, {en:"Suzhou", zh:"蘇州"}, {en:"Nanjing", zh:"南京"}, {en:"Taipei", zh:"台北"}, {en:"Kaohsiung", zh:"高雄"},
-            {en:"Tokyo", zh:"東京"}, {en:"Osaka", zh:"大阪"}, {en:"Seoul", zh:"首爾"}, {en:"Busan", zh:"釜山"}, {en:"Singapore", zh:"新加坡"}, {en:"Bangkok", zh:"曼谷"}, {en:"Kuala Lumpur", zh:"吉隆坡"}, {en:"Jakarta", zh:"雅加達"}, {en:"Ho Chi Minh City", zh:"胡志明市"}, {en:"Hanoi", zh:"河內"}, {en:"Manila", zh:"馬尼拉"},
-            {en:"New Delhi", zh:"新德里"}, {en:"Mumbai", zh:"孟買"}, {en:"Dubai", zh:"迪拜"}, {en:"Riyadh", zh:"利雅得"}, {en:"Tel Aviv", zh:"特拉維夫"},
-            {en:"London", zh:"倫敦"}, {en:"Paris", zh:"巴黎"}, {en:"Berlin", zh:"柏林"}, {en:"Frankfurt", zh:"法蘭克福"}, {en:"Amsterdam", zh:"阿姆斯特丹"}, {en:"Zurich", zh:"蘇黎世"}, {en:"Milan", zh:"米蘭"}, {en:"Madrid", zh:"馬德里"}, {en:"Stockholm", zh:"斯德哥爾摩"},
-            {en:"New York", zh:"紐約"}, {en:"Los Angeles", zh:"洛杉磯"}, {en:"San Francisco", zh:"三藩市"}, {en:"Chicago", zh:"芝加哥"}, {en:"Toronto", zh:"多倫多"}, {en:"Vancouver", zh:"溫哥華"}, {en:"Sydney", zh:"悉尼"}, {en:"Melbourne", zh:"墨爾本"}
+            {en:"Hong Kong", zh:"香港"}, {en:"Macau", zh:"澳門"}, {en:"Beijing", zh:"北京"}, {en:"Shanghai", zh:"上海"}, {en:"Guangzhou", zh:"廣州"}, {en:"Shenzhen", zh:"深圳"}, {en:"Chengdu", zh:"成都"}, {en:"Hangzhou", zh:"杭州"}, {en:"Wuhan", zh:"武漢"}, {en:"Chongqing", zh:"重慶"}, {en:"Tianjin", zh:"天津"}, {en:"Suzhou", zh:"蘇州"}, {en:"Xi'an", zh:"西安"}, {en:"Nanjing", zh:"南京"}, {en:"Changsha", zh:"長沙"}, {en:"Zhengzhou", zh:"鄭州"}, {en:"Qingdao", zh:"青島"}, {en:"Dalian", zh:"大連"}, {en:"Xiamen", zh:"廈門"}, {en:"Kunming", zh:"昆明"}, {en:"Taipei", zh:"台北"}, {en:"Kaohsiung", zh:"高雄"}, {en:"Taichung", zh:"台中"}, {en:"Foshan", zh:"佛山"}, {en:"Dongguan", zh:"東莞"}, {en:"Wuxi", zh:"無錫"}, {en:"Ningbo", zh:"寧波"}, {en:"Fuzhou", zh:"福州"}, {en:"Hefei", zh:"合肥"}, {en:"Jinan", zh:"濟南"}, {en:"Changchun", zh:"長春"}, {en:"Harbin", zh:"哈爾濱"}, {en:"Shijiazhuang", zh:"石家莊"}, {en:"Nanning", zh:"南寧"}, {en:"Guiyang", zh:"貴陽"}, {en:"Nanchang", zh:"南昌"}, {en:"Urumqi", zh:"烏魯木齊"}, {en:"Lanzhou", zh:"蘭州"}, {en:"Hohhot", zh:"呼和浩特"}, {en:"Taiyuan", zh:"太原"}, {en:"Changzhou", zh:"常州"}, {en:"Wenzhou", zh:"溫州"}, {en:"Shaoxing", zh:"紹興"}, {en:"Jiaxing", zh:"嘉興"}, {en:"Taizhou", zh:"泰州"}, {en:"Xuzhou", zh:"徐州"}, {en:"Yantai", zh:"煙台"}, {en:"Tangshan", zh:"唐山"}, {en:"Luoyang", zh:"洛陽"}, {en:"Quanzhou", zh:"泉州"}, {en:"Haikou", zh:"海口"}, {en:"Sanya", zh:"三亞"}, {en:"Zhuhai", zh:"珠海"}, {en:"Zhongshan", zh:"中山"},
+            {en:"Tokyo", zh:"東京"}, {en:"Osaka", zh:"大阪"}, {en:"Kyoto", zh:"京都"}, {en:"Nagoya", zh:"名古屋"}, {en:"Seoul", zh:"首爾"}, {en:"Busan", zh:"釜山"}, {en:"Singapore", zh:"新加坡"}, {en:"Bangkok", zh:"曼谷"}, {en:"Chiang Mai", zh:"清邁"}, {en:"Kuala Lumpur", zh:"吉隆坡"}, {en:"Johor Bahru", zh:"新山"}, {en:"Jakarta", zh:"雅加達"}, {en:"Bali", zh:"巴厘島"}, {en:"Ho Chi Minh City", zh:"胡志明市"}, {en:"Hanoi", zh:"河內"}, {en:"Manila", zh:"馬尼拉"}, {en:"Cebu", zh:"宿霧"},
+            {en:"New Delhi", zh:"新德里"}, {en:"Mumbai", zh:"孟買"}, {en:"Dubai", zh:"迪拜"}, {en:"Riyadh", zh:"利雅得"},
+            {en:"London", zh:"倫敦"}, {en:"Paris", zh:"巴黎"}, {en:"Berlin", zh:"柏林"}, {en:"Amsterdam", zh:"阿姆斯特丹"}, {en:"Zurich", zh:"蘇黎世"},
+            {en:"New York", zh:"紐約"}, {en:"Los Angeles", zh:"洛杉磯"}, {en:"San Francisco", zh:"三藩市"}, {en:"Toronto", zh:"多倫多"}, {en:"Vancouver", zh:"溫哥華"}, {en:"Sydney", zh:"悉尼"}, {en:"Melbourne", zh:"墨爾本"}
         ];
 
         const CityGenerator = {
@@ -485,7 +492,8 @@
 
                     return {
                         nameEn: c.en, nameZh: c.zh, 
-                        region: "Global", cpi: score,
+                        region: (c.en.includes("New York") || c.en.includes("London") || c.en.includes("Paris") || c.en.includes("Sydney")) ? "Global" : "Asia",
+                        cpi: score,
                         s_price: Math.floor(price/1000)*1000,
                         s_active: Math.random() > 0.8
                     };
@@ -493,7 +501,7 @@
             }
         };
 
-        // --- APP CONTROLLER ---
+        // --- APP LOGIC ---
         const app = {
             lang: 'en',
             cities: [],
@@ -515,7 +523,7 @@
                 this.lang = this.lang === 'en' ? 'zh' : 'en';
                 document.body.classList.remove('lang-en', 'lang-zh');
                 document.body.classList.add(this.lang === 'en' ? 'lang-en' : 'lang-zh');
-                this.renderMatrix(this.cities); // Re-render city names
+                this.renderMatrix(this.cities);
             },
 
             renderMatrix(data) {
@@ -558,10 +566,10 @@
                 const btnS = document.getElementById('btn-buy-s');
                 const lockWarn = document.getElementById('lock-warning');
                 
-                // Reset states
                 ['a','b','c'].forEach(t => {
-                    document.getElementById(`card-${t}`).classList.remove('opacity-50');
+                    const card = document.getElementById(`card-${t}`);
                     const btn = document.getElementById(`btn-buy-${t}`);
+                    card.classList.remove('opacity-50');
                     btn.disabled = false;
                     btn.innerText = "BUY NOW";
                     btn.className = "w-full bg-[#222] border border-[#333] text-white py-2 text-xs font-bold hover:bg-white hover:text-black transition-colors mt-4";
@@ -582,7 +590,6 @@
                     btnS.disabled = false;
                     btnS.classList.remove('opacity-50', 'cursor-not-allowed');
                     lockWarn.style.display = 'flex';
-                    // Lock sub-nodes
                     ['a','b','c'].forEach(t => {
                         document.getElementById(`card-${t}`).classList.add('opacity-50');
                         const btn = document.getElementById(`btn-buy-${t}`);
@@ -653,52 +660,24 @@ I confirm that I have transferred the required USDT/USDC to the official AIF wal
                 alert("Email template copied! Please send to apply@aif.wtf");
             },
 
-            openNodeDetails() { document.getElementById('node-details-modal').style.display = 'flex'; },
-
             initHeatmap() {
                 const canvas = document.getElementById('heatmapCanvas');
                 const ctx = canvas.getContext('2d');
                 let w, h;
                 const resize = () => { w = canvas.width = canvas.parentElement.offsetWidth; h = canvas.height = canvas.parentElement.offsetHeight; };
                 resize(); window.addEventListener('resize', resize);
-                
-                // Approx mapping for HK, Tokyo, London, NY
-                const nodes = [
-                    {x:0.8, y:0.45, label:"HK"}, {x:0.85, y:0.35, label:"TOKYO"}, 
-                    {x:0.48, y:0.25, label:"LDN"}, {x:0.25, y:0.32, label:"NYC"},
-                    {x:0.75, y:0.55, label:"SG"}, {x:0.55, y:0.4, label:"DXB"}
-                ];
                 let particles = [];
-                for(let i=0; i<40; i++) particles.push({
-                    start: nodes[Math.floor(Math.random()*nodes.length)],
-                    end: nodes[Math.floor(Math.random()*nodes.length)],
-                    progress: 0, speed: 0.005 + Math.random()*0.01
-                });
-
+                for(let i=0; i<60; i++) particles.push({x:Math.random()*w, y:Math.random()*h, tx:Math.random()*w, ty:Math.random()*h, speed:0.005+Math.random()*0.01, progress:0});
+                
                 function draw() {
                     ctx.fillStyle = 'rgba(5,5,5,0.2)'; ctx.fillRect(0,0,w,h);
-                    
-                    // Draw Fixed Nodes
-                    nodes.forEach(n => {
-                        ctx.fillStyle = '#CCFF00'; ctx.beginPath(); ctx.arc(n.x*w, n.y*h, 3, 0, Math.PI*2); ctx.fill();
-                        ctx.fillStyle = '#fff'; ctx.font='10px monospace'; ctx.fillText(n.label, n.x*w+5, n.y*h);
-                    });
-
-                    // Draw Particles
                     particles.forEach(p => {
                         p.progress += p.speed;
-                        if(p.progress>=1) { 
-                            p.start = nodes[Math.floor(Math.random()*nodes.length)];
-                            p.end = nodes[Math.floor(Math.random()*nodes.length)];
-                            p.progress=0; 
-                        }
-                        if(p.start === p.end) return;
-
-                        const curX = p.start.x*w + (p.end.x*w - p.start.x*w)*p.progress;
-                        const curY = p.start.y*h + (p.end.y*h - p.start.y*h)*p.progress;
-                        
+                        if(p.progress>=1) { p.x=p.tx; p.y=p.ty; p.tx=Math.random()*w; p.ty=Math.random()*h; p.progress=0; }
+                        const curX = p.x + (p.tx-p.x)*p.progress;
+                        const curY = p.y + (p.ty-p.y)*p.progress;
                         ctx.strokeStyle = `rgba(204,255,0,${1-p.progress})`; ctx.lineWidth=1; 
-                        ctx.beginPath(); ctx.moveTo(curX,curY); ctx.lineTo(curX-2, curY-2); ctx.stroke();
+                        ctx.beginPath(); ctx.moveTo(curX,curY); ctx.lineTo(curX-(p.tx-p.x)*0.05, curY-(p.ty-p.y)*0.05); ctx.stroke();
                     });
                     requestAnimationFrame(draw);
                 }
